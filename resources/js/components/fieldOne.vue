@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet height="400" @click="show">
+      <v-sheet height="400" @click="showCreateEvent">
         <v-calendar
           ref="calendar"
           :now="today"
@@ -12,115 +12,266 @@
           @click:event="showEvent"
         ></v-calendar>
 
+        <!-- Modal click fecha creada -->
         <v-menu
-            v-model="selectedOpen"
-              :close-on-content-click="false"
-              :activator="selectedElement"
-              offset-x
+          v-model="selectedOpen"
+            :close-on-content-click="false"
+            :activator="selectedElement"
+            offset-x
+          >
+            <v-card
+              color="grey lighten-4"
+              min-width="350px"
+              flat
             >
-              <v-card
-                color="grey lighten-4"
-                min-width="350px"
-                flat
+              <v-toolbar
+                :color="selectedEvent.color"
+                dark
               >
-                <v-toolbar
-                  :color="selectedEvent.color"
-                  dark
+                <v-btn icon>
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                  <v-icon>mdi-heart</v-icon>
+                </v-btn>
+                <v-btn icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </v-toolbar>
+            <v-card-text>
+              <span v-html="selectedEvent.details"></span>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                text
+                color="secondary"
+                @click="selectedOpen = false"
+              >
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+
+        <!-- Modal click nueva fecha -->
+        <v-menu
+          v-model="createOpen"
+            :close-on-content-click="false"
+            :activator="createElement"
+            offset-x
+          >
+            <v-card
+              color="grey lighten-4"
+              min-width="350px"
+              flat
+            >
+              <v-toolbar
+                :color="createEvent.color"
+                dark
+              >
+                <v-btn icon>
+                  <v-icon>mdi-pencil</v-icon>
+                </v-btn>
+                <v-toolbar-title v-html="createEvent.name"></v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                  <v-icon>mdi-heart</v-icon>
+                </v-btn>
+                <v-btn icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </v-toolbar>
+            <v-card-text>
+              <v-row>
+                <v-col
+                  cols="11"
+                  sm="5"
                 >
-                  <v-btn icon>
-                    <v-icon>mdi-pencil</v-icon>
-                  </v-btn>
-                  <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
-                  <v-spacer></v-spacer>
-                  <v-btn icon>
-                    <v-icon>mdi-heart</v-icon>
-                  </v-btn>
-                  <v-btn icon>
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </v-toolbar>
-                <v-card-text>
-                  <span v-html="selectedEvent.details"></span>
-                </v-card-text>
-                <v-card-actions>
-                  <v-btn
-                    text
-                    color="secondary"
-                    @click="selectedOpen = false"
+                  <v-menu
+                    ref="menu"
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    :return-value.sync="time"
+                    transition="scale-transition"
+                    offset-y
+                    max-width="290px"
+                    min-width="290px"
                   >
-                    Cancel
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-menu>
-          </v-sheet>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="start"
+                        label="Picker in dialog"
+                        prepend-icon="mdi-clock-time-four-outline"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-model="start"
+                      :max="end"
+                    ></v-time-picker>
+                  </v-menu>
+                </v-col>
+                <v-spacer></v-spacer>
+                <v-col
+                  cols="11"
+                  sm="5"
+                >
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal2"
+                    :return-value.sync="time"
+                    persistent
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="end"
+                        label="Picker in dialog"
+                        prepend-icon="mdi-clock-time-four-outline"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-model="end"
+                      :min="start"
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="modal2 = false"
+                      >
+                        Cancel
+                      </v-btn>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.dialog.save(time)"
+                      >
+                        OK
+                      </v-btn>
+                    </v-time-picker>
+                  </v-dialog>
+                </v-col>
+              </v-row>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn
+                text
+                color="secondary"
+                @click="createOpen = false"
+              >
+                Cancel
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-menu>
+
+      </v-sheet>
     </v-col>
   </v-row>
 </template>
 
 <script>
-// import Date from "./Date";
-  export default {
-    data: () => ({
-      today: '2019-01-08',
-      events: [
-            {
-              name: 'Weekly Meeting',
-              start: '2019-01-07 09:00',
-              end: '2019-01-07 10:00',
-            },
-            {
-              name: 'Thomas\' Birthday',
-              start: '2019-01-10',
-            },
-            {
-              name: 'Mash Potatoes',
-              start: '2019-01-09 12:30',
-              end: '2019-01-09 15:00',
-            },
-            {
-              name: 'Jugar Pelota',
-              start: '2019-01-09 10:00',
-              end: '2019-01-09 12:00',
-              horas: '',
-            },
-      ],
-      selectedEvent: {},
-      selectedElement: null,
-      selectedOpen: false,
-    }),
-    mounted () {
-      this.$refs.calendar.scrollToTime('08:00')
-      // console.log(this.events.start);
-      // this.show();
+
+export default {
+  data: () => ({
+    today: '2019-01-08',
+    events: [
+          {
+            name: 'Weekly Meeting',
+            start: '2019-01-07 09:00',
+            end: '2019-01-07 10:00',
+          },
+          {
+            name: 'Dos Weekly Meeting',
+            start: '2019-01-07 17:00',
+            end: '2019-01-07 19:00',
+          },
+          {
+            name: 'Thomas\' Birthday',
+            start: '2019-01-10',
+          },
+          {
+            name: 'Mash Potatoes',
+            start: '2019-01-09 12:30',
+            end: '2019-01-09 15:00',
+          },
+          {
+            name: 'Jugar Pelota',
+            start: '2019-01-09 10:00',
+            end: '2019-01-09 12:00',
+            horas: '',
+          },
+    ],
+    selectedEvent: {},
+    selectedElement: null,
+    selectedOpen: false,
+
+    createEvent: {},
+    createElement: null,
+    createOpen: false,
+
+    time: null, // Recuerda que las horas elegidas se guardan aquí. no estoy seguro. pero hazle un console.log
+    menu2: false,
+    modal2: false,
+    start: null,
+    end: null,
+  }),
+  mounted () {
+    this.$refs.calendar.scrollToTime('08:00')
+    // console.log(this.events.start);
+    // this.show();
+  },
+  methods: {
+    show() {
+      let end = new Date(this.events[2].end);
+      let start = new Date(this.events[2].start);
+      console.log(end.getHours() - start.getHours());
+      // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
     },
-    methods: {
-        show() {
-            let end = new Date(this.events[2].end);
-            let start = new Date(this.events[2].start);
-            console.log(end.getHours() - start.getHours());
-            // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
-        },
-      showEvent ({ nativeEvent, event }) {
-        const open = () => {
-          this.selectedEvent = event
-          this.selectedElement = nativeEvent.target
-          setTimeout(() => {
-            this.selectedOpen = true
-          }, 10)
-        }
+    showEvent ({ nativeEvent, event }) {
+      const open = () => {
+        this.selectedEvent = event
+        this.selectedElement = nativeEvent.target
+        setTimeout(() => {
+          this.selectedOpen = true
+        }, 10)
+      }
 
-        if (this.selectedOpen) {
-          this.selectedOpen = false
-          setTimeout(open, 10)
-        } else {
-          open()
-        }
+      if (this.selectedOpen) {
+        this.selectedOpen = false
+        setTimeout(open, 10)
+      } else {
+        open()
+      }
 
-        nativeEvent.stopPropagation()
-      },
-    }
+      nativeEvent.stopPropagation()
+    },
+    showCreateEvent () {
+      const open = () => {
+        setTimeout(() => {
+          this.createOpen = true
+        }, 10)
+      }
+
+      if (this.createOpen) {
+        this.createOpen = false
+        setTimeout(open, 10)
+      } else {
+        open()
+      }
+
+    },
   }
+}
 </script>
 
 <style scoped>

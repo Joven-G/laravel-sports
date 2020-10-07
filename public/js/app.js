@@ -2102,7 +2102,127 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-// import Date from "./Date";
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2111,6 +2231,10 @@ __webpack_require__.r(__webpack_exports__);
         name: 'Weekly Meeting',
         start: '2019-01-07 09:00',
         end: '2019-01-07 10:00'
+      }, {
+        name: 'Dos Weekly Meeting',
+        start: '2019-01-07 17:00',
+        end: '2019-01-07 19:00'
       }, {
         name: 'Thomas\' Birthday',
         start: '2019-01-10'
@@ -2126,7 +2250,16 @@ __webpack_require__.r(__webpack_exports__);
       }],
       selectedEvent: {},
       selectedElement: null,
-      selectedOpen: false
+      selectedOpen: false,
+      createEvent: {},
+      createElement: null,
+      createOpen: false,
+      time: null,
+      // Recuerda que las horas elegidas se guardan aquí. no estoy seguro. pero hazle un console.log
+      menu2: false,
+      modal2: false,
+      start: null,
+      end: null
     };
   },
   mounted: function mounted() {
@@ -2161,6 +2294,22 @@ __webpack_require__.r(__webpack_exports__);
       }
 
       nativeEvent.stopPropagation();
+    },
+    showCreateEvent: function showCreateEvent() {
+      var _this2 = this;
+
+      var open = function open() {
+        setTimeout(function () {
+          _this2.createOpen = true;
+        }, 10);
+      };
+
+      if (this.createOpen) {
+        this.createOpen = false;
+        setTimeout(open, 10);
+      } else {
+        open();
+      }
     }
   }
 });
@@ -39232,7 +39381,7 @@ var render = function() {
         [
           _c(
             "v-sheet",
-            { attrs: { height: "400" }, on: { click: _vm.show } },
+            { attrs: { height: "400" }, on: { click: _vm.showCreateEvent } },
             [
               _c("v-calendar", {
                 ref: "calendar",
@@ -39330,11 +39479,342 @@ var render = function() {
                                 }
                               }
                             },
+                            [_vm._v("\n              Cancel\n            ")]
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-menu",
+                {
+                  attrs: {
+                    "close-on-content-click": false,
+                    activator: _vm.createElement,
+                    "offset-x": ""
+                  },
+                  model: {
+                    value: _vm.createOpen,
+                    callback: function($$v) {
+                      _vm.createOpen = $$v
+                    },
+                    expression: "createOpen"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
+                    {
+                      attrs: {
+                        color: "grey lighten-4",
+                        "min-width": "350px",
+                        flat: ""
+                      }
+                    },
+                    [
+                      _c(
+                        "v-toolbar",
+                        { attrs: { color: _vm.createEvent.color, dark: "" } },
+                        [
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [_c("v-icon", [_vm._v("mdi-pencil")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c("v-toolbar-title", {
+                            domProps: {
+                              innerHTML: _vm._s(_vm.createEvent.name)
+                            }
+                          }),
+                          _vm._v(" "),
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [_c("v-icon", [_vm._v("mdi-heart")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-row",
                             [
-                              _vm._v(
-                                "\n                  Cancel\n                "
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "11", sm: "5" } },
+                                [
+                                  _c(
+                                    "v-menu",
+                                    {
+                                      ref: "menu",
+                                      attrs: {
+                                        "close-on-content-click": false,
+                                        "nudge-right": 40,
+                                        "return-value": _vm.time,
+                                        transition: "scale-transition",
+                                        "offset-y": "",
+                                        "max-width": "290px",
+                                        "min-width": "290px"
+                                      },
+                                      on: {
+                                        "update:returnValue": function($event) {
+                                          _vm.time = $event
+                                        },
+                                        "update:return-value": function(
+                                          $event
+                                        ) {
+                                          _vm.time = $event
+                                        }
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        label:
+                                                          "Picker in dialog",
+                                                        "prepend-icon":
+                                                          "mdi-clock-time-four-outline",
+                                                        readonly: ""
+                                                      },
+                                                      model: {
+                                                        value: _vm.start,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.start = $$v
+                                                        },
+                                                        expression: "start"
+                                                      }
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ]),
+                                      model: {
+                                        value: _vm.menu2,
+                                        callback: function($$v) {
+                                          _vm.menu2 = $$v
+                                        },
+                                        expression: "menu2"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("v-time-picker", {
+                                        attrs: { max: _vm.end },
+                                        model: {
+                                          value: _vm.start,
+                                          callback: function($$v) {
+                                            _vm.start = $$v
+                                          },
+                                          expression: "start"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c("v-spacer"),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "11", sm: "5" } },
+                                [
+                                  _c(
+                                    "v-dialog",
+                                    {
+                                      ref: "dialog",
+                                      attrs: {
+                                        "return-value": _vm.time,
+                                        persistent: "",
+                                        width: "290px"
+                                      },
+                                      on: {
+                                        "update:returnValue": function($event) {
+                                          _vm.time = $event
+                                        },
+                                        "update:return-value": function(
+                                          $event
+                                        ) {
+                                          _vm.time = $event
+                                        }
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        label:
+                                                          "Picker in dialog",
+                                                        "prepend-icon":
+                                                          "mdi-clock-time-four-outline",
+                                                        readonly: ""
+                                                      },
+                                                      model: {
+                                                        value: _vm.end,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.end = $$v
+                                                        },
+                                                        expression: "end"
+                                                      }
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ]),
+                                      model: {
+                                        value: _vm.modal2,
+                                        callback: function($$v) {
+                                          _vm.modal2 = $$v
+                                        },
+                                        expression: "modal2"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-time-picker",
+                                        {
+                                          attrs: { min: _vm.start },
+                                          model: {
+                                            value: _vm.end,
+                                            callback: function($$v) {
+                                              _vm.end = $$v
+                                            },
+                                            expression: "end"
+                                          }
+                                        },
+                                        [
+                                          _c("v-spacer"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.modal2 = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      Cancel\n                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$refs.dialog.save(
+                                                    _vm.time
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      OK\n                    "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
                               )
-                            ]
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-actions",
+                        [
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "", color: "secondary" },
+                              on: {
+                                click: function($event) {
+                                  _vm.createOpen = false
+                                }
+                              }
+                            },
+                            [_vm._v("\n              Cancel\n            ")]
                           )
                         ],
                         1
