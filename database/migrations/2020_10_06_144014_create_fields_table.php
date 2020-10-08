@@ -16,6 +16,7 @@ class CreateFieldsTable extends Migration
         Schema::create('fields', function (Blueprint $table) {
             $table->id();
             $table->string('name')->nullable();
+            $table->date('date');
             $table->dateTime('start', 0);
             $table->dateTime('end', 0);
             $table->string('hour')->nullable();

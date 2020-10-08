@@ -84,21 +84,61 @@
                 </v-btn>
               </v-toolbar>
             <v-card-text>
+
+              <!-- Input Name -->
+              <v-text-field
+                label="Nombre"
+                v-model="name"
+                hide-details="auto"
+              ></v-text-field>
+
+              <!-- Date Piker -->
+
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="6"
+                >
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="date"
+                        label="Picker without buttons"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="date"
+                      @input="menu2 = false"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+                <!-- <v-spacer></v-spacer> -->
+              </v-row>
+
+              <!-- Time Picker Start -->
               <v-row>
                 <v-col
                   cols="11"
                   sm="5"
                 >
-                  <v-menu
-                    ref="menu"
-                    v-model="menu2"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    :return-value.sync="time"
-                    transition="scale-transition"
-                    offset-y
-                    max-width="290px"
-                    min-width="290px"
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal1"
+                    :return-value.sync="time1"
+                    persistent
+                    width="290px"
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
@@ -112,11 +152,29 @@
                     </template>
                     <v-time-picker
                       v-model="start"
-                      :max="end"
-                    ></v-time-picker>
-                  </v-menu>
+                      :min="end"
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="modal1 = false"
+                      >
+                        Cancel
+                      </v-btn>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.dialog.save(time1)"
+                      >
+                        OK
+                      </v-btn>
+                    </v-time-picker>
+                  </v-dialog>
                 </v-col>
-                <v-spacer></v-spacer>
+
+                <!-- Time Picker End -->
+
                 <v-col
                   cols="11"
                   sm="5"
@@ -220,8 +278,18 @@ export default {
     createOpen: false,
 
     time: null, // Recuerda que las horas elegidas se guardan aquí. no estoy seguro. pero hazle un console.log
-    menu2: false,
+    time1: null,
+    
     modal2: false,
+    modal1: false,
+
+    // Date Picker
+    date: new Date().toISOString().substr(0, 10),
+    menu: false,
+    modal: false,
+    menu2: false,
+    
+    name: null,
     start: null,
     end: null,
   }),
