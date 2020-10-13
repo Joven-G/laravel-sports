@@ -228,6 +228,13 @@
               >
                 Cancel
               </v-btn>
+              <v-btn
+                text
+                color="primary"
+                @click="addNewEvent"
+              >
+                Guardar
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -241,7 +248,7 @@
 
 export default {
   data: () => ({
-    today: '2019-01-08',
+    today: '2020-10-13',
     events: [
           {
             name: 'Weekly Meeting',
@@ -293,6 +300,9 @@ export default {
     start: null,
     end: null,
   }),
+  created() {
+    this.getEvents();
+  },
   mounted () {
     this.$refs.calendar.scrollToTime('08:00')
     // console.log(this.events.start);
@@ -338,6 +348,31 @@ export default {
       }
 
     },
+    addNewEvent() {
+      axios.post("/campo-uno", {
+        name: this.name,
+        date: this.date,
+        start: this.start,
+        end: this.end
+        })
+        .then(data => {
+          // this.getEvents(); // update our list of events
+          // this.resetForm(); // clear newEvent properties (e.g. title, start_date and end_date)
+        })
+        .catch(err =>
+          console.log("Unable to add new event!", err.response.data)
+        );
+
+      // console.log(`${this.name} - Nombre`);
+      // console.log(`${this.date} - Fecha Hoy`);
+      // console.log(`${this.start} - Hora inicio`);
+      // console.log(`${this.end} - Hora fin`);
+    },
+    getEvents() {
+      axios.get("/campo-uno")
+        .then(resp => (this.events = resp.data.data))
+        .catch(err => console.log(err.resp.data));
+    }
   }
 }
 </script>

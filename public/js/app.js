@@ -2281,10 +2281,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      today: '2019-01-08',
+      today: '2020-10-13',
       events: [{
         name: 'Weekly Meeting',
         start: '2019-01-07 09:00',
@@ -2326,6 +2333,9 @@ __webpack_require__.r(__webpack_exports__);
       start: null,
       end: null
     };
+  },
+  created: function created() {
+    this.getEvents();
   },
   mounted: function mounted() {
     this.$refs.calendar.scrollToTime('08:00'); // console.log(this.events.start);
@@ -2375,6 +2385,30 @@ __webpack_require__.r(__webpack_exports__);
       } else {
         open();
       }
+    },
+    addNewEvent: function addNewEvent() {
+      axios.post("/campo-uno", {
+        name: this.name,
+        date: this.date,
+        start: this.start,
+        end: this.end
+      }).then(function (data) {// this.getEvents(); // update our list of events
+        // this.resetForm(); // clear newEvent properties (e.g. title, start_date and end_date)
+      })["catch"](function (err) {
+        return console.log("Unable to add new event!", err.response.data);
+      }); // console.log(`${this.name} - Nombre`);
+      // console.log(`${this.date} - Fecha Hoy`);
+      // console.log(`${this.start} - Hora inicio`);
+      // console.log(`${this.end} - Hora fin`);
+    },
+    getEvents: function getEvents() {
+      var _this3 = this;
+
+      axios.get("/campo-uno").then(function (resp) {
+        return _this3.events = resp.data.data;
+      })["catch"](function (err) {
+        return console.log(err.resp.data);
+      });
     }
   }
 });
@@ -40025,6 +40059,15 @@ var render = function() {
                               }
                             },
                             [_vm._v("\n              Cancel\n            ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "", color: "primary" },
+                              on: { click: _vm.addNewEvent }
+                            },
+                            [_vm._v("\n              Guardar\n            ")]
                           )
                         ],
                         1

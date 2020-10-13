@@ -8,4 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class Field extends Model
 {
     use HasFactory;
+
+    protected $guarded = [];
+
+	protected $casts = [
+	    'start'
+	];
 }

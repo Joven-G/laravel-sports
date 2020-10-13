@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Field;
 use Illuminate\Http\Request;
 use App\Http\Resources\FieldResource;
@@ -12,7 +13,7 @@ class FieldController extends Controller
 
     public function index()
     {
-        return view('fieldOne.index');
+        return FieldResource::collection(Field::all());
     }
 
     public function create()
@@ -22,10 +23,10 @@ class FieldController extends Controller
 
     public function store(Request $request)
     {
-        $new_calendar = Calendar::create([
+        $new_calendar = Field::create([
             'name' => request('name'),
             'date' => request('date'),
-            'start' => request('start'),
+            'start' => Carbon::parse($request->get('start'))->format('H:i'),
             'end' => request('end'),
         ]);
 

@@ -17,13 +17,14 @@ class CreateFieldsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->date('date');
-            $table->dateTime('start', 0);
-            $table->dateTime('end', 0);
+            $table->time('start');
+            $table->time('end');
             $table->string('hour')->nullable();
-            $table->foreignId('user_id')
-                        ->references('id')
-                        ->on('users')
-                        ->nullable();
+            // $table->foreignId('user_id')
+            //             ->references('id')
+            //             ->on('users')
+            //             ->nullable()
+            //             ->default(1);
             $table->timestamps();
         });
     }
