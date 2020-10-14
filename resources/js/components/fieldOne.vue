@@ -248,7 +248,7 @@
 
 export default {
   data: () => ({
-    today: '2020-10-13',
+    today: '2020-10-14',
     events: [
           {
             name: 'Weekly Meeting',
@@ -356,6 +356,7 @@ export default {
         end: this.end
         })
         .then(data => {
+          this.getEvents();
           // this.getEvents(); // update our list of events
           // this.resetForm(); // clear newEvent properties (e.g. title, start_date and end_date)
         })

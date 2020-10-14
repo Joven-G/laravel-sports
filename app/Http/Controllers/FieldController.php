@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use DateTime;
+use DateTimeZone;
 use Carbon\Carbon;
 use App\Models\Field;
 use Illuminate\Http\Request;
@@ -23,11 +25,21 @@ class FieldController extends Controller
 
     public function store(Request $request)
     {
+        // $date = new DateTime(request('date'));
+        // $start = Carbon::create(request('start'));
+        // $end = Carbon::create(request('end'));
+        // dd($start);
+        // $hourStart = $start->hour;
+        // $hourEnd = $end->hour;
+
+        // $dt = Carbon::now();
+        // $hour = $dt->hour;
+        // dd($dt->addHours($hour));
         $new_calendar = Field::create([
             'name' => request('name'),
             'date' => request('date'),
-            'start' => Carbon::parse($request->get('start'))->format('H:i'),
-            'end' => request('end'),
+            'start' => Carbon::create(request('start')),
+            'end' => Carbon::create(request('end')),
         ]);
 
         return response()->json([

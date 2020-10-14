@@ -17,8 +17,8 @@ class CreateFieldsTable extends Migration
             $table->id();
             $table->string('name')->nullable();
             $table->date('date');
-            $table->time('start');
-            $table->time('end');
+            $table->dateTime('start', 0);
+            $table->dateTime('end', 0);
             $table->string('hour')->nullable();
             // $table->foreignId('user_id')
             //             ->references('id')
