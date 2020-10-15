@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col>
-      <v-sheet height="400" @click="showCreateEvent">
+      <v-sheet height="600" @click="showCreateEvent">
         <v-calendar
           ref="calendar"
           :now="today"
@@ -86,11 +86,20 @@
             <v-card-text>
 
               <!-- Input Name -->
-              <v-text-field
-                label="Nombre"
-                v-model="name"
-                hide-details="auto"
-              ></v-text-field>
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="10"
+                >
+                  <v-text-field
+                    label="Nombre"
+                    v-model="name"
+                    hide-details="auto"
+                    prepend-icon="mdi-inbox"
+                    
+                  ></v-text-field>
+                </v-col>
+              </v-row>
 
               <!-- Date Piker -->
 
@@ -111,7 +120,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
                         v-model="date"
-                        label="Picker without buttons"
+                        label="Elije Fecha"
                         prepend-icon="mdi-calendar"
                         readonly
                         v-bind="attrs"
@@ -143,7 +152,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
                         v-model="start"
-                        label="Picker in dialog"
+                        label="Hora Inicio"
                         prepend-icon="mdi-clock-time-four-outline"
                         readonly
                         v-bind="attrs"
@@ -165,7 +174,7 @@
                       <v-btn
                         text
                         color="primary"
-                        @click="$refs.dialog.save(time1)"
+                        @click="$refs.dialog.save(time1); modal1 = false"
                       >
                         OK
                       </v-btn>
@@ -189,7 +198,7 @@
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
                         v-model="end"
-                        label="Picker in dialog"
+                        label="Hora Final"
                         prepend-icon="mdi-clock-time-four-outline"
                         readonly
                         v-bind="attrs"
@@ -248,7 +257,7 @@
 
 export default {
   data: () => ({
-    today: '2020-10-14',
+    today: new Date().toISOString().substr(0, 10),
     events: [
           {
             name: 'Weekly Meeting',

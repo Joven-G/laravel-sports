@@ -25,21 +25,11 @@ class FieldController extends Controller
 
     public function store(Request $request)
     {
-        // $date = new DateTime(request('date'));
-        // $start = Carbon::create(request('start'));
-        // $end = Carbon::create(request('end'));
-        // dd($start);
-        // $hourStart = $start->hour;
-        // $hourEnd = $end->hour;
-
-        // $dt = Carbon::now();
-        // $hour = $dt->hour;
-        // dd($dt->addHours($hour));
         $new_calendar = Field::create([
             'name' => request('name'),
             'date' => request('date'),
-            'start' => Carbon::create(request('start')),
-            'end' => Carbon::create(request('end')),
+            'start' => Carbon::create(request('date'))->modify(request('start')),
+            'end' => Carbon::create(request('date'))->modify(request('end')),
         ]);
 
         return response()->json([

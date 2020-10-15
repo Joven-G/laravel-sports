@@ -2288,10 +2288,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      today: '2020-10-14',
+      today: new Date().toISOString().substr(0, 10),
       events: [{
         name: 'Weekly Meeting',
         start: '2019-01-07 09:00',
@@ -39484,7 +39493,7 @@ var render = function() {
         [
           _c(
             "v-sheet",
-            { attrs: { height: "400" }, on: { click: _vm.showCreateEvent } },
+            { attrs: { height: "600" }, on: { click: _vm.showCreateEvent } },
             [
               _c("v-calendar", {
                 ref: "calendar",
@@ -39660,16 +39669,33 @@ var render = function() {
                       _c(
                         "v-card-text",
                         [
-                          _c("v-text-field", {
-                            attrs: { label: "Nombre", "hide-details": "auto" },
-                            model: {
-                              value: _vm.name,
-                              callback: function($$v) {
-                                _vm.name = $$v
-                              },
-                              expression: "name"
-                            }
-                          }),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12", sm: "10" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Nombre",
+                                      "hide-details": "auto",
+                                      "prepend-icon": "mdi-inbox"
+                                    },
+                                    model: {
+                                      value: _vm.name,
+                                      callback: function($$v) {
+                                        _vm.name = $$v
+                                      },
+                                      expression: "name"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
                           _vm._v(" "),
                           _c(
                             "v-row",
@@ -39701,8 +39727,7 @@ var render = function() {
                                                   _vm._b(
                                                     {
                                                       attrs: {
-                                                        label:
-                                                          "Picker without buttons",
+                                                        label: "Elije Fecha",
                                                         "prepend-icon":
                                                           "mdi-calendar",
                                                         readonly: ""
@@ -39801,8 +39826,7 @@ var render = function() {
                                                   _vm._b(
                                                     {
                                                       attrs: {
-                                                        label:
-                                                          "Picker in dialog",
+                                                        label: "Hora Inicio",
                                                         "prepend-icon":
                                                           "mdi-clock-time-four-outline",
                                                         readonly: ""
@@ -39882,9 +39906,10 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  return _vm.$refs.dialog.save(
+                                                  _vm.$refs.dialog.save(
                                                     _vm.time1
                                                   )
+                                                  _vm.modal1 = false
                                                 }
                                               }
                                             },
@@ -39940,8 +39965,7 @@ var render = function() {
                                                   _vm._b(
                                                     {
                                                       attrs: {
-                                                        label:
-                                                          "Picker in dialog",
+                                                        label: "Hora Final",
                                                         "prepend-icon":
                                                           "mdi-clock-time-four-outline",
                                                         readonly: ""
