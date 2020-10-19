@@ -1,14 +1,86 @@
 <template>
   <v-row>
     <v-col>
+      <v-sheet height="64">
+        <v-toolbar flat>
+          <v-btn
+            outlined
+            class="mr-4"
+            color="grey darken-2"
+            @click="setToday"
+          >
+            Today
+          </v-btn>
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="prev"
+          >
+            <v-icon small>
+              mdi-chevron-left
+            </v-icon>
+          </v-btn>
+          <v-btn
+            fab
+            text
+            small
+            color="grey darken-2"
+            @click="next"
+          >
+            <v-icon small>
+              mdi-chevron-right
+            </v-icon>
+          </v-btn>
+          <v-toolbar-title v-if="$refs.calendar">
+            {{ $refs.calendar.title }}
+          </v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-menu
+            bottom
+            right
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                outlined
+                color="grey darken-2"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <span>{{ typeToLabel[type] }}</span>
+                <v-icon right>
+                  mdi-menu-down
+                </v-icon>
+              </v-btn>
+            </template>
+            <v-list>
+              <v-list-item @click="type = 'day'">
+                <v-list-item-title>Day</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'week'">
+                <v-list-item-title>Week</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = 'month'">
+                <v-list-item-title>Month</v-list-item-title>
+              </v-list-item>
+              <v-list-item @click="type = '4day'">
+                <v-list-item-title>4 days</v-list-item-title>
+              </v-list-item>
+            </v-list>
+          </v-menu>
+        </v-toolbar>
+      </v-sheet>
       <v-sheet height="600" @click="showCreateEvent">
         <v-calendar
           ref="calendar"
+          v-model="focus"
+          :type="type"
           :now="today"
           :value="today"
-          :events="events"
+          :events="events"          
           color="primary"
-          type="week"
+          
           @click:event="showEvent"
         ></v-calendar>
 
@@ -125,6 +197,7 @@
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        required
                       ></v-text-field>
                     </template>
                     <v-date-picker
@@ -157,6 +230,7 @@
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        required
                       ></v-text-field>
                     </template>
                     <v-time-picker
@@ -203,6 +277,7 @@
                         readonly
                         v-bind="attrs"
                         v-on="on"
+                        required='required'
                       ></v-text-field>
                     </template>
                     <v-time-picker
@@ -289,6 +364,15 @@ export default {
     selectedElement: null,
     selectedOpen: false,
 
+    focus: '',
+    type: 'week',
+    typeToLabel: {
+      month: 'Month',
+      week: 'Week',
+      day: 'Day',
+      '4day': '4 Days',
+    },
+
     createEvent: {},
     createElement: null,
     createOpen: false,
@@ -313,9 +397,8 @@ export default {
     this.getEvents();
   },
   mounted () {
-    this.$refs.calendar.scrollToTime('08:00')
-    // console.log(this.events.start);
-    // this.show();
+    this.$refs.calendar.scrollToTime('08:00'),
+    this.$refs.calendar.checkChange()
   },
   methods: {
     show() {
@@ -366,8 +449,8 @@ export default {
         })
         .then(data => {
           this.getEvents();
-          // this.getEvents(); // update our list of events
-          // this.resetForm(); // clear newEvent properties (e.g. title, start_date and end_date)
+          this.createOpen = false;
+          this.resetForm();
         })
         .catch(err =>
           console.log("Unable to add new event!", err.response.data)
@@ -382,7 +465,25 @@ export default {
       axios.get("/campo-uno")
         .then(resp => (this.events = resp.data.data))
         .catch(err => console.log(err.resp.data));
-    }
+    },
+    resetForm() {
+      this.name = '',
+      this.start = '',
+      this.end = ''
+    },
+    viewDay ({ date }) {
+      this.focus = date
+      this.type = 'day'
+    },
+    setToday () {
+      this.focus = ''
+    },
+    prev () {
+      this.$refs.calendar.prev()
+    },
+    next () {
+      this.$refs.calendar.next()
+    },
   }
 }
 </script>

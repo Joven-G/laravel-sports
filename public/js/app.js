@@ -2297,6 +2297,81 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2325,6 +2400,14 @@ __webpack_require__.r(__webpack_exports__);
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
+      focus: '',
+      type: 'week',
+      typeToLabel: {
+        month: 'Month',
+        week: 'Week',
+        day: 'Day',
+        '4day': '4 Days'
+      },
       createEvent: {},
       createElement: null,
       createOpen: false,
@@ -2347,8 +2430,7 @@ __webpack_require__.r(__webpack_exports__);
     this.getEvents();
   },
   mounted: function mounted() {
-    this.$refs.calendar.scrollToTime('08:00'); // console.log(this.events.start);
-    // this.show();
+    this.$refs.calendar.scrollToTime('08:00'), this.$refs.calendar.checkChange();
   },
   methods: {
     show: function show() {
@@ -2404,9 +2486,11 @@ __webpack_require__.r(__webpack_exports__);
         start: this.start,
         end: this.end
       }).then(function (data) {
-        _this3.getEvents(); // this.getEvents(); // update our list of events
-        // this.resetForm(); // clear newEvent properties (e.g. title, start_date and end_date)
+        _this3.getEvents();
 
+        _this3.createOpen = false;
+
+        _this3.resetForm();
       })["catch"](function (err) {
         return console.log("Unable to add new event!", err.response.data);
       }); // console.log(`${this.name} - Nombre`);
@@ -2422,6 +2506,23 @@ __webpack_require__.r(__webpack_exports__);
       })["catch"](function (err) {
         return console.log(err.resp.data);
       });
+    },
+    resetForm: function resetForm() {
+      this.name = '', this.start = '', this.end = '';
+    },
+    viewDay: function viewDay(_ref2) {
+      var date = _ref2.date;
+      this.focus = date;
+      this.type = 'day';
+    },
+    setToday: function setToday() {
+      this.focus = '';
+    },
+    prev: function prev() {
+      this.$refs.calendar.prev();
+    },
+    next: function next() {
+      this.$refs.calendar.next();
     }
   }
 });
@@ -39493,18 +39594,207 @@ var render = function() {
         [
           _c(
             "v-sheet",
+            { attrs: { height: "64" } },
+            [
+              _c(
+                "v-toolbar",
+                { attrs: { flat: "" } },
+                [
+                  _c(
+                    "v-btn",
+                    {
+                      staticClass: "mr-4",
+                      attrs: { outlined: "", color: "grey darken-2" },
+                      on: { click: _vm.setToday }
+                    },
+                    [_vm._v("\n          Today\n        ")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        fab: "",
+                        text: "",
+                        small: "",
+                        color: "grey darken-2"
+                      },
+                      on: { click: _vm.prev }
+                    },
+                    [
+                      _c("v-icon", { attrs: { small: "" } }, [
+                        _vm._v("\n            mdi-chevron-left\n          ")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-btn",
+                    {
+                      attrs: {
+                        fab: "",
+                        text: "",
+                        small: "",
+                        color: "grey darken-2"
+                      },
+                      on: { click: _vm.next }
+                    },
+                    [
+                      _c("v-icon", { attrs: { small: "" } }, [
+                        _vm._v("\n            mdi-chevron-right\n          ")
+                      ])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _vm.$refs.calendar
+                    ? _c("v-toolbar-title", [
+                        _vm._v(
+                          "\n          " +
+                            _vm._s(_vm.$refs.calendar.title) +
+                            "\n        "
+                        )
+                      ])
+                    : _vm._e(),
+                  _vm._v(" "),
+                  _c("v-spacer"),
+                  _vm._v(" "),
+                  _c(
+                    "v-menu",
+                    {
+                      attrs: { bottom: "", right: "" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-btn",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: {
+                                        outlined: "",
+                                        color: "grey darken-2"
+                                      }
+                                    },
+                                    "v-btn",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                ),
+                                [
+                                  _c("span", [
+                                    _vm._v(_vm._s(_vm.typeToLabel[_vm.type]))
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("v-icon", { attrs: { right: "" } }, [
+                                    _vm._v(
+                                      "\n                mdi-menu-down\n              "
+                                    )
+                                  ])
+                                ],
+                                1
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _c(
+                        "v-list",
+                        [
+                          _c(
+                            "v-list-item",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.type = "day"
+                                }
+                              }
+                            },
+                            [_c("v-list-item-title", [_vm._v("Day")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.type = "week"
+                                }
+                              }
+                            },
+                            [_c("v-list-item-title", [_vm._v("Week")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.type = "month"
+                                }
+                              }
+                            },
+                            [_c("v-list-item-title", [_vm._v("Month")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-list-item",
+                            {
+                              on: {
+                                click: function($event) {
+                                  _vm.type = "4day"
+                                }
+                              }
+                            },
+                            [_c("v-list-item-title", [_vm._v("4 days")])],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "v-sheet",
             { attrs: { height: "600" }, on: { click: _vm.showCreateEvent } },
             [
               _c("v-calendar", {
                 ref: "calendar",
                 attrs: {
+                  type: _vm.type,
                   now: _vm.today,
                   value: _vm.today,
                   events: _vm.events,
-                  color: "primary",
-                  type: "week"
+                  color: "primary"
                 },
-                on: { "click:event": _vm.showEvent }
+                on: { "click:event": _vm.showEvent },
+                model: {
+                  value: _vm.focus,
+                  callback: function($$v) {
+                    _vm.focus = $$v
+                  },
+                  expression: "focus"
+                }
               }),
               _vm._v(" "),
               _c(
@@ -39730,7 +40020,8 @@ var render = function() {
                                                         label: "Elije Fecha",
                                                         "prepend-icon":
                                                           "mdi-calendar",
-                                                        readonly: ""
+                                                        readonly: "",
+                                                        required: ""
                                                       },
                                                       model: {
                                                         value: _vm.date,
@@ -39829,7 +40120,8 @@ var render = function() {
                                                         label: "Hora Inicio",
                                                         "prepend-icon":
                                                           "mdi-clock-time-four-outline",
-                                                        readonly: ""
+                                                        readonly: "",
+                                                        required: ""
                                                       },
                                                       model: {
                                                         value: _vm.start,
@@ -39968,7 +40260,8 @@ var render = function() {
                                                         label: "Hora Final",
                                                         "prepend-icon":
                                                           "mdi-clock-time-four-outline",
-                                                        readonly: ""
+                                                        readonly: "",
+                                                        required: "required"
                                                       },
                                                       model: {
                                                         value: _vm.end,
@@ -96199,14 +96492,15 @@ __webpack_require__.r(__webpack_exports__);
 /*!**********************************************!*\
   !*** ./resources/js/components/fieldOne.vue ***!
   \**********************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _fieldOne_vue_vue_type_template_id_6d80d352_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./fieldOne.vue?vue&type=template&id=6d80d352&scoped=true& */ "./resources/js/components/fieldOne.vue?vue&type=template&id=6d80d352&scoped=true&");
 /* harmony import */ var _fieldOne_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./fieldOne.vue?vue&type=script&lang=js& */ "./resources/js/components/fieldOne.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _fieldOne_vue_vue_type_style_index_0_id_6d80d352_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fieldOne.vue?vue&type=style&index=0&id=6d80d352&scoped=true&lang=css& */ "./resources/js/components/fieldOne.vue?vue&type=style&index=0&id=6d80d352&scoped=true&lang=css&");
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _fieldOne_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _fieldOne_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+/* harmony import */ var _fieldOne_vue_vue_type_style_index_0_id_6d80d352_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./fieldOne.vue?vue&type=style&index=0&id=6d80d352&scoped=true&lang=css& */ "./resources/js/components/fieldOne.vue?vue&type=style&index=0&id=6d80d352&scoped=true&lang=css&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
 
@@ -96238,7 +96532,7 @@ component.options.__file = "resources/js/components/fieldOne.vue"
 /*!***********************************************************************!*\
   !*** ./resources/js/components/fieldOne.vue?vue&type=script&lang=js& ***!
   \***********************************************************************/
-/*! exports provided: default */
+/*! no static exports found */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
