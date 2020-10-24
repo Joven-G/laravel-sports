@@ -448,9 +448,14 @@ export default {
         end: this.end
         })
         .then(data => {
-          this.getEvents();
-          this.createOpen = false;
-          this.resetForm();
+          // this.getEvents();
+          // this.createOpen = false;
+          // this.resetForm();
+          // this.$swal({
+          //   title: 'Muy Bien!',
+          //   text: 'Tu reserva está hecha.',
+          //   icon: 'success',
+          // })
         })
         .catch(err =>
           console.log("Unable to add new event!", err.response.data)
