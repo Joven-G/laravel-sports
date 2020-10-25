@@ -39,10 +39,13 @@ class FieldController extends Controller
         // dd($fields);
         if (count($fields) > 0) {
 
-            dd('Son iguales');
+            return response()->json([
+                'message' => 'Está hora ya esta ocupada',
+                'title' => 'Algo Salio Mal!',
+                'icon' => 'error',
+            ]); 
 
         } else {
-            // dd('Register');
 
         $new_calendar = Field::create([
             'name' => request('name'),
@@ -53,7 +56,9 @@ class FieldController extends Controller
 
         return response()->json([
             'data' => new FieldResource($new_calendar),
-            'message' => 'Successfully added new event!',
+            'message' => 'Tu reserva está hecha!',
+            'title' => 'Muy Bien!',
+            'icon' => 'success',
             'status' => Response::HTTP_CREATED
         ]); 
         }

@@ -304,6 +304,8 @@
                 </v-col>
               </v-row>
             </v-card-text>
+
+            <!-- Buttons -->
             <v-card-actions>
               <v-btn
                 text
@@ -333,33 +335,7 @@
 export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
-    events: [
-          {
-            name: 'Weekly Meeting',
-            start: '2019-01-07 09:00',
-            end: '2019-01-07 10:00',
-          },
-          {
-            name: 'Dos Weekly Meeting',
-            start: '2019-01-07 17:00',
-            end: '2019-01-07 19:00',
-          },
-          {
-            name: 'Thomas\' Birthday',
-            start: '2019-01-10',
-          },
-          {
-            name: 'Mash Potatoes',
-            start: '2019-01-09 12:30',
-            end: '2019-01-09 15:00',
-          },
-          {
-            name: 'Jugar Pelota',
-            start: '2019-01-09 10:00',
-            end: '2019-01-09 12:00',
-            horas: '',
-          },
-    ],
+    events: [],
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
@@ -447,15 +423,15 @@ export default {
         start: this.start,
         end: this.end
         })
-        .then(data => {
-          // this.getEvents();
-          // this.createOpen = false;
-          // this.resetForm();
-          // this.$swal({
-          //   title: 'Muy Bien!',
-          //   text: 'Tu reserva está hecha.',
-          //   icon: 'success',
-          // })
+        .then(response => {
+          this.getEvents();
+          this.createOpen = false;
+          this.resetForm();
+          this.$swal({
+            title: response.data.title,
+            text: response.data.message,
+            icon: response.data.icon,
+          })
         })
         .catch(err =>
           console.log("Unable to add new event!", err.response.data)

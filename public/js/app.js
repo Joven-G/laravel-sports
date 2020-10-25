@@ -2372,31 +2372,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       today: new Date().toISOString().substr(0, 10),
-      events: [{
-        name: 'Weekly Meeting',
-        start: '2019-01-07 09:00',
-        end: '2019-01-07 10:00'
-      }, {
-        name: 'Dos Weekly Meeting',
-        start: '2019-01-07 17:00',
-        end: '2019-01-07 19:00'
-      }, {
-        name: 'Thomas\' Birthday',
-        start: '2019-01-10'
-      }, {
-        name: 'Mash Potatoes',
-        start: '2019-01-09 12:30',
-        end: '2019-01-09 15:00'
-      }, {
-        name: 'Jugar Pelota',
-        start: '2019-01-09 10:00',
-        end: '2019-01-09 12:00',
-        horas: ''
-      }],
+      events: [],
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
@@ -2478,19 +2460,25 @@ __webpack_require__.r(__webpack_exports__);
       }
     },
     addNewEvent: function addNewEvent() {
+      var _this3 = this;
+
       axios.post("/campo-uno", {
         name: this.name,
         date: this.date,
         start: this.start,
         end: this.end
-      }).then(function (data) {// this.getEvents();
-        // this.createOpen = false;
-        // this.resetForm();
-        // this.$swal({
-        //   title: 'Muy Bien!',
-        //   text: 'Tu reserva está hecha.',
-        //   icon: 'success',
-        // })
+      }).then(function (response) {
+        _this3.getEvents();
+
+        _this3.createOpen = false;
+
+        _this3.resetForm();
+
+        _this3.$swal({
+          title: response.data.title,
+          text: response.data.message,
+          icon: response.data.icon
+        });
       })["catch"](function (err) {
         return console.log("Unable to add new event!", err.response.data);
       }); // console.log(`${this.name} - Nombre`);
@@ -2499,10 +2487,10 @@ __webpack_require__.r(__webpack_exports__);
       // console.log(`${this.end} - Hora fin`);
     },
     getEvents: function getEvents() {
-      var _this3 = this;
+      var _this4 = this;
 
       axios.get("/campo-uno").then(function (resp) {
-        return _this3.events = resp.data.data;
+        return _this4.events = resp.data.data;
       })["catch"](function (err) {
         return console.log(err.resp.data);
       });
