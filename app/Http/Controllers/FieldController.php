@@ -26,12 +26,17 @@ class FieldController extends Controller
 
     public function store(Request $request, Field $field)
     {
-        $datesHour = Carbon::create(request('date'))
+        $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
 
-        $fields = Field::select('start')
-                ->where('start', $datesHour)
+        $endHour = Carbon::create(request('date'))
+                            ->modify(request('end'));
+
+        $fields = Field::select('end', 'start')
+                ->whereBetween('end', [$startHour, $endHour])
+                ->orWhereBetween('start', [$startHour, $endHour])
                 ->get();
+
         // dd($fields->pluck('start'));
 
         // dd($fields->flatMap);
@@ -40,7 +45,7 @@ class FieldController extends Controller
         if (count($fields) > 0) {
 
             return response()->json([
-                'message' => 'Está hora ya esta ocupada',
+                'message' => 'La hora elegida está ocupada',
                 'title' => 'Algo Salio Mal!',
                 'icon' => 'error',
             ]); 

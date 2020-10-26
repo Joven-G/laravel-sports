@@ -72,15 +72,15 @@
         </v-toolbar>
       </v-sheet>
       <v-sheet height="600" @click="showCreateEvent">
+        <!-- :event-color="getEventColor" -->
         <v-calendar
           ref="calendar"
           v-model="focus"
+          color="primary"
           :type="type"
           :now="today"
           :value="today"
-          :events="events"          
-          color="primary"
-          
+          :events="events"
           @click:event="showEvent"
         ></v-calendar>
 
@@ -336,6 +336,7 @@ export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     events: [],
+    colors: ['indigo', 'blue', 'tomato', 'cyan', 'green', 'orange', 'pink'],
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
@@ -414,7 +415,7 @@ export default {
       } else {
         open()
       }
-
+      
     },
     addNewEvent() {
       axios.post("/campo-uno", {
@@ -464,6 +465,10 @@ export default {
     },
     next () {
       this.$refs.calendar.next()
+    },
+    getEventColor (event) {
+      console.log(event.color);
+      return event.color
     },
   }
 }

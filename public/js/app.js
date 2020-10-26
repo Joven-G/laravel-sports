@@ -2379,6 +2379,7 @@ __webpack_require__.r(__webpack_exports__);
     return {
       today: new Date().toISOString().substr(0, 10),
       events: [],
+      colors: ['indigo', 'blue', 'tomato', 'cyan', 'green', 'orange', 'pink'],
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
@@ -2511,6 +2512,10 @@ __webpack_require__.r(__webpack_exports__);
     },
     next: function next() {
       this.$refs.calendar.next();
+    },
+    getEventColor: function getEventColor(event) {
+      console.log(event.color);
+      return event.color;
     }
   }
 });
@@ -43198,11 +43203,11 @@ var render = function() {
               _c("v-calendar", {
                 ref: "calendar",
                 attrs: {
+                  color: "primary",
                   type: _vm.type,
                   now: _vm.today,
                   value: _vm.today,
-                  events: _vm.events,
-                  color: "primary"
+                  events: _vm.events
                 },
                 on: { "click:event": _vm.showEvent },
                 model: {
