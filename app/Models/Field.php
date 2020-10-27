@@ -11,7 +11,4 @@ class Field extends Model
 
     protected $guarded = [];
 
-	// protected $casts = [
-	//     'start'
-	// ];
 }

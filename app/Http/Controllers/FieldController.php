@@ -29,7 +29,7 @@ class FieldController extends Controller
         $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
 
-        $endHour = Carbon::create(request('date'))
+        $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
 
         $fields = Field::select('end', 'start')
@@ -37,67 +37,35 @@ class FieldController extends Controller
                 ->orWhereBetween('start', [$startHour, $endHour])
                 ->get();
 
-        // dd($fields->pluck('start'));
-
-        // dd($fields->flatMap);
-        // $fields->each(function($item) {
-        // dd($fields);
         if (count($fields) > 0) {
 
             return response()->json([
                 'message' => 'La hora elegida está ocupada',
-                'title' => 'Algo Salio Mal!',
-                'icon' => 'error',
+                'title'   => 'Algo Salio Mal!',
+                'icon'    => 'error',
             ]); 
 
         } else {
 
-        $new_calendar = Field::create([
-            'name' => request('name'),
-            'date' => request('date'),
-            'start' => Carbon::create(request('date'))->modify(request('start')),
-            'end' => Carbon::create(request('date'))->modify(request('end')),
-        ]);
+            $new_calendar = Field::create([
+                'name'  => request('name'),
+                'date'  => request('date'),
+                'start' => Carbon::create(request('date'))
+                            ->modify(request('start')),
+                'end'   => Carbon::create(request('date'))
+                            ->modify(request('end')),
+                'color' => request('color')
+            ]);
 
-        return response()->json([
-            'data' => new FieldResource($new_calendar),
-            'message' => 'Tu reserva está hecha!',
-            'title' => 'Muy Bien!',
-            'icon' => 'success',
-            'status' => Response::HTTP_CREATED
-        ]); 
+            return response()->json([
+                'data'    => new FieldResource($new_calendar),
+                'message' => 'Tu reserva está hecha!',
+                'title'   => 'Muy Bien!',
+                'icon'    => 'success',
+                'status'  => Response::HTTP_CREATED
+            ]); 
         }
-            
-            
-        // });
 
-        // foreach ($fields as $field) {
-        //     dd($field->start);
-        //     $datesHour = Carbon::create(request('date'))
-        //                     ->modify(request('start'));
-        //     // dd(Carbon::parse($field->start));
-        //     $fechaHour = Carbon::parse($field->start);
-        //     dd($datesHour->hour);
-        //     // if ($fechaHour->hour === $datesHour->hour) {
-        //     //     dd('Somos iguales');
-        //     // } else {
-        //     //     dd('xD');
-        //     // }
-        // }
-
-
-        // $new_calendar = Field::create([
-        //     'name' => request('name'),
-        //     'date' => request('date'),
-        //     'start' => Carbon::create(request('date'))->modify(request('start')),
-        //     'end' => Carbon::create(request('date'))->modify(request('end')),
-        // ]);
-
-        // return response()->json([
-        //     'data' => new FieldResource($new_calendar),
-        //     'message' => 'Successfully added new event!',
-        //     'status' => Response::HTTP_CREATED
-        // ]);
     }
 
     public function show(Field $field)

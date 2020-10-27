@@ -2374,12 +2374,53 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       today: new Date().toISOString().substr(0, 10),
       events: [],
-      colors: ['indigo', 'blue', 'tomato', 'cyan', 'green', 'orange', 'pink'],
       selectedEvent: {},
       selectedElement: null,
       selectedOpen: false,
@@ -2406,7 +2447,8 @@ __webpack_require__.r(__webpack_exports__);
       menu2: false,
       name: null,
       start: null,
-      end: null
+      end: null,
+      color: '#1976D2FF'
     };
   },
   created: function created() {
@@ -2414,6 +2456,20 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.$refs.calendar.scrollToTime('08:00'), this.$refs.calendar.checkChange();
+  },
+  computed: {
+    swatchStyle: function swatchStyle() {
+      var color = this.color,
+          menu = this.menu;
+      return {
+        backgroundColor: color,
+        cursor: 'pointer',
+        height: '30px',
+        width: '30px',
+        borderRadius: menu ? '50%' : '4px',
+        transition: 'border-radius 200ms ease-in-out'
+      };
+    }
   },
   methods: {
     show: function show() {
@@ -2467,7 +2523,8 @@ __webpack_require__.r(__webpack_exports__);
         name: this.name,
         date: this.date,
         start: this.start,
-        end: this.end
+        end: this.end,
+        color: this.color
       }).then(function (response) {
         _this3.getEvents();
 
@@ -2490,14 +2547,14 @@ __webpack_require__.r(__webpack_exports__);
     getEvents: function getEvents() {
       var _this4 = this;
 
-      axios.get("/campo-uno").then(function (resp) {
-        return _this4.events = resp.data.data;
+      axios.get("/campo-uno").then(function (response) {
+        _this4.events = response.data.data;
       })["catch"](function (err) {
         return console.log(err.resp.data);
       });
     },
     resetForm: function resetForm() {
-      this.name = '', this.start = '', this.end = '';
+      this.name = '', this.start = '', this.end = '', this.color = '';
     },
     viewDay: function viewDay(_ref2) {
       var date = _ref2.date;
@@ -2514,7 +2571,6 @@ __webpack_require__.r(__webpack_exports__);
       this.$refs.calendar.next();
     },
     getEventColor: function getEventColor(event) {
-      console.log(event.color);
       return event.color;
     }
   }
@@ -43029,7 +43085,7 @@ var render = function() {
                       attrs: { outlined: "", color: "grey darken-2" },
                       on: { click: _vm.setToday }
                     },
-                    [_vm._v("\n          Today\n        ")]
+                    [_vm._v("\n            Today\n          ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -43045,7 +43101,7 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n            mdi-chevron-left\n          ")
+                        _vm._v("\n              mdi-chevron-left\n            ")
                       ])
                     ],
                     1
@@ -43064,7 +43120,9 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n            mdi-chevron-right\n          ")
+                        _vm._v(
+                          "\n              mdi-chevron-right\n            "
+                        )
                       ])
                     ],
                     1
@@ -43073,9 +43131,9 @@ var render = function() {
                   _vm.$refs.calendar
                     ? _c("v-toolbar-title", [
                         _vm._v(
-                          "\n          " +
+                          "\n            " +
                             _vm._s(_vm.$refs.calendar.title) +
-                            "\n        "
+                            "\n          "
                         )
                       ])
                     : _vm._e(),
@@ -43116,7 +43174,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-icon", { attrs: { right: "" } }, [
                                     _vm._v(
-                                      "\n                mdi-menu-down\n              "
+                                      "\n                  mdi-menu-down\n                "
                                     )
                                   ])
                                 ],
@@ -43207,7 +43265,8 @@ var render = function() {
                   type: _vm.type,
                   now: _vm.today,
                   value: _vm.today,
-                  events: _vm.events
+                  events: _vm.events,
+                  "event-color": _vm.getEventColor
                 },
                 on: { "click:event": _vm.showEvent },
                 model: {
@@ -43303,7 +43362,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("\n              Cancel\n            ")]
+                            [_vm._v("\n                Cancel\n              ")]
                           )
                         ],
                         1
@@ -43606,7 +43665,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -43629,7 +43688,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -43746,7 +43805,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -43768,13 +43827,145 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
                                         ],
                                         1
                                       )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-row",
+                        [
+                          _c(
+                            "v-col",
+                            { attrs: { cols: "12", sm: "10" } },
+                            [
+                              _c(
+                                "v-row",
+                                {
+                                  attrs: { justify: "center", align: "center" }
+                                },
+                                [
+                                  _c(
+                                    "v-col",
+                                    {
+                                      staticClass: "shrink",
+                                      staticStyle: { "min-width": "220px" }
+                                    },
+                                    [
+                                      _c("v-text-field", {
+                                        staticClass: "ma-0 pa-0",
+                                        attrs: { "hide-details": "", solo: "" },
+                                        scopedSlots: _vm._u([
+                                          {
+                                            key: "append",
+                                            fn: function() {
+                                              return [
+                                                _c(
+                                                  "v-menu",
+                                                  {
+                                                    attrs: {
+                                                      top: "",
+                                                      "nudge-bottom": "105",
+                                                      "nudge-left": "16",
+                                                      "close-on-content-click": false
+                                                    },
+                                                    scopedSlots: _vm._u([
+                                                      {
+                                                        key: "activator",
+                                                        fn: function(ref) {
+                                                          var on = ref.on
+                                                          return [
+                                                            _c(
+                                                              "div",
+                                                              _vm._g(
+                                                                {
+                                                                  style:
+                                                                    _vm.swatchStyle
+                                                                },
+                                                                on
+                                                              )
+                                                            )
+                                                          ]
+                                                        }
+                                                      }
+                                                    ]),
+                                                    model: {
+                                                      value: _vm.menu,
+                                                      callback: function($$v) {
+                                                        _vm.menu = $$v
+                                                      },
+                                                      expression: "menu"
+                                                    }
+                                                  },
+                                                  [
+                                                    _vm._v(" "),
+                                                    _c(
+                                                      "v-card",
+                                                      [
+                                                        _c(
+                                                          "v-card-text",
+                                                          {
+                                                            staticClass: "pa-0"
+                                                          },
+                                                          [
+                                                            _c(
+                                                              "v-color-picker",
+                                                              {
+                                                                attrs: {
+                                                                  "hide-inputs":
+                                                                    "",
+                                                                  flat: ""
+                                                                },
+                                                                model: {
+                                                                  value:
+                                                                    _vm.color,
+                                                                  callback: function(
+                                                                    $$v
+                                                                  ) {
+                                                                    _vm.color = $$v
+                                                                  },
+                                                                  expression:
+                                                                    "color"
+                                                                }
+                                                              }
+                                                            )
+                                                          ],
+                                                          1
+                                                        )
+                                                      ],
+                                                      1
+                                                    )
+                                                  ],
+                                                  1
+                                                )
+                                              ]
+                                            },
+                                            proxy: true
+                                          }
+                                        ]),
+                                        model: {
+                                          value: _vm.color,
+                                          callback: function($$v) {
+                                            _vm.color = $$v
+                                          },
+                                          expression: "color"
+                                        }
+                                      })
                                     ],
                                     1
                                   )
@@ -43801,7 +43992,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("\n              Cancel\n            ")]
+                            [_vm._v("\n                Cancel\n              ")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -43810,7 +44001,11 @@ var render = function() {
                               attrs: { text: "", color: "primary" },
                               on: { click: _vm.addNewEvent }
                             },
-                            [_vm._v("\n              Guardar\n            ")]
+                            [
+                              _vm._v(
+                                "\n                Guardar\n              "
+                              )
+                            ]
                           )
                         ],
                         1

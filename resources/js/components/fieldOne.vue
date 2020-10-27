@@ -81,6 +81,7 @@
           :now="today"
           :value="today"
           :events="events"
+          :event-color="getEventColor"
           @click:event="showEvent"
         ></v-calendar>
 
@@ -305,6 +306,47 @@
               </v-row>
             </v-card-text>
 
+            <!-- Input Name -->
+            <v-row>
+              <v-col
+                cols="12"
+                sm="10"
+              >
+<!--                 <v-text-field
+                  label="Color"
+                  v-model="color"
+                  hide-details="auto"
+                  prepend-icon="mdi-inbox"
+                  
+                ></v-text-field> -->
+<!--                 <v-color-picker
+                  dot-size="25"
+                  v-model="color"
+                  mode="hexa"
+                  swatches-max-height="200"
+                  hide-inputs
+                ></v-color-picker> -->
+    <v-row justify="center" align="center">
+      <v-col class="shrink" style="min-width: 220px;">
+        <v-text-field v-model="color" hide-details class="ma-0 pa-0" solo>
+          <template v-slot:append>
+            <v-menu v-model="menu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
+              <template v-slot:activator="{ on }">
+                <div :style="swatchStyle" v-on="on" />
+              </template>
+              <v-card>
+                <v-card-text class="pa-0">
+                  <v-color-picker v-model="color" hide-inputs flat />
+                </v-card-text>
+              </v-card>
+            </v-menu>
+          </template>
+        </v-text-field>
+      </v-col>
+    </v-row>
+              </v-col>
+            </v-row>
+
             <!-- Buttons -->
             <v-card-actions>
               <v-btn
@@ -336,7 +378,6 @@ export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     events: [],
-    colors: ['indigo', 'blue', 'tomato', 'cyan', 'green', 'orange', 'pink'],
     selectedEvent: {},
     selectedElement: null,
     selectedOpen: false,
@@ -369,6 +410,8 @@ export default {
     name: null,
     start: null,
     end: null,
+    color: '#1976D2FF',
+
   }),
   created() {
     this.getEvents();
@@ -376,6 +419,19 @@ export default {
   mounted () {
     this.$refs.calendar.scrollToTime('08:00'),
     this.$refs.calendar.checkChange()
+  },
+  computed: {
+    swatchStyle() {
+      const { color, menu } = this
+      return {
+        backgroundColor: color,
+        cursor: 'pointer',
+        height: '30px',
+        width: '30px',
+        borderRadius: menu ? '50%' : '4px',
+        transition: 'border-radius 200ms ease-in-out'
+      }
+    }
   },
   methods: {
     show() {
@@ -419,10 +475,11 @@ export default {
     },
     addNewEvent() {
       axios.post("/campo-uno", {
-        name: this.name,
-        date: this.date,
+        name:  this.name,
+        date:  this.date,
         start: this.start,
-        end: this.end
+        end:   this.end,
+        color: this.color
         })
         .then(response => {
           this.getEvents();
@@ -430,8 +487,8 @@ export default {
           this.resetForm();
           this.$swal({
             title: response.data.title,
-            text: response.data.message,
-            icon: response.data.icon,
+            text:  response.data.message,
+            icon:  response.data.icon,
           })
         })
         .catch(err =>
@@ -445,13 +502,16 @@ export default {
     },
     getEvents() {
       axios.get("/campo-uno")
-        .then(resp => (this.events = resp.data.data))
+        .then(response => {
+          this.events = response.data.data
+        })
         .catch(err => console.log(err.resp.data));
     },
     resetForm() {
       this.name = '',
       this.start = '',
-      this.end = ''
+      this.end = '',
+      this.color = ''
     },
     viewDay ({ date }) {
       this.focus = date
@@ -466,8 +526,7 @@ export default {
     next () {
       this.$refs.calendar.next()
     },
-    getEventColor (event) {
-      console.log(event.color);
+    getEventColor(event) {
       return event.color
     },
   }
