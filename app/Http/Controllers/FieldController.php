@@ -13,6 +13,10 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FieldController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
 
     public function index()
     {
@@ -26,6 +30,7 @@ class FieldController extends Controller
 
     public function store(Request $request, Field $field)
     {
+        // dd(auth()->id());
         $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
 
@@ -54,8 +59,11 @@ class FieldController extends Controller
                             ->modify(request('start')),
                 'end'   => Carbon::create(request('date'))
                             ->modify(request('end')),
-                'color' => request('color')
+                'color' => request('color'),
+                'user_id' => auth()->id(),
             ]);
+
+            
 
             return response()->json([
                 'data'    => new FieldResource($new_calendar),

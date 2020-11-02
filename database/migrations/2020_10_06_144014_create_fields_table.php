@@ -21,11 +21,10 @@ class CreateFieldsTable extends Migration
             $table->dateTime('end', 0);
             $table->string('color')->nullable();
             $table->string('hour')->nullable();
-            // $table->foreignId('user_id')
-            //             ->references('id')
-            //             ->on('users')
-            //             ->nullable()
-            //             ->default(1);
+            $table->foreignId('user_id')
+                        ->references('id')
+                        ->on('users')
+                        ->nullable();
             $table->timestamps();
         });
     }

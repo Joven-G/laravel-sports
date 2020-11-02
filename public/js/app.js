@@ -2402,20 +2402,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+var _user = document.head.querySelector('meta[name="user"]');
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2448,16 +2436,21 @@ __webpack_require__.r(__webpack_exports__);
       name: null,
       start: null,
       end: null,
-      color: '#1976D2FF'
+      color: '#1976D2FF',
+      user_id: null
     };
   },
   created: function created() {
     this.getEvents();
+    console.log(_user.content);
   },
   mounted: function mounted() {
     this.$refs.calendar.scrollToTime('08:00'), this.$refs.calendar.checkChange();
   },
   computed: {
+    user: function user() {
+      return JSON.parse(_user.content); // console.log(user.content);
+    },
     swatchStyle: function swatchStyle() {
       var color = this.color,
           menu = this.menu;
@@ -2524,7 +2517,8 @@ __webpack_require__.r(__webpack_exports__);
         date: this.date,
         start: this.start,
         end: this.end,
-        color: this.color
+        color: this.color,
+        user_id: this.user_id
       }).then(function (response) {
         _this3.getEvents();
 
@@ -2550,7 +2544,7 @@ __webpack_require__.r(__webpack_exports__);
       axios.get("/campo-uno").then(function (response) {
         _this4.events = response.data.data;
       })["catch"](function (err) {
-        return console.log(err.resp.data);
+        return console.log(err.response.data);
       });
     },
     resetForm: function resetForm() {
@@ -43085,7 +43079,7 @@ var render = function() {
                       attrs: { outlined: "", color: "grey darken-2" },
                       on: { click: _vm.setToday }
                     },
-                    [_vm._v("\n            Today\n          ")]
+                    [_vm._v("\n          Today\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -43101,7 +43095,7 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n              mdi-chevron-left\n            ")
+                        _vm._v("\n            mdi-chevron-left\n          ")
                       ])
                     ],
                     1
@@ -43120,9 +43114,7 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v(
-                          "\n              mdi-chevron-right\n            "
-                        )
+                        _vm._v("\n            mdi-chevron-right\n          ")
                       ])
                     ],
                     1
@@ -43131,9 +43123,9 @@ var render = function() {
                   _vm.$refs.calendar
                     ? _c("v-toolbar-title", [
                         _vm._v(
-                          "\n            " +
+                          "\n          " +
                             _vm._s(_vm.$refs.calendar.title) +
-                            "\n          "
+                            "\n        "
                         )
                       ])
                     : _vm._e(),
@@ -43174,7 +43166,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-icon", { attrs: { right: "" } }, [
                                     _vm._v(
-                                      "\n                  mdi-menu-down\n                "
+                                      "\n                mdi-menu-down\n              "
                                     )
                                   ])
                                 ],
@@ -43362,7 +43354,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("\n                Cancel\n              ")]
+                            [_vm._v("\n              Cancel\n            ")]
                           )
                         ],
                         1
@@ -43665,7 +43657,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        Cancel\n                      "
+                                                "\n                      Cancel\n                    "
                                               )
                                             ]
                                           ),
@@ -43688,7 +43680,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        OK\n                      "
+                                                "\n                      OK\n                    "
                                               )
                                             ]
                                           )
@@ -43805,7 +43797,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        Cancel\n                      "
+                                                "\n                      Cancel\n                    "
                                               )
                                             ]
                                           ),
@@ -43827,7 +43819,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        OK\n                      "
+                                                "\n                      OK\n                    "
                                               )
                                             ]
                                           )
@@ -43992,7 +43984,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("\n                Cancel\n              ")]
+                            [_vm._v("\n              Cancel\n            ")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -44001,11 +43993,7 @@ var render = function() {
                               attrs: { text: "", color: "primary" },
                               on: { click: _vm.addNewEvent }
                             },
-                            [
-                              _vm._v(
-                                "\n                Guardar\n              "
-                              )
-                            ]
+                            [_vm._v("\n              Guardar\n            ")]
                           )
                         ],
                         1
@@ -100033,7 +100021,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_0___default.a);
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_1__["default"]);
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-Vue.component('field-one', __webpack_require__(/*! ./components/fieldOne.vue */ "./resources/js/components/fieldOne.vue")["default"]);
+Vue.component('field-one', __webpack_require__(/*! ./components/fieldOne.vue */ "./resources/js/components/fieldOne.vue")["default"]); // Vue.component('fiel-one-create-modal', require('./components/fielOneCreateModal.vue').default);
+
 var app = new Vue({
   el: '#app',
   vuetify: new vuetify__WEBPACK_IMPORTED_MODULE_0___default.a()

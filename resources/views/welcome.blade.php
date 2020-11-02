@@ -15,9 +15,10 @@
     </head>
     <body>
         <div id="app">
-            <v-app>
+            <h1>Welcome</h1>
+            {{-- <v-app>
                 <example-component></example-component>
-            </v-app>
+            </v-app> --}}
         </div>
         <script src="{{ mix('js/app.js') }}"></script>
     </body>

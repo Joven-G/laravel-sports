@@ -2,6 +2,8 @@
 
 @section('content')
 	<div class="container">
-		<a href="{{ route('campo-uno.create') }}">Cancha Uno</a>
+		<v-app>
+			<field-one></field-one>
+		</v-app>
 	</div>
 @endsection

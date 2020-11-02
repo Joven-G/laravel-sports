@@ -312,38 +312,24 @@
                 cols="12"
                 sm="10"
               >
-<!--                 <v-text-field
-                  label="Color"
-                  v-model="color"
-                  hide-details="auto"
-                  prepend-icon="mdi-inbox"
-                  
-                ></v-text-field> -->
-<!--                 <v-color-picker
-                  dot-size="25"
-                  v-model="color"
-                  mode="hexa"
-                  swatches-max-height="200"
-                  hide-inputs
-                ></v-color-picker> -->
-    <v-row justify="center" align="center">
-      <v-col class="shrink" style="min-width: 220px;">
-        <v-text-field v-model="color" hide-details class="ma-0 pa-0" solo>
-          <template v-slot:append>
-            <v-menu v-model="menu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
-              <template v-slot:activator="{ on }">
-                <div :style="swatchStyle" v-on="on" />
-              </template>
-              <v-card>
-                <v-card-text class="pa-0">
-                  <v-color-picker v-model="color" hide-inputs flat />
-                </v-card-text>
-              </v-card>
-            </v-menu>
-          </template>
-        </v-text-field>
-      </v-col>
-    </v-row>
+              <v-row justify="center" align="center">
+                <v-col class="shrink" style="min-width: 220px;">
+                  <v-text-field v-model="color" hide-details class="ma-0 pa-0" solo>
+                    <template v-slot:append>
+                      <v-menu v-model="menu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
+                        <template v-slot:activator="{ on }">
+                          <div :style="swatchStyle" v-on="on" />
+                        </template>
+                        <v-card>
+                          <v-card-text class="pa-0">
+                            <v-color-picker v-model="color" hide-inputs flat />
+                          </v-card-text>
+                        </v-card>
+                      </v-menu>
+                    </template>
+                  </v-text-field>
+                </v-col>
+              </v-row>
               </v-col>
             </v-row>
 
@@ -373,6 +359,8 @@
 </template>
 
 <script>
+
+let user = document.head.querySelector('meta[name="user"]');
 
 export default {
   data: () => ({
@@ -411,16 +399,22 @@ export default {
     start: null,
     end: null,
     color: '#1976D2FF',
+    user_id: null,
 
   }),
   created() {
     this.getEvents();
+    console.log(user.content);
   },
   mounted () {
     this.$refs.calendar.scrollToTime('08:00'),
     this.$refs.calendar.checkChange()
   },
   computed: {
+    user() {
+      return JSON.parse(user.content);
+      // console.log(user.content);
+    },
     swatchStyle() {
       const { color, menu } = this
       return {
@@ -479,7 +473,8 @@ export default {
         date:  this.date,
         start: this.start,
         end:   this.end,
-        color: this.color
+        color: this.color,
+        user_id: this.user_id
         })
         .then(response => {
           this.getEvents();
@@ -505,7 +500,7 @@ export default {
         .then(response => {
           this.events = response.data.data
         })
-        .catch(err => console.log(err.resp.data));
+        .catch(err => console.log(err.response.data));
     },
     resetForm() {
       this.name = '',
