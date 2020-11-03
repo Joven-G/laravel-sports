@@ -203,6 +203,7 @@
                     </template>
                     <v-date-picker
                       v-model="date"
+                      :allowed-dates="allowedDates"
                       @input="menu2 = false"
                     ></v-date-picker>
                   </v-menu>
@@ -404,7 +405,7 @@ export default {
   }),
   created() {
     this.getEvents();
-    console.log(user.content);
+    console.log(new Date().toISOString().substr(0, 10));
   },
   mounted () {
     this.$refs.calendar.scrollToTime('08:00'),
@@ -508,6 +509,7 @@ export default {
       this.end = '',
       this.color = ''
     },
+    
     viewDay ({ date }) {
       this.focus = date
       this.type = 'day'
@@ -523,6 +525,11 @@ export default {
     },
     getEventColor(event) {
       return event.color
+    },
+
+    // Desabilita las fechas pasadas
+    allowedDates(val) {
+      return val >= new Date().toISOString().substr(0, 10)
     },
   }
 }

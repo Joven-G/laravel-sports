@@ -2402,6 +2402,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 var _user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2442,7 +2443,7 @@ var _user = document.head.querySelector('meta[name="user"]');
   },
   created: function created() {
     this.getEvents();
-    console.log(_user.content);
+    console.log(new Date().toISOString().substr(0, 10));
   },
   mounted: function mounted() {
     this.$refs.calendar.scrollToTime('08:00'), this.$refs.calendar.checkChange();
@@ -2566,6 +2567,10 @@ var _user = document.head.querySelector('meta[name="user"]');
     },
     getEventColor: function getEventColor(event) {
       return event.color;
+    },
+    // Desabilita las fechas pasadas
+    allowedDates: function allowedDates(val) {
+      return val >= new Date().toISOString().substr(0, 10);
     }
   }
 });
@@ -43528,6 +43533,9 @@ var render = function() {
                                     [
                                       _vm._v(" "),
                                       _c("v-date-picker", {
+                                        attrs: {
+                                          "allowed-dates": _vm.allowedDates
+                                        },
                                         on: {
                                           input: function($event) {
                                             _vm.menu2 = false
