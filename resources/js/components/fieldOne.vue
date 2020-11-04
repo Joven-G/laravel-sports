@@ -9,7 +9,7 @@
             color="grey darken-2"
             @click="setToday"
           >
-            Today
+            Hoy
           </v-btn>
           <v-btn
             fab
@@ -56,16 +56,16 @@
             </template>
             <v-list>
               <v-list-item @click="type = 'day'">
-                <v-list-item-title>Day</v-list-item-title>
+                <v-list-item-title>Hoy</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = 'week'">
-                <v-list-item-title>Week</v-list-item-title>
+                <v-list-item-title>Semana</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = 'month'">
-                <v-list-item-title>Month</v-list-item-title>
+                <v-list-item-title>Mes</v-list-item-title>
               </v-list-item>
               <v-list-item @click="type = '4day'">
-                <v-list-item-title>4 days</v-list-item-title>
+                <v-list-item-title>4 días</v-list-item-title>
               </v-list-item>
             </v-list>
           </v-menu>
@@ -83,9 +83,10 @@
           :events="events"
           :event-color="getEventColor"
           @click:event="showEvent"
+          locale="es"
         ></v-calendar>
 
-        <!-- Modal click fecha creada -->
+        <!-- Modal click fecha creada (EDIT) -->
         <v-menu
           v-model="selectedOpen"
             :close-on-content-click="false"
@@ -114,7 +115,7 @@
                 </v-btn>
               </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <span >{{ selectedEvent.hour }} Horas</span>
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -205,6 +206,7 @@
                       v-model="date"
                       :allowed-dates="allowedDates"
                       @input="menu2 = false"
+                      locale="es"
                     ></v-date-picker>
                   </v-menu>
                 </v-col>
@@ -374,10 +376,10 @@ export default {
     focus: '',
     type: 'week',
     typeToLabel: {
-      month: 'Month',
-      week: 'Week',
-      day: 'Day',
-      '4day': '4 Days',
+      month: 'Mes',
+      week: 'Semana',
+      day: 'Día',
+      '4day': '4 Días',
     },
 
     createEvent: {},

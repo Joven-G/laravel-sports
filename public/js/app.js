@@ -2403,6 +2403,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var _user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2416,10 +2418,10 @@ var _user = document.head.querySelector('meta[name="user"]');
       focus: '',
       type: 'week',
       typeToLabel: {
-        month: 'Month',
-        week: 'Week',
-        day: 'Day',
-        '4day': '4 Days'
+        month: 'Mes',
+        week: 'Semana',
+        day: 'Día',
+        '4day': '4 Días'
       },
       createEvent: {},
       createElement: null,
@@ -43084,7 +43086,7 @@ var render = function() {
                       attrs: { outlined: "", color: "grey darken-2" },
                       on: { click: _vm.setToday }
                     },
-                    [_vm._v("\n          Today\n        ")]
+                    [_vm._v("\n          Hoy\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -43196,7 +43198,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_c("v-list-item-title", [_vm._v("Day")])],
+                            [_c("v-list-item-title", [_vm._v("Hoy")])],
                             1
                           ),
                           _vm._v(" "),
@@ -43209,7 +43211,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_c("v-list-item-title", [_vm._v("Week")])],
+                            [_c("v-list-item-title", [_vm._v("Semana")])],
                             1
                           ),
                           _vm._v(" "),
@@ -43222,7 +43224,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_c("v-list-item-title", [_vm._v("Month")])],
+                            [_c("v-list-item-title", [_vm._v("Mes")])],
                             1
                           ),
                           _vm._v(" "),
@@ -43235,7 +43237,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_c("v-list-item-title", [_vm._v("4 days")])],
+                            [_c("v-list-item-title", [_vm._v("4 días")])],
                             1
                           )
                         ],
@@ -43263,7 +43265,8 @@ var render = function() {
                   now: _vm.today,
                   value: _vm.today,
                   events: _vm.events,
-                  "event-color": _vm.getEventColor
+                  "event-color": _vm.getEventColor,
+                  locale: "es"
                 },
                 on: { "click:event": _vm.showEvent },
                 model: {
@@ -43339,11 +43342,9 @@ var render = function() {
                       ),
                       _vm._v(" "),
                       _c("v-card-text", [
-                        _c("span", {
-                          domProps: {
-                            innerHTML: _vm._s(_vm.selectedEvent.details)
-                          }
-                        })
+                        _c("span", [
+                          _vm._v(_vm._s(_vm.selectedEvent.hour) + " Horas")
+                        ])
                       ]),
                       _vm._v(" "),
                       _c(
@@ -43534,7 +43535,8 @@ var render = function() {
                                       _vm._v(" "),
                                       _c("v-date-picker", {
                                         attrs: {
-                                          "allowed-dates": _vm.allowedDates
+                                          "allowed-dates": _vm.allowedDates,
+                                          locale: "es"
                                         },
                                         on: {
                                           input: function($event) {

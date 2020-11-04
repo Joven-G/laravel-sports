@@ -25,12 +25,11 @@ class FieldController extends Controller
 
     public function create()
     {
-        return view('fieldOne.create');
+        // return view('fieldOne.create');
     }
 
     public function store(Request $request, Field $field)
     {
-        // dd(auth()->id());
         $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
 
@@ -62,8 +61,6 @@ class FieldController extends Controller
                 'color' => request('color'),
                 'user_id' => auth()->id(),
             ]);
-
-            
 
             return response()->json([
                 'data'    => new FieldResource($new_calendar),

@@ -7,9 +7,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('campo-uno', function () {
-//     return view('fieldOne.index');
-// });
+Route::view('cancha-uno', 'chanchas.uno');
+Route::view('cancha-dos', 'chanchas.dos');
+
 Route::resource('campo-uno', FieldController::class);
 
 Auth::routes();
