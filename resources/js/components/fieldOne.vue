@@ -116,6 +116,156 @@
               </v-toolbar>
             <v-card-text>
               <span >{{ selectedEvent.hour }} Horas</span>
+
+              <!-- Input Name -->
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="10"
+                >
+                  <v-text-field
+                    label="Nombre"
+                    v-model="selectedEvent.name"
+                    hide-details="auto"
+                    prepend-icon="mdi-inbox"
+                    
+                  ></v-text-field>
+                </v-col>
+              </v-row>
+
+              <!-- Date Piker -->
+
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="6"
+                >
+                  <v-menu
+                    v-model="menu2"
+                    :close-on-content-click="false"
+                    :nudge-right="40"
+                    transition="scale-transition"
+                    offset-y
+                    min-width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="selectedEvent.date"
+                        label="Elije Fecha"
+                        prepend-icon="mdi-calendar"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        required
+                      ></v-text-field>
+                    </template>
+                    <v-date-picker
+                      v-model="selectedEvent.date"
+                      :allowed-dates="allowedDates"
+                      @input="menu2 = false"
+                      locale="es"
+                    ></v-date-picker>
+                  </v-menu>
+                </v-col>
+                <!-- <v-spacer></v-spacer> -->
+              </v-row>
+
+              <!-- Time Picker Start -->
+              <v-row>
+                <v-col
+                  cols="11"
+                  sm="5"
+                >
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal1"
+                    :return-value.sync="time1"
+                    persistent
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="selectedEvent.start"
+                        label="Hora Inicio"
+                        prepend-icon="mdi-clock-time-four-outline"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        required
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-model="selectedEvent.start"
+                      :min="end"
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="modal1 = false"
+                      >
+                        Cancel
+                      </v-btn>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.dialog.save(time1); modal1 = false"
+                      >
+                        OK
+                      </v-btn>
+                    </v-time-picker>
+                  </v-dialog>
+                </v-col>
+
+                <!-- Time Picker End -->
+
+                <v-col
+                  cols="11"
+                  sm="5"
+                >
+                  <v-dialog
+                    ref="dialog"
+                    v-model="modal2"
+                    :return-value.sync="time"
+                    persistent
+                    width="290px"
+                  >
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-text-field
+                        v-model="end"
+                        label="Hora Final"
+                        prepend-icon="mdi-clock-time-four-outline"
+                        readonly
+                        v-bind="attrs"
+                        v-on="on"
+                        required='required'
+                      ></v-text-field>
+                    </template>
+                    <v-time-picker
+                      v-model="end"
+                      :min="start"
+                    >
+                      <v-spacer></v-spacer>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="modal2 = false"
+                      >
+                        Cancel
+                      </v-btn>
+                      <v-btn
+                        text
+                        color="primary"
+                        @click="$refs.dialog.save(time)"
+                      >
+                        OK
+                      </v-btn>
+                    </v-time-picker>
+                  </v-dialog>
+                </v-col>
+              </v-row>
+
             </v-card-text>
             <v-card-actions>
               <v-btn
@@ -124,6 +274,13 @@
                 @click="selectedOpen = false"
               >
                 Cancel
+              </v-btn>
+              <v-btn
+                text
+                color="secondary"
+                @click="updateEvent"
+              >
+                Ok
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -504,6 +661,12 @@ export default {
           this.events = response.data.data
         })
         .catch(err => console.log(err.response.data));
+    },
+    updateEvent() {
+      console.log(this.selectedEvent.name);
+      console.log(this.selectedEvent.date);
+      console.log(this.selectedEvent.start);
+      console.log(this.selectedEvent.end);
     },
     resetForm() {
       this.name = '',

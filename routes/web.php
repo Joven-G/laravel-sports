@@ -7,8 +7,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('cancha-uno', 'chanchas.uno');
-Route::view('cancha-dos', 'chanchas.dos');
+Route::view('cancha-uno', 'chanchas.uno')->middleware('auth');
+Route::view('cancha-dos', 'chanchas.dos')->middleware('auth');
 
 Route::resource('campo-uno', FieldController::class);
 

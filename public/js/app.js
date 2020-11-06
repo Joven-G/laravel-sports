@@ -2405,6 +2405,163 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _user = document.head.querySelector('meta[name="user"]');
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2549,6 +2706,12 @@ var _user = document.head.querySelector('meta[name="user"]');
       })["catch"](function (err) {
         return console.log(err.response.data);
       });
+    },
+    updateEvent: function updateEvent() {
+      console.log(this.selectedEvent.name);
+      console.log(this.selectedEvent.date);
+      console.log(this.selectedEvent.start);
+      console.log(this.selectedEvent.end);
     },
     resetForm: function resetForm() {
       this.name = '', this.start = '', this.end = '', this.color = '';
@@ -43341,11 +43504,445 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c("v-card-text", [
-                        _c("span", [
-                          _vm._v(_vm._s(_vm.selectedEvent.hour) + " Horas")
-                        ])
-                      ]),
+                      _c(
+                        "v-card-text",
+                        [
+                          _c("span", [
+                            _vm._v(_vm._s(_vm.selectedEvent.hour) + " Horas")
+                          ]),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12", sm: "10" } },
+                                [
+                                  _c("v-text-field", {
+                                    attrs: {
+                                      label: "Nombre",
+                                      "hide-details": "auto",
+                                      "prepend-icon": "mdi-inbox"
+                                    },
+                                    model: {
+                                      value: _vm.selectedEvent.name,
+                                      callback: function($$v) {
+                                        _vm.$set(_vm.selectedEvent, "name", $$v)
+                                      },
+                                      expression: "selectedEvent.name"
+                                    }
+                                  })
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12", sm: "6", md: "6" } },
+                                [
+                                  _c(
+                                    "v-menu",
+                                    {
+                                      attrs: {
+                                        "close-on-content-click": false,
+                                        "nudge-right": 40,
+                                        transition: "scale-transition",
+                                        "offset-y": "",
+                                        "min-width": "290px"
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        label: "Elije Fecha",
+                                                        "prepend-icon":
+                                                          "mdi-calendar",
+                                                        readonly: "",
+                                                        required: ""
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.selectedEvent
+                                                            .date,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.selectedEvent,
+                                                            "date",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "selectedEvent.date"
+                                                      }
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ]),
+                                      model: {
+                                        value: _vm.menu2,
+                                        callback: function($$v) {
+                                          _vm.menu2 = $$v
+                                        },
+                                        expression: "menu2"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c("v-date-picker", {
+                                        attrs: {
+                                          "allowed-dates": _vm.allowedDates,
+                                          locale: "es"
+                                        },
+                                        on: {
+                                          input: function($event) {
+                                            _vm.menu2 = false
+                                          }
+                                        },
+                                        model: {
+                                          value: _vm.selectedEvent.date,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.selectedEvent,
+                                              "date",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "selectedEvent.date"
+                                        }
+                                      })
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "11", sm: "5" } },
+                                [
+                                  _c(
+                                    "v-dialog",
+                                    {
+                                      ref: "dialog",
+                                      attrs: {
+                                        "return-value": _vm.time1,
+                                        persistent: "",
+                                        width: "290px"
+                                      },
+                                      on: {
+                                        "update:returnValue": function($event) {
+                                          _vm.time1 = $event
+                                        },
+                                        "update:return-value": function(
+                                          $event
+                                        ) {
+                                          _vm.time1 = $event
+                                        }
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        label: "Hora Inicio",
+                                                        "prepend-icon":
+                                                          "mdi-clock-time-four-outline",
+                                                        readonly: "",
+                                                        required: ""
+                                                      },
+                                                      model: {
+                                                        value:
+                                                          _vm.selectedEvent
+                                                            .start,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.$set(
+                                                            _vm.selectedEvent,
+                                                            "start",
+                                                            $$v
+                                                          )
+                                                        },
+                                                        expression:
+                                                          "selectedEvent.start"
+                                                      }
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ]),
+                                      model: {
+                                        value: _vm.modal1,
+                                        callback: function($$v) {
+                                          _vm.modal1 = $$v
+                                        },
+                                        expression: "modal1"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-time-picker",
+                                        {
+                                          attrs: { min: _vm.end },
+                                          model: {
+                                            value: _vm.selectedEvent.start,
+                                            callback: function($$v) {
+                                              _vm.$set(
+                                                _vm.selectedEvent,
+                                                "start",
+                                                $$v
+                                              )
+                                            },
+                                            expression: "selectedEvent.start"
+                                          }
+                                        },
+                                        [
+                                          _c("v-spacer"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.modal1 = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      Cancel\n                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.$refs.dialog.save(
+                                                    _vm.time1
+                                                  )
+                                                  _vm.modal1 = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      OK\n                    "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "11", sm: "5" } },
+                                [
+                                  _c(
+                                    "v-dialog",
+                                    {
+                                      ref: "dialog",
+                                      attrs: {
+                                        "return-value": _vm.time,
+                                        persistent: "",
+                                        width: "290px"
+                                      },
+                                      on: {
+                                        "update:returnValue": function($event) {
+                                          _vm.time = $event
+                                        },
+                                        "update:return-value": function(
+                                          $event
+                                        ) {
+                                          _vm.time = $event
+                                        }
+                                      },
+                                      scopedSlots: _vm._u([
+                                        {
+                                          key: "activator",
+                                          fn: function(ref) {
+                                            var on = ref.on
+                                            var attrs = ref.attrs
+                                            return [
+                                              _c(
+                                                "v-text-field",
+                                                _vm._g(
+                                                  _vm._b(
+                                                    {
+                                                      attrs: {
+                                                        label: "Hora Final",
+                                                        "prepend-icon":
+                                                          "mdi-clock-time-four-outline",
+                                                        readonly: "",
+                                                        required: "required"
+                                                      },
+                                                      model: {
+                                                        value: _vm.end,
+                                                        callback: function(
+                                                          $$v
+                                                        ) {
+                                                          _vm.end = $$v
+                                                        },
+                                                        expression: "end"
+                                                      }
+                                                    },
+                                                    "v-text-field",
+                                                    attrs,
+                                                    false
+                                                  ),
+                                                  on
+                                                )
+                                              )
+                                            ]
+                                          }
+                                        }
+                                      ]),
+                                      model: {
+                                        value: _vm.modal2,
+                                        callback: function($$v) {
+                                          _vm.modal2 = $$v
+                                        },
+                                        expression: "modal2"
+                                      }
+                                    },
+                                    [
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-time-picker",
+                                        {
+                                          attrs: { min: _vm.start },
+                                          model: {
+                                            value: _vm.end,
+                                            callback: function($$v) {
+                                              _vm.end = $$v
+                                            },
+                                            expression: "end"
+                                          }
+                                        },
+                                        [
+                                          _c("v-spacer"),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  _vm.modal2 = false
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      Cancel\n                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-btn",
+                                            {
+                                              attrs: {
+                                                text: "",
+                                                color: "primary"
+                                              },
+                                              on: {
+                                                click: function($event) {
+                                                  return _vm.$refs.dialog.save(
+                                                    _vm.time
+                                                  )
+                                                }
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      OK\n                    "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
                       _vm._v(" "),
                       _c(
                         "v-card-actions",
@@ -43361,6 +43958,15 @@ var render = function() {
                               }
                             },
                             [_vm._v("\n              Cancel\n            ")]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            {
+                              attrs: { text: "", color: "secondary" },
+                              on: { click: _vm.updateEvent }
+                            },
+                            [_vm._v("\n              Ok\n            ")]
                           )
                         ],
                         1

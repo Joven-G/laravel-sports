@@ -23,11 +23,6 @@ class FieldController extends Controller
         return FieldResource::collection(Field::all());
     }
 
-    public function create()
-    {
-        // return view('fieldOne.create');
-    }
-
     public function store(Request $request, Field $field)
     {
         $startHour = Carbon::create(request('date'))
@@ -78,14 +73,14 @@ class FieldController extends Controller
         //
     }
 
-    public function edit(Field $field)
-    {
-        //
-    }
-
     public function update(Request $request, Field $field)
     {
-        //
+        $field->update($request->all());
+        return response()->json([
+            'data' => new FieldResource($field),
+            'message' => 'Successfully updated event!',
+            'status' => Response::HTTP_ACCEPTED
+        ]);
     }
 
     public function destroy(Field $field)
