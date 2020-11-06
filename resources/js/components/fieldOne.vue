@@ -519,7 +519,8 @@
 </template>
 
 <script>
-
+  
+import moment from 'moment';
 let user = document.head.querySelector('meta[name="user"]');
 
 export default {
@@ -564,7 +565,8 @@ export default {
   }),
   created() {
     this.getEvents();
-    console.log(new Date().toISOString().substr(0, 10));
+    // console.log(new Date().toISOString().substr(0, 10));
+    console.log(moment("20111031", "YYYYMMDD").fromNow());
   },
   mounted () {
     this.$refs.calendar.scrollToTime('08:00'),
