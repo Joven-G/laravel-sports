@@ -2564,6 +2564,16 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -2574,6 +2584,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       today: new Date().toISOString().substr(0, 10),
       events: [],
       selectedEvent: {},
+      selectedEventEdit: {},
       selectedElement: null,
       selectedOpen: false,
       focus: '',
@@ -2601,7 +2612,12 @@ var _user = document.head.querySelector('meta[name="user"]');
       start: null,
       end: null,
       color: '#1976D2FF',
-      user_id: null
+      user_id: null,
+      dateEdit: null,
+      horaMinutos: null,
+      endHoraMinutos: null,
+      inicio: '13:00',
+      fin: '14:00'
     };
   },
   created: function created() {
@@ -2642,7 +2658,39 @@ var _user = document.head.querySelector('meta[name="user"]');
           event = _ref.event;
 
       var open = function open() {
+        // event.start = moment(event.start).format("YYYY-MM-DD hh:mm");
+        // event.end = moment(event.end).format("YYYY-MM-DD hh:mm");
         _this.selectedEvent = event;
+        var startDate = new Date(event.start);
+        var endDate = new Date(event.end);
+        var hora = startDate.getHours();
+        var minuto = startDate.getMinutes();
+        var horaMinutos = "".concat(hora, ":").concat(minuto, "0");
+        var horaend = endDate.getHours();
+        var minutoend = endDate.getMinutes();
+        var endHoraMinutos = "".concat(horaend, ":").concat(minutoend, "0");
+        event.start = horaMinutos;
+        event.end = endHoraMinutos;
+        console.log(event.start); // let dateEdit = new Date(event.date);
+        // const dateStart = new Date (moment(event.start).format("YYYY-MM-DD hh:mm"));
+        // let hours = dateStart.getHours();
+        // let minutes = dateStart.getMinutes();
+        // dateEdit.setHours(hours);
+        // dateEdit.setMinutes(minutes);
+        // console.log(dateEdit);
+        // console.log(dateEdit.setHours(event.start));
+        // date.setHours(this.time)
+        // this.dateEdit.setHours(dateStart.getHours())
+        // console.log(dateStart);
+        // console.log(dateStart.getHours());
+        // console.log(dateStart.getMinutes());
+        // dateEdit.setHours(dateStart.getHours());
+        // dateEdit.setMinutes(dateStart.getMinutes());
+        // console.log(dateEdit);
+        // console.log(this.time1);
+        // this.selectedEventEdit = event.start = moment(event.start).format("hh:mm");
+        // console.log(event);
+
         _this.selectedElement = nativeEvent.target;
         setTimeout(function () {
           _this.selectedOpen = true;
@@ -64825,7 +64873,7 @@ var render = function() {
                       attrs: { outlined: "", color: "grey darken-2" },
                       on: { click: _vm.setToday }
                     },
-                    [_vm._v("\n          Hoy\n        ")]
+                    [_vm._v("\n            Hoy\n          ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -64841,7 +64889,7 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n            mdi-chevron-left\n          ")
+                        _vm._v("\n              mdi-chevron-left\n            ")
                       ])
                     ],
                     1
@@ -64860,7 +64908,9 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n            mdi-chevron-right\n          ")
+                        _vm._v(
+                          "\n              mdi-chevron-right\n            "
+                        )
                       ])
                     ],
                     1
@@ -64869,9 +64919,9 @@ var render = function() {
                   _vm.$refs.calendar
                     ? _c("v-toolbar-title", [
                         _vm._v(
-                          "\n          " +
+                          "\n            " +
                             _vm._s(_vm.$refs.calendar.title) +
-                            "\n        "
+                            "\n          "
                         )
                       ])
                     : _vm._e(),
@@ -64912,7 +64962,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-icon", { attrs: { right: "" } }, [
                                     _vm._v(
-                                      "\n                mdi-menu-down\n              "
+                                      "\n                  mdi-menu-down\n                "
                                     )
                                   ])
                                 ],
@@ -65233,18 +65283,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time1,
+                                        "return-value": _vm.time,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time1 = $event
+                                          _vm.time = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time1 = $event
+                                          _vm.time = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -65307,7 +65357,7 @@ var render = function() {
                                       _c(
                                         "v-time-picker",
                                         {
-                                          attrs: { min: _vm.end },
+                                          attrs: { format: "24hr" },
                                           model: {
                                             value: _vm.selectedEvent.start,
                                             callback: function($$v) {
@@ -65338,7 +65388,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -65353,7 +65403,7 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   _vm.$refs.dialog.save(
-                                                    _vm.time1
+                                                    _vm.time
                                                   )
                                                   _vm.modal1 = false
                                                 }
@@ -65361,7 +65411,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -65451,7 +65501,10 @@ var render = function() {
                                       _c(
                                         "v-time-picker",
                                         {
-                                          attrs: { min: _vm.start },
+                                          attrs: {
+                                            min: _vm.start,
+                                            format: "24hr"
+                                          },
                                           model: {
                                             value: _vm.end,
                                             callback: function($$v) {
@@ -65478,7 +65531,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -65500,7 +65553,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -65533,7 +65586,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("\n              Cancel\n            ")]
+                            [_vm._v("\n                Cancel\n              ")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -65542,7 +65595,7 @@ var render = function() {
                               attrs: { text: "", color: "secondary" },
                               on: { click: _vm.updateEvent }
                             },
-                            [_vm._v("\n              Ok\n            ")]
+                            [_vm._v("\n                Ok\n              ")]
                           )
                         ],
                         1
@@ -65822,7 +65875,10 @@ var render = function() {
                                       _c(
                                         "v-time-picker",
                                         {
-                                          attrs: { min: _vm.end },
+                                          attrs: {
+                                            min: _vm.end,
+                                            format: "24hr"
+                                          },
                                           model: {
                                             value: _vm.start,
                                             callback: function($$v) {
@@ -65849,7 +65905,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -65872,7 +65928,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -65962,7 +66018,10 @@ var render = function() {
                                       _c(
                                         "v-time-picker",
                                         {
-                                          attrs: { min: _vm.start },
+                                          attrs: {
+                                            min: _vm.start,
+                                            format: "24hr"
+                                          },
                                           model: {
                                             value: _vm.end,
                                             callback: function($$v) {
@@ -65989,7 +66048,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -66011,7 +66070,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -66176,7 +66235,7 @@ var render = function() {
                                 }
                               }
                             },
-                            [_vm._v("\n              Cancel\n            ")]
+                            [_vm._v("\n                Cancel\n              ")]
                           ),
                           _vm._v(" "),
                           _c(
@@ -66185,7 +66244,11 @@ var render = function() {
                               attrs: { text: "", color: "primary" },
                               on: { click: _vm.addNewEvent }
                             },
-                            [_vm._v("\n              Guardar\n            ")]
+                            [
+                              _vm._v(
+                                "\n                Guardar\n              "
+                              )
+                            ]
                           )
                         ],
                         1

@@ -180,7 +180,7 @@
                   <v-dialog
                     ref="dialog"
                     v-model="modal1"
-                    :return-value.sync="time1"
+                    :return-value.sync="time"
                     persistent
                     width="290px"
                   >
@@ -195,9 +195,11 @@
                         required
                       ></v-text-field>
                     </template>
+                    <!-- :min="endHoraMinutos" -->
                     <v-time-picker
                       v-model="selectedEvent.start"
-                      :min="end"
+                      
+                      format="24hr"
                     >
                       <v-spacer></v-spacer>
                       <v-btn
@@ -210,11 +212,16 @@
                       <v-btn
                         text
                         color="primary"
-                        @click="$refs.dialog.save(time1); modal1 = false"
+                        @click="$refs.dialog.save(time); modal1 = false"
                       >
                         OK
                       </v-btn>
                     </v-time-picker>
+<!--                     <v-time-picker
+                      v-model="horaMinutos"
+                      scrollable
+                      format="24hr"
+                    ></v-time-picker> -->
                   </v-dialog>
                 </v-col>
 
@@ -245,6 +252,7 @@
                     <v-time-picker
                       v-model="end"
                       :min="start"
+                      format="24hr"
                     >
                       <v-spacer></v-spacer>
                       <v-btn
@@ -397,6 +405,7 @@
                     <v-time-picker
                       v-model="start"
                       :min="end"
+                      format="24hr"
                     >
                       <v-spacer></v-spacer>
                       <v-btn
@@ -444,6 +453,7 @@
                     <v-time-picker
                       v-model="end"
                       :min="start"
+                      format="24hr"
                     >
                       <v-spacer></v-spacer>
                       <v-btn
@@ -528,6 +538,7 @@ export default {
     today: new Date().toISOString().substr(0, 10),
     events: [],
     selectedEvent: {},
+    selectedEventEdit: {},
     selectedElement: null,
     selectedOpen: false,
 
@@ -562,6 +573,11 @@ export default {
     color: '#1976D2FF',
     user_id: null,
 
+    dateEdit: null,
+    horaMinutos: null,
+    endHoraMinutos: null,
+    inicio: '13:00',
+    fin: '14:00',
   }),
   created() {
     this.getEvents();
@@ -598,7 +614,52 @@ export default {
     },
     showEvent ({ nativeEvent, event }) {
       const open = () => {
+
+        // event.start = moment(event.start).format("YYYY-MM-DD hh:mm");
+        // event.end = moment(event.end).format("YYYY-MM-DD hh:mm");
+
         this.selectedEvent = event
+
+        let startDate = new Date (event.start);
+        let endDate = new Date (event.end);
+        
+
+        let hora = startDate.getHours();
+        let minuto = startDate.getMinutes();
+        let horaMinutos = `${hora}:${minuto}0`;
+
+        let horaend = endDate.getHours();
+        let minutoend = endDate.getMinutes();
+        let endHoraMinutos = `${horaend}:${minutoend}0`;
+
+        event.start = horaMinutos;
+        event.end = endHoraMinutos;
+
+        console.log(event.start);
+        // let dateEdit = new Date(event.date);
+
+        // const dateStart = new Date (moment(event.start).format("YYYY-MM-DD hh:mm"));
+        // let hours = dateStart.getHours();
+        // let minutes = dateStart.getMinutes();
+
+        // dateEdit.setHours(hours);
+        // dateEdit.setMinutes(minutes);
+        // console.log(dateEdit);
+
+        // console.log(dateEdit.setHours(event.start));
+        // date.setHours(this.time)
+        // this.dateEdit.setHours(dateStart.getHours())
+        // console.log(dateStart);
+        // console.log(dateStart.getHours());
+        // console.log(dateStart.getMinutes());
+        // dateEdit.setHours(dateStart.getHours());
+        // dateEdit.setMinutes(dateStart.getMinutes());
+        // console.log(dateEdit);
+
+        // console.log(this.time1);
+        // this.selectedEventEdit = event.start = moment(event.start).format("hh:mm");
+
+        // console.log(event);
         this.selectedElement = nativeEvent.target
         setTimeout(() => {
           this.selectedOpen = true
@@ -726,3 +787,5 @@ export default {
   margin-right: 0px;
 }
 </style>
+
+
