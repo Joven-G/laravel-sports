@@ -186,7 +186,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="selectedEvent.start"
+                        v-model="start"
                         label="Hora Inicio"
                         prepend-icon="mdi-clock-time-four-outline"
                         readonly
@@ -197,7 +197,7 @@
                     </template>
                     <!-- :min="endHoraMinutos" -->
                     <v-time-picker
-                      v-model="selectedEvent.start"
+                      v-model="start"
                       
                       format="24hr"
                     >
@@ -217,11 +217,6 @@
                         OK
                       </v-btn>
                     </v-time-picker>
-<!--                     <v-time-picker
-                      v-model="horaMinutos"
-                      scrollable
-                      format="24hr"
-                    ></v-time-picker> -->
                   </v-dialog>
                 </v-col>
 
@@ -251,7 +246,6 @@
                     </template>
                     <v-time-picker
                       v-model="end"
-                      :min="start"
                       format="24hr"
                     >
                       <v-spacer></v-spacer>
@@ -573,11 +567,7 @@ export default {
     color: '#1976D2FF',
     user_id: null,
 
-    dateEdit: null,
-    horaMinutos: null,
-    endHoraMinutos: null,
-    inicio: '13:00',
-    fin: '14:00',
+    indexToUpdate: "",
   }),
   created() {
     this.getEvents();
@@ -614,52 +604,17 @@ export default {
     },
     showEvent ({ nativeEvent, event }) {
       const open = () => {
-
-        // event.start = moment(event.start).format("YYYY-MM-DD hh:mm");
-        // event.end = moment(event.end).format("YYYY-MM-DD hh:mm");
-
         this.selectedEvent = event
-
-        let startDate = new Date (event.start);
-        let endDate = new Date (event.end);
+        // Obteniendo el ID del usuario auth
+        this.indexToUpdate = this.user.id;
         
+        this.name = event.name;
+        this.date = event.date;
+        this.start = moment(event.start).format('HH:mm');
+        this.end   = moment(event.end).format('HH:mm');
+        this.color = event.color;
+        this.user_id = this.indexToUpdate;
 
-        let hora = startDate.getHours();
-        let minuto = startDate.getMinutes();
-        let horaMinutos = `${hora}:${minuto}0`;
-
-        let horaend = endDate.getHours();
-        let minutoend = endDate.getMinutes();
-        let endHoraMinutos = `${horaend}:${minutoend}0`;
-
-        event.start = horaMinutos;
-        event.end = endHoraMinutos;
-
-        console.log(event.start);
-        // let dateEdit = new Date(event.date);
-
-        // const dateStart = new Date (moment(event.start).format("YYYY-MM-DD hh:mm"));
-        // let hours = dateStart.getHours();
-        // let minutes = dateStart.getMinutes();
-
-        // dateEdit.setHours(hours);
-        // dateEdit.setMinutes(minutes);
-        // console.log(dateEdit);
-
-        // console.log(dateEdit.setHours(event.start));
-        // date.setHours(this.time)
-        // this.dateEdit.setHours(dateStart.getHours())
-        // console.log(dateStart);
-        // console.log(dateStart.getHours());
-        // console.log(dateStart.getMinutes());
-        // dateEdit.setHours(dateStart.getHours());
-        // dateEdit.setMinutes(dateStart.getMinutes());
-        // console.log(dateEdit);
-
-        // console.log(this.time1);
-        // this.selectedEventEdit = event.start = moment(event.start).format("hh:mm");
-
-        // console.log(event);
         this.selectedElement = nativeEvent.target
         setTimeout(() => {
           this.selectedOpen = true
@@ -726,10 +681,32 @@ export default {
         .catch(err => console.log(err.response.data));
     },
     updateEvent() {
-      console.log(this.selectedEvent.name);
-      console.log(this.selectedEvent.date);
-      console.log(this.selectedEvent.start);
-      console.log(this.selectedEvent.end);
+      axios.put('/campo-uno/' + this.indexToUpdate, {
+        name:  this.name,
+        date:  this.date,
+        start: this.start,
+        end:   this.end,
+        color: this.color,
+        user_id: this.user_id
+        })
+        .then(response => {
+          this.getEvents();
+          this.createOpen = false;
+          this.resetForm();
+          this.$swal({
+            title: response.data.title,
+            text:  response.data.message,
+            icon:  response.data.icon,
+          })
+        })
+        .catch(err =>
+          console.log("Unable to add new event!", err.response.data)
+      );
+
+      // console.log(this.selectedEvent.name);
+      // console.log(this.selectedEvent.date);
+      // console.log(this.start);
+      // console.log(this.end);
     },
     resetForm() {
       this.name = '',

@@ -75,12 +75,46 @@ class FieldController extends Controller
 
     public function update(Request $request, Field $field)
     {
-        $field->update($request->all());
-        return response()->json([
-            'data' => new FieldResource($field),
-            'message' => 'Successfully updated event!',
-            'status' => Response::HTTP_ACCEPTED
-        ]);
+        $startHour = Carbon::create(request('date'))
+                            ->modify(request('start'));
+
+        $endHour   = Carbon::create(request('date'))
+                            ->modify(request('end'));
+
+        $fields = Field::select('end', 'start')
+                ->whereBetween('end', [$startHour, $endHour])
+                ->orWhereBetween('start', [$startHour, $endHour])
+                ->get();
+
+        if (count($fields) > 0) {
+
+            return response()->json([
+                'message' => 'La hora elegida está ocupada',
+                'title'   => 'Algo Salio Mal!',
+                'icon'    => 'error',
+            ]); 
+
+        } else {
+
+            $new_calendar = Field::create([
+                'name'  => request('name'),
+                'date'  => request('date'),
+                'start' => Carbon::create(request('date'))
+                            ->modify(request('start')),
+                'end'   => Carbon::create(request('date'))
+                            ->modify(request('end')),
+                'color' => request('color'),
+                'user_id' => auth()->id(),
+            ]);
+
+            return response()->json([
+                'data'    => new FieldResource($new_calendar),
+                'message' => 'Tu reserva fue actualizada!',
+                'title'   => 'Muy Bien!',
+                'icon'    => 'success',
+                'status'  => Response::HTTP_CREATED
+            ]); 
+        }
     }
 
     public function destroy(Field $field)
