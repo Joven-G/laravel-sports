@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use App\Models\Field;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Http\Requests\FieldRequest;
 use App\Http\Resources\FieldResource;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -70,10 +71,10 @@ class FieldController extends Controller
 
     public function show(Field $field)
     {
-        //
+        return response($field, Response::HTTP_OK);
     }
 
-    public function update(Request $request, Field $field)
+    public function update(FieldRequest $request, $id, Field $field)
     {
         $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
@@ -81,12 +82,18 @@ class FieldController extends Controller
         $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
 
-        $fields = Field::select('end', 'start')
+        $fieldsExists = Field::select('end', 'start')
                 ->whereBetween('end', [$startHour, $endHour])
                 ->orWhereBetween('start', [$startHour, $endHour])
                 ->get();
 
-        if (count($fields) > 0) {
+        // dd($field->isDirty('start'));
+
+        if (count($fieldsExists) > 0) {
+
+            if ($field->isDirty('start') || $field->isDirty('end')) {
+                dd('los guarde!');
+            }
 
             return response()->json([
                 'message' => 'La hora elegida está ocupada',
@@ -96,19 +103,47 @@ class FieldController extends Controller
 
         } else {
 
-            $new_calendar = Field::create([
-                'name'  => request('name'),
-                'date'  => request('date'),
-                'start' => Carbon::create(request('date'))
-                            ->modify(request('start')),
-                'end'   => Carbon::create(request('date'))
-                            ->modify(request('end')),
-                'color' => request('color'),
+            $new_field = Field::find($id);
+
+            // $new_field->name = request('name');
+            // $new_field->date = request('date');
+            // $new_field->start = Carbon::create(request('date'))->modify(request('start'));
+            // $new_field->end = Carbon::create(request('date'))->modify(request('end'));
+            // $new_field->color = request('color');
+            // $new_field->user_id = auth()->id();
+
+            // $new_field->save();
+
+            // dd($new_field);
+
+            // $new_field->fill([
+            //     'name'  => request('name'),
+            //     'date'  => request('date'),
+            //     'start' => Carbon::create(request('date'))
+            //                 ->modify(request('start')),
+            //     'end'   => Carbon::create(request('date'))
+            //                 ->modify(request('end')),
+            //     'color' => request('color'),
+            //     'user_id' => auth()->id(),
+            // ]);
+
+            $new_field->fill([
+                'name'  => $request->name,
+                'date'  => $request->date,
+                'start' => Carbon::create($request->date)
+                            ->modify($request->start),
+                'end'   => Carbon::create($request->date)
+                            ->modify($request->end),
+                'color' => $request->color,
                 'user_id' => auth()->id(),
             ]);
 
+            $new_field->save();
+
+            // dd($field);
+
             return response()->json([
-                'data'    => new FieldResource($new_calendar),
+                'data'    => new FieldResource($new_field),
                 'message' => 'Tu reserva fue actualizada!',
                 'title'   => 'Muy Bien!',
                 'icon'    => 'success',

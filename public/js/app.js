@@ -2607,7 +2607,8 @@ var _user = document.head.querySelector('meta[name="user"]');
       end: null,
       color: '#1976D2FF',
       user_id: null,
-      indexToUpdate: ""
+      indexToUpdate: "",
+      id: ""
     };
   },
   created: function created() {
@@ -2649,14 +2650,23 @@ var _user = document.head.querySelector('meta[name="user"]');
 
       var open = function open() {
         _this.selectedEvent = event; // Obteniendo el ID del usuario auth
+        // this.indexToUpdate = this.user.id;
 
-        _this.indexToUpdate = _this.user.id;
+        _this.id = event.id;
         _this.name = event.name;
         _this.date = event.date;
         _this.start = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.start).format('HH:mm');
         _this.end = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.end).format('HH:mm');
-        _this.color = event.color;
-        _this.user_id = _this.indexToUpdate;
+        _this.color = event.color; // this.user_id = this.indexToUpdate;
+        // let datos = {
+        //   name : this.name,
+        //   date : this.date,
+        //   start : moment(event.start).format('HH:mm'),
+        //   end   : moment(event.end).format('HH:mm'),
+        //   color : this.color
+        // }
+        // console.log(this.name);
+
         _this.selectedElement = nativeEvent.target;
         setTimeout(function () {
           _this.selectedOpen = true;
@@ -2729,19 +2739,21 @@ var _user = document.head.querySelector('meta[name="user"]');
     updateEvent: function updateEvent() {
       var _this5 = this;
 
-      axios.put('/campo-uno/' + this.indexToUpdate, {
+      axios.put("/campo-uno/" + this.id, {
+        // id: this.id,
         name: this.name,
         date: this.date,
         start: this.start,
         end: this.end,
-        color: this.color,
-        user_id: this.user_id
+        color: this.color // user_id: this.user_id
+        // ...this.datos
+
       }).then(function (response) {
-        _this5.getEvents();
+        _this5.getEvents(); // this.createOpen = false;
+        // this.resetForm();
 
-        _this5.createOpen = false;
 
-        _this5.resetForm();
+        console.log(response);
 
         _this5.$swal({
           title: response.data.title,
@@ -65138,11 +65150,11 @@ var render = function() {
                                       "prepend-icon": "mdi-inbox"
                                     },
                                     model: {
-                                      value: _vm.selectedEvent.name,
+                                      value: _vm.name,
                                       callback: function($$v) {
-                                        _vm.$set(_vm.selectedEvent, "name", $$v)
+                                        _vm.name = $$v
                                       },
-                                      expression: "selectedEvent.name"
+                                      expression: "name"
                                     }
                                   })
                                 ],
@@ -65189,20 +65201,13 @@ var render = function() {
                                                         required: ""
                                                       },
                                                       model: {
-                                                        value:
-                                                          _vm.selectedEvent
-                                                            .date,
+                                                        value: _vm.date,
                                                         callback: function(
                                                           $$v
                                                         ) {
-                                                          _vm.$set(
-                                                            _vm.selectedEvent,
-                                                            "date",
-                                                            $$v
-                                                          )
+                                                          _vm.date = $$v
                                                         },
-                                                        expression:
-                                                          "selectedEvent.date"
+                                                        expression: "date"
                                                       }
                                                     },
                                                     "v-text-field",
@@ -65237,15 +65242,11 @@ var render = function() {
                                           }
                                         },
                                         model: {
-                                          value: _vm.selectedEvent.date,
+                                          value: _vm.date,
                                           callback: function($$v) {
-                                            _vm.$set(
-                                              _vm.selectedEvent,
-                                              "date",
-                                              $$v
-                                            )
+                                            _vm.date = $$v
                                           },
-                                          expression: "selectedEvent.date"
+                                          expression: "date"
                                         }
                                       })
                                     ],

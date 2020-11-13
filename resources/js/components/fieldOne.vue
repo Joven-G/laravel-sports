@@ -125,7 +125,7 @@
                 >
                   <v-text-field
                     label="Nombre"
-                    v-model="selectedEvent.name"
+                    v-model="name"
                     hide-details="auto"
                     prepend-icon="mdi-inbox"
                     
@@ -151,7 +151,7 @@
                   >
                     <template v-slot:activator="{ on, attrs }">
                       <v-text-field
-                        v-model="selectedEvent.date"
+                        v-model="date"
                         label="Elije Fecha"
                         prepend-icon="mdi-calendar"
                         readonly
@@ -161,7 +161,7 @@
                       ></v-text-field>
                     </template>
                     <v-date-picker
-                      v-model="selectedEvent.date"
+                      v-model="date"
                       :allowed-dates="allowedDates"
                       @input="menu2 = false"
                       locale="es"
@@ -568,6 +568,7 @@ export default {
     user_id: null,
 
     indexToUpdate: "",
+    id: "",
   }),
   created() {
     this.getEvents();
@@ -606,14 +607,25 @@ export default {
       const open = () => {
         this.selectedEvent = event
         // Obteniendo el ID del usuario auth
-        this.indexToUpdate = this.user.id;
+        // this.indexToUpdate = this.user.id;
         
+        this.id = event.id;
         this.name = event.name;
         this.date = event.date;
         this.start = moment(event.start).format('HH:mm');
         this.end   = moment(event.end).format('HH:mm');
         this.color = event.color;
-        this.user_id = this.indexToUpdate;
+        // this.user_id = this.indexToUpdate;
+
+        // let datos = {
+        //   name : this.name,
+        //   date : this.date,
+        //   start : moment(event.start).format('HH:mm'),
+        //   end   : moment(event.end).format('HH:mm'),
+        //   color : this.color
+        // }
+
+        // console.log(this.name);
 
         this.selectedElement = nativeEvent.target
         setTimeout(() => {
@@ -681,18 +693,21 @@ export default {
         .catch(err => console.log(err.response.data));
     },
     updateEvent() {
-      axios.put('/campo-uno/' + this.indexToUpdate, {
+      axios.put("/campo-uno/" + this.id, {
+        // id: this.id,
         name:  this.name,
         date:  this.date,
         start: this.start,
         end:   this.end,
         color: this.color,
-        user_id: this.user_id
+        // user_id: this.user_id
+        // ...this.datos
         })
         .then(response => {
           this.getEvents();
-          this.createOpen = false;
-          this.resetForm();
+          // this.createOpen = false;
+          // this.resetForm();
+          console.log(response);
           this.$swal({
             title: response.data.title,
             text:  response.data.message,
