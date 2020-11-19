@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Field;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Requests\FieldRequest;
 use App\Http\Resources\FieldResource;
 use Symfony\Component\HttpFoundation\Response;
@@ -84,8 +85,8 @@ class FieldController extends Controller
                             ->modify(request('end'));
 
         $fieldsExists = Field::select('id', 'start', 'end')
-                ->whereBetween('start', [$startHour, $endHour])
-                ->orWhereBetween('end', [$endHour, $startHour])
+                ->whereBetween('start', [$startHour, $endHour])                         
+                ->orWhereBetween('end', [$startHour, $endHour])
                 ->get();
 
         $FieldId = Field::select('id', 'start', 'end')
@@ -110,7 +111,18 @@ class FieldController extends Controller
 
         // dd($FieldNotUpdate);
 
-        if (count($fieldsExists) > 0 && count($FieldNotUpdate) > 0) {
+        $notUpdate = DB::table('users')
+            ->join('fields', 'users.id', '=', 'fields.user_id')
+            ->where('fields.id', $request->id)
+            ->where('date', request('date'))
+            ->whereBetween('start', [$startHour, $endHour])                         
+            ->orWhereBetween('end', [$startHour, $endHour])
+            ->select('fields.id', 'fields.start', 'fields.end')
+            ->get();
+
+        // dd($fieldsExists);
+
+        if (count($fieldsExists) > 0 && count($notUpdate) == 1 && count($FieldNotUpdate) > 0) {
             $new_field = Field::find($id);
             $new_field->fill([
                 'name'  => $request->name,
