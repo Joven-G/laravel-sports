@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DateTime;
 use DateTimeZone;
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Field;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -82,51 +83,35 @@ class FieldController extends Controller
         $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
 
-        $fieldsExists = Field::select('end', 'start')
-                ->whereBetween('end', [$startHour, $endHour])
-                ->orWhereBetween('start', [$startHour, $endHour])
+        $fieldsExists = Field::select('id', 'start', 'end')
+                ->whereBetween('start', [$startHour, $endHour])
+                ->orWhereBetween('end', [$endHour, $startHour])
                 ->get();
 
-        // dd($field->isDirty('start'));
+        $FieldId = Field::select('id', 'start', 'end')
+                ->whereBetween('start', [$startHour, $endHour])
+                ->orWhereBetween('end', [$startHour, $endHour])
+                ->where('id', $request->id)->get();
 
-        if (count($fieldsExists) > 0) {
+        // dd($FieldId);
 
-            if ($field->isDirty('start') || $field->isDirty('end')) {
-                dd('los guarde!');
-            }
+        // GUARDAR SI NO MODIFICA LA HORA
+        $FieldsUserList = User::with('fields')
+            ->where('id', auth()->id())
+            ->get();
 
-            return response()->json([
-                'message' => 'La hora elegida está ocupada',
-                'title'   => 'Algo Salio Mal!',
-                'icon'    => 'error',
-            ]); 
+        $FieldsUser = $FieldsUserList->flatMap->fields;
 
-        } else {
+        $FieldNotUpdate = $FieldsUser
+                ->where('date', request('date'))
+                ->where('start', $startHour)
+                ->where('end', $endHour)
+                ->where('id', $request->id);
 
+        // dd($FieldNotUpdate);
+
+        if (count($fieldsExists) > 0 && count($FieldNotUpdate) > 0) {
             $new_field = Field::find($id);
-
-            // $new_field->name = request('name');
-            // $new_field->date = request('date');
-            // $new_field->start = Carbon::create(request('date'))->modify(request('start'));
-            // $new_field->end = Carbon::create(request('date'))->modify(request('end'));
-            // $new_field->color = request('color');
-            // $new_field->user_id = auth()->id();
-
-            // $new_field->save();
-
-            // dd($new_field);
-
-            // $new_field->fill([
-            //     'name'  => request('name'),
-            //     'date'  => request('date'),
-            //     'start' => Carbon::create(request('date'))
-            //                 ->modify(request('start')),
-            //     'end'   => Carbon::create(request('date'))
-            //                 ->modify(request('end')),
-            //     'color' => request('color'),
-            //     'user_id' => auth()->id(),
-            // ]);
-
             $new_field->fill([
                 'name'  => $request->name,
                 'date'  => $request->date,
@@ -140,7 +125,37 @@ class FieldController extends Controller
 
             $new_field->save();
 
-            // dd($field);
+            return response()->json([
+                'data'    => new FieldResource($new_field),
+                'message' => 'Tu reserva fue actualizada!',
+                'title'   => 'Muy Bien!',
+                'icon'    => 'success',
+                'status'  => Response::HTTP_CREATED
+            ]); 
+        }
+
+        // VALIDA SI HAY HORAS REPETIDAS
+        elseif (count($fieldsExists) > 0) {
+            return response()->json([
+                'message' => 'La hora elegida está ocupada',
+                'title'   => 'Algo Salio Mal!',
+                'icon'    => 'error',
+            ]); 
+        }
+         else {
+            $new_field = Field::find($id);
+            $new_field->fill([
+                'name'  => $request->name,
+                'date'  => $request->date,
+                'start' => Carbon::create($request->date)
+                            ->modify($request->start),
+                'end'   => Carbon::create($request->date)
+                            ->modify($request->end),
+                'color' => $request->color,
+                'user_id' => auth()->id(),
+            ]);
+
+            $new_field->save();
 
             return response()->json([
                 'data'    => new FieldResource($new_field),

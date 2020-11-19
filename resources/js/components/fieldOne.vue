@@ -694,7 +694,7 @@ export default {
     },
     updateEvent() {
       axios.put("/campo-uno/" + this.id, {
-        // id: this.id,
+        id: this.id,
         name:  this.name,
         date:  this.date,
         start: this.start,

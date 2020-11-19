@@ -2740,7 +2740,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       var _this5 = this;
 
       axios.put("/campo-uno/" + this.id, {
-        // id: this.id,
+        id: this.id,
         name: this.name,
         date: this.date,
         start: this.start,

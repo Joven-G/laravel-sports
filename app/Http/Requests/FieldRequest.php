@@ -27,11 +27,28 @@ class FieldRequest extends FormRequest
         return [
             'name' => 'required',
             'date' => 'required|date',
-            'start' => 'required',
+            'start' => [
+              'required',
+              Rule::unique('fields')->ignore($this->field)
+              ],
             'end' => 'required',
             'color' => 'required',
             'hour' => 'nullable',
             'user_id' => 'nullable',
         ];
+        // $rules = [
+        //     'name' => 'required',
+        //     'date' => 'required|date',
+        //     'start' => [
+        //       'required',
+        //       Rule::unique('users')->ignore($this->route('user')->id)
+        //       ],
+        //     'end' => 'required',
+        //     'color' => 'required',
+        //     'hour' => 'nullable',
+        //     'user_id' => 'nullable',
+        // ];
+
+        // return $rules;
     }
 }
