@@ -90,9 +90,9 @@ class FieldController extends Controller
                 ->get();
 
         $FieldId = Field::select('id', 'start', 'end')
-                ->whereBetween('start', [$startHour, $endHour])
-                ->orWhereBetween('end', [$startHour, $endHour])
-                ->where('id', $request->id)->get();
+            ->whereBetween('start', [$startHour, $endHour])
+            ->whereBetween('end', [$startHour, $endHour])
+            ->where('id', $request->id)->get();
 
         // dd($FieldId);
 
@@ -109,20 +109,25 @@ class FieldController extends Controller
                 ->where('end', $endHour)
                 ->where('id', $request->id);
 
-        // dd($FieldNotUpdate);
+        dd($FieldsUser);
 
         $notUpdate = DB::table('users')
-            ->join('fields', 'users.id', '=', 'fields.user_id')
-            ->where('fields.id', $request->id)
-            ->where('date', request('date'))
-            ->whereBetween('start', [$startHour, $endHour])                         
-            ->orWhereBetween('end', [$startHour, $endHour])
-            ->select('fields.id', 'fields.start', 'fields.end')
-            ->get();
+        ->join('fields', 'users.id', '=', 'fields.user_id')
+        ->where('fields.id', $request->id)
+        ->where('date', request('date'))
+        ->whereBetween('start', [$startHour, $endHour])
+        ->orWhereBetween('end', [$startHour, $endHour])
+        ->select('fields.id', 'fields.start', 'fields.end')
+        ->get();
 
-        // dd($fieldsExists);
 
-        if (count($fieldsExists) > 0 && count($notUpdate) == 1 && count($FieldNotUpdate) > 0) {
+        // dd($notUpdate);
+
+
+        if (count($fieldsExists) > 0 &&
+            count($notUpdate) >= 1 &&
+            count($FieldsUser) >= 1)
+        {
             $new_field = Field::find($id);
             $new_field->fill([
                 'name'  => $request->name,
