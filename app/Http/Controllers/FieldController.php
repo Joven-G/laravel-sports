@@ -109,24 +109,41 @@ class FieldController extends Controller
                 ->where('end', $endHour)
                 ->where('id', $request->id);
 
-        dd($FieldsUser);
+        // dd($FieldNotUpdate);
 
         $notUpdate = DB::table('users')
         ->join('fields', 'users.id', '=', 'fields.user_id')
         ->where('fields.id', $request->id)
-        ->where('date', request('date'))
-        ->whereBetween('start', [$startHour, $endHour])
+        ->orWhere('date', $request->date)
+        // ->whereBetween('start', [$startHour, $endHour])
         ->orWhereBetween('end', [$startHour, $endHour])
         ->select('fields.id', 'fields.start', 'fields.end')
         ->get();
 
+        $notUpdateOther = DB::table('users')
+        ->join('fields', 'users.id', '=', 'fields.user_id')
+        ->where('fields.id', $request->id)
+        ->where('date', request('date'))
+        ->whereBetween('end', [$startHour, $endHour])
+        // ->whereBetween('start', [$startHour, $endHour])
+        // ->orWhere('start', $startHour)
+        // ->orWhere('end', $endHour)
+        ->select('fields.id', 'fields.start', 'fields.end')
+        ->get();
 
         // dd($notUpdate);
 
+        $contador = count($notUpdateOther);
+        if ($contador == 1) {
+            $contador = 2;
+        }
 
         if (count($fieldsExists) > 0 &&
-            count($notUpdate) >= 1 &&
-            count($FieldsUser) >= 1)
+            // $contadorNotUpdate <= 0 &&
+            count($notUpdate) == 1
+            // count($FieldNotUpdate) >= 1 &&
+            // $contador <= 0
+        )
         {
             $new_field = Field::find($id);
             $new_field->fill([
