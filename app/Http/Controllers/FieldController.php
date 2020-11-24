@@ -78,72 +78,28 @@ class FieldController extends Controller
 
     public function update(FieldRequest $request, $id, Field $field)
     {
+        // UNE LA FECHA Y LA HORA
         $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
 
         $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
 
-        $fieldsExists = Field::select('id', 'start', 'end')
-                ->whereBetween('start', [$startHour, $endHour])                         
-                ->orWhereBetween('end', [$startHour, $endHour])
-                ->get();
-
-        $FieldId = Field::select('id', 'start', 'end')
+        // LISTA HORAS REPETIDAS
+        $fieldsExists = Field::select('start', 'end')
             ->whereBetween('start', [$startHour, $endHour])
-            ->whereBetween('end', [$startHour, $endHour])
-            ->where('id', $request->id)->get();
-
-        // dd($FieldId);
-
-        // GUARDAR SI NO MODIFICA LA HORA
-        $FieldsUserList = User::with('fields')
-            ->where('id', auth()->id())
+            ->orWhereBetween('end', [$startHour, $endHour])
             ->get();
 
-        $FieldsUser = $FieldsUserList->flatMap->fields;
-
-        $FieldNotUpdate = $FieldsUser
-                ->where('date', request('date'))
-                ->where('start', $startHour)
-                ->where('end', $endHour)
-                ->where('id', $request->id);
-
-        // dd($FieldNotUpdate);
-
+        // LISTA HORAS REPETIDAS PERO SI PUEDO ACTUALIZAR CUANDO ES LA MISMA HORA
         $notUpdate = DB::table('users')
         ->join('fields', 'users.id', '=', 'fields.user_id')
         ->where('fields.id', $request->id)
-        ->orWhere('date', $request->date)
-        // ->whereBetween('start', [$startHour, $endHour])
         ->orWhereBetween('end', [$startHour, $endHour])
         ->select('fields.id', 'fields.start', 'fields.end')
         ->get();
 
-        $notUpdateOther = DB::table('users')
-        ->join('fields', 'users.id', '=', 'fields.user_id')
-        ->where('fields.id', $request->id)
-        ->where('date', request('date'))
-        ->whereBetween('end', [$startHour, $endHour])
-        // ->whereBetween('start', [$startHour, $endHour])
-        // ->orWhere('start', $startHour)
-        // ->orWhere('end', $endHour)
-        ->select('fields.id', 'fields.start', 'fields.end')
-        ->get();
-
-        // dd($notUpdate);
-
-        $contador = count($notUpdateOther);
-        if ($contador == 1) {
-            $contador = 2;
-        }
-
-        if (count($fieldsExists) > 0 &&
-            // $contadorNotUpdate <= 0 &&
-            count($notUpdate) == 1
-            // count($FieldNotUpdate) >= 1 &&
-            // $contador <= 0
-        )
+        if (count($fieldsExists) > 0 && count($notUpdate) == 1)
         {
             $new_field = Field::find($id);
             $new_field->fill([
