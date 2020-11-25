@@ -92,12 +92,17 @@ class FieldController extends Controller
             ->get();
 
         // LISTA HORAS REPETIDAS PERO SI PUEDO ACTUALIZAR CUANDO ES LA MISMA HORA
-        $notUpdate = DB::table('users')
-        ->join('fields', 'users.id', '=', 'fields.user_id')
-        ->where('fields.id', $request->id)
-        ->orWhereBetween('end', [$startHour, $endHour])
-        ->select('fields.id', 'fields.start', 'fields.end')
-        ->get();
+        // $notUpdate = DB::table('users')
+        // ->join('fields', 'users.id', '=', 'fields.user_id')
+        // ->where('fields.id', $request->id)
+        // ->orWhereBetween('end', [$startHour, $endHour])
+        // ->select('fields.id', 'fields.start', 'fields.end')
+        // ->get();
+
+        $notUpdate = Field::select('id', 'start', 'end')
+            ->where('id', $request->id)
+            ->orWhereBetween('end', [$startHour, $endHour])
+            ->get();
 
         if (count($fieldsExists) > 0 && count($notUpdate) == 1)
         {
@@ -112,6 +117,8 @@ class FieldController extends Controller
                 'color' => $request->color,
                 'user_id' => auth()->id(),
             ]);
+
+            // $this->campos($new_field);
 
             $new_field->save();
 
@@ -161,4 +168,20 @@ class FieldController extends Controller
     {
         //
     }
+
+    // public function campos($new_field)
+    // {
+    //     $new_field->fill([
+    //             'name'  => $new_field->name,
+    //             'date'  => $new_field->date,
+    //             'start' => Carbon::create($new_field->date)
+    //                         ->modify($new_field->start),
+    //             'end'   => Carbon::create($new_field->date)
+    //                         ->modify($new_field->end),
+    //             'color' => $new_field->color,
+    //             'user_id' => auth()->id(),
+    //         ]);
+
+    //     return $new_field->save();
+    // }
 }
