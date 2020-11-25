@@ -99,10 +99,14 @@ class FieldController extends Controller
         // ->select('fields.id', 'fields.start', 'fields.end')
         // ->get();
 
-        $notUpdate = Field::select('id', 'start', 'end')
+        $notUpdate = Field::select('id','date','start','end')
             ->where('id', $request->id)
+            ->orWhere('date', $request->date)
+            ->whereBetween('start', [$startHour, $endHour])
             ->orWhereBetween('end', [$startHour, $endHour])
             ->get();
+
+        // dd($notUpdate);
 
         if (count($fieldsExists) > 0 && count($notUpdate) == 1)
         {

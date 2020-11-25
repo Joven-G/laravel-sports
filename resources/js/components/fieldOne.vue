@@ -269,7 +269,7 @@
               </v-row>
 
             </v-card-text>
-            <v-card-actions>
+            <v-card-actions v-if="other">
               <v-btn
                 text
                 color="secondary"
@@ -283,6 +283,15 @@
                 @click="updateEvent"
               >
                 Ok
+              </v-btn>
+            </v-card-actions>
+            <v-card-actions v-else>
+              <v-btn
+                text
+                color="secondary"
+                @click="selectedOpen = false"
+              >
+                Cancel
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -568,12 +577,13 @@ export default {
     user_id: null,
 
     indexToUpdate: "",
+    other: false,
     id: "",
   }),
   created() {
     this.getEvents();
     // console.log(new Date().toISOString().substr(0, 10));
-    console.log(moment("20111031", "YYYYMMDD").fromNow());
+    // console.log(moment("20111031", "YYYYMMDD").fromNow());
   },
   mounted () {
     this.$refs.calendar.scrollToTime('08:00'),
@@ -607,7 +617,7 @@ export default {
       const open = () => {
         this.selectedEvent = event
         // Obteniendo el ID del usuario auth
-        // this.indexToUpdate = this.user.id;
+        this.indexToUpdate = this.user.id;
         
         this.id = event.id;
         this.name = event.name;
@@ -615,17 +625,14 @@ export default {
         this.start = moment(event.start).format('HH:mm');
         this.end   = moment(event.end).format('HH:mm');
         this.color = event.color;
+
         // this.user_id = this.indexToUpdate;
 
-        // let datos = {
-        //   name : this.name,
-        //   date : this.date,
-        //   start : moment(event.start).format('HH:mm'),
-        //   end   : moment(event.end).format('HH:mm'),
-        //   color : this.color
-        // }
-
-        // console.log(this.name);
+        if (event.user_id == this.indexToUpdate) {
+          this.other = true;
+        }
+        console.log(event.user_id);
+        console.log(this.indexToUpdate);
 
         this.selectedElement = nativeEvent.target
         setTimeout(() => {

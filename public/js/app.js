@@ -2568,6 +2568,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -2608,13 +2617,13 @@ var _user = document.head.querySelector('meta[name="user"]');
       color: '#1976D2FF',
       user_id: null,
       indexToUpdate: "",
+      other: false,
       id: ""
     };
   },
   created: function created() {
     this.getEvents(); // console.log(new Date().toISOString().substr(0, 10));
-
-    console.log(moment__WEBPACK_IMPORTED_MODULE_0___default()("20111031", "YYYYMMDD").fromNow());
+    // console.log(moment("20111031", "YYYYMMDD").fromNow());
   },
   mounted: function mounted() {
     this.$refs.calendar.scrollToTime('08:00'), this.$refs.calendar.checkChange();
@@ -2650,23 +2659,21 @@ var _user = document.head.querySelector('meta[name="user"]');
 
       var open = function open() {
         _this.selectedEvent = event; // Obteniendo el ID del usuario auth
-        // this.indexToUpdate = this.user.id;
 
+        _this.indexToUpdate = _this.user.id;
         _this.id = event.id;
         _this.name = event.name;
         _this.date = event.date;
         _this.start = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.start).format('HH:mm');
         _this.end = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.end).format('HH:mm');
         _this.color = event.color; // this.user_id = this.indexToUpdate;
-        // let datos = {
-        //   name : this.name,
-        //   date : this.date,
-        //   start : moment(event.start).format('HH:mm'),
-        //   end   : moment(event.end).format('HH:mm'),
-        //   color : this.color
-        // }
-        // console.log(this.name);
 
+        if (event.user_id == _this.indexToUpdate) {
+          _this.other = true;
+        }
+
+        console.log(event.user_id);
+        console.log(_this.indexToUpdate);
         _this.selectedElement = nativeEvent.target;
         setTimeout(function () {
           _this.selectedOpen = true;
@@ -65547,33 +65554,52 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-card-actions",
-                        [
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { text: "", color: "secondary" },
-                              on: {
-                                click: function($event) {
-                                  _vm.selectedOpen = false
-                                }
-                              }
-                            },
-                            [_vm._v("\n              Cancel\n            ")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
-                              attrs: { text: "", color: "secondary" },
-                              on: { click: _vm.updateEvent }
-                            },
-                            [_vm._v("\n              Ok\n            ")]
+                      _vm.other
+                        ? _c(
+                            "v-card-actions",
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "secondary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selectedOpen = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("\n              Cancel\n            ")]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "secondary" },
+                                  on: { click: _vm.updateEvent }
+                                },
+                                [_vm._v("\n              Ok\n            ")]
+                              )
+                            ],
+                            1
                           )
-                        ],
-                        1
-                      )
+                        : _c(
+                            "v-card-actions",
+                            [
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "secondary" },
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selectedOpen = false
+                                    }
+                                  }
+                                },
+                                [_vm._v("\n              Cancel\n            ")]
+                              )
+                            ],
+                            1
+                          )
                     ],
                     1
                   )
