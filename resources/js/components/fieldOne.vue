@@ -269,11 +269,11 @@
               </v-row>
 
             </v-card-text>
-            <v-card-actions v-if="other">
+            <v-card-actions v-if="user_id == indexToUpdate">
               <v-btn
                 text
                 color="secondary"
-                @click="selectedOpen = false"
+                @click="closeModalUpdate"
               >
                 Cancel
               </v-btn>
@@ -289,7 +289,7 @@
               <v-btn
                 text
                 color="secondary"
-                @click="selectedOpen = false"
+                @click="closeModalUpdate"
               >
                 Cancel
               </v-btn>
@@ -625,14 +625,8 @@ export default {
         this.start = moment(event.start).format('HH:mm');
         this.end   = moment(event.end).format('HH:mm');
         this.color = event.color;
-
+        this.user_id = event.user_id;
         // this.user_id = this.indexToUpdate;
-
-        if (event.user_id == this.indexToUpdate) {
-          this.other = true;
-        }
-        console.log(event.user_id);
-        console.log(this.indexToUpdate);
 
         this.selectedElement = nativeEvent.target
         setTimeout(() => {
@@ -663,6 +657,10 @@ export default {
         open()
       }
       
+    },
+    closeModalUpdate() {
+      this.selectedOpen = false;
+      this.resetForm();
     },
     addNewEvent() {
       axios.post("/campo-uno", {
@@ -712,8 +710,8 @@ export default {
         })
         .then(response => {
           this.getEvents();
-          // this.createOpen = false;
-          // this.resetForm();
+          this.selectedOpen = false;
+          this.resetForm();
           console.log(response);
           this.$swal({
             title: response.data.title,
@@ -733,8 +731,7 @@ export default {
     resetForm() {
       this.name = '',
       this.start = '',
-      this.end = '',
-      this.color = ''
+      this.end = ''
     },
     
     viewDay ({ date }) {

@@ -2666,14 +2666,9 @@ var _user = document.head.querySelector('meta[name="user"]');
         _this.date = event.date;
         _this.start = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.start).format('HH:mm');
         _this.end = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.end).format('HH:mm');
-        _this.color = event.color; // this.user_id = this.indexToUpdate;
+        _this.color = event.color;
+        _this.user_id = event.user_id; // this.user_id = this.indexToUpdate;
 
-        if (event.user_id == _this.indexToUpdate) {
-          _this.other = true;
-        }
-
-        console.log(event.user_id);
-        console.log(_this.indexToUpdate);
         _this.selectedElement = nativeEvent.target;
         setTimeout(function () {
           _this.selectedOpen = true;
@@ -2704,6 +2699,10 @@ var _user = document.head.querySelector('meta[name="user"]');
       } else {
         open();
       }
+    },
+    closeModalUpdate: function closeModalUpdate() {
+      this.selectedOpen = false;
+      this.resetForm();
     },
     addNewEvent: function addNewEvent() {
       var _this3 = this;
@@ -2756,9 +2755,11 @@ var _user = document.head.querySelector('meta[name="user"]');
         // ...this.datos
 
       }).then(function (response) {
-        _this5.getEvents(); // this.createOpen = false;
-        // this.resetForm();
+        _this5.getEvents();
 
+        _this5.selectedOpen = false;
+
+        _this5.resetForm();
 
         console.log(response);
 
@@ -2775,7 +2776,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       // console.log(this.end);
     },
     resetForm: function resetForm() {
-      this.name = '', this.start = '', this.end = '', this.color = '';
+      this.name = '', this.start = '', this.end = '';
     },
     viewDay: function viewDay(_ref2) {
       var date = _ref2.date;
@@ -65554,7 +65555,7 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _vm.other
+                      _vm.user_id == _vm.indexToUpdate
                         ? _c(
                             "v-card-actions",
                             [
@@ -65562,11 +65563,7 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: { text: "", color: "secondary" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = false
-                                    }
-                                  }
+                                  on: { click: _vm.closeModalUpdate }
                                 },
                                 [_vm._v("\n              Cancel\n            ")]
                               ),
@@ -65589,11 +65586,7 @@ var render = function() {
                                 "v-btn",
                                 {
                                   attrs: { text: "", color: "secondary" },
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = false
-                                    }
-                                  }
+                                  on: { click: _vm.closeModalUpdate }
                                 },
                                 [_vm._v("\n              Cancel\n            ")]
                               )
