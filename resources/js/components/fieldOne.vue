@@ -115,6 +115,11 @@
                 </v-btn>
               </v-toolbar>
             <v-card-text>
+              <ul class="text-danger">
+                <li v-for="error in errors">
+                  {{ error[0] }}
+                </li>
+              </ul>
               <span >{{ selectedEvent.hour }} Horas</span>
 
               <!-- Input Name -->
@@ -142,7 +147,7 @@
                   md="6"
                 >
                   <v-menu
-                    v-model="menu2"
+                    v-model="menuEdit"
                     :close-on-content-click="false"
                     :nudge-right="40"
                     transition="scale-transition"
@@ -163,7 +168,7 @@
                     <v-date-picker
                       v-model="date"
                       :allowed-dates="allowedDates"
-                      @input="menu2 = false"
+                      @input="menuEdit = false"
                       locale="es"
                     ></v-date-picker>
                   </v-menu>
@@ -569,6 +574,7 @@ export default {
     menu: false,
     modal: false,
     menu2: false,
+    menuEdit : false,
     
     name: null,
     start: null,
@@ -579,6 +585,8 @@ export default {
     indexToUpdate: "",
     other: false,
     id: "",
+
+    errors: '',
   }),
   created() {
     this.getEvents();
@@ -720,7 +728,9 @@ export default {
           })
         })
         .catch(err =>
-          console.log("Unable to add new event!", err.response.data)
+          // console.log("Unable to add new event!", err.response.data)          
+          this.errors = err.response.data.errors
+
       );
 
       // console.log(this.selectedEvent.name);

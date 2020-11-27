@@ -2577,6 +2577,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -2611,6 +2616,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       menu: false,
       modal: false,
       menu2: false,
+      menuEdit: false,
       name: null,
       start: null,
       end: null,
@@ -2618,7 +2624,8 @@ var _user = document.head.querySelector('meta[name="user"]');
       user_id: null,
       indexToUpdate: "",
       other: false,
-      id: ""
+      id: "",
+      errors: ''
     };
   },
   created: function created() {
@@ -2769,7 +2776,9 @@ var _user = document.head.querySelector('meta[name="user"]');
           icon: response.data.icon
         });
       })["catch"](function (err) {
-        return console.log("Unable to add new event!", err.response.data);
+        return (// console.log("Unable to add new event!", err.response.data)          
+          _this5.errors = err.response.data.errors
+        );
       }); // console.log(this.selectedEvent.name);
       // console.log(this.selectedEvent.date);
       // console.log(this.start);
@@ -65140,6 +65149,21 @@ var render = function() {
                       _c(
                         "v-card-text",
                         [
+                          _c(
+                            "ul",
+                            { staticClass: "text-danger" },
+                            _vm._l(_vm.errors, function(error) {
+                              return _c("li", [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(error[0]) +
+                                    "\n              "
+                                )
+                              ])
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
                           _c("span", [
                             _vm._v(_vm._s(_vm.selectedEvent.hour) + " Horas")
                           ]),
@@ -65230,11 +65254,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.menu2,
+                                        value: _vm.menuEdit,
                                         callback: function($$v) {
-                                          _vm.menu2 = $$v
+                                          _vm.menuEdit = $$v
                                         },
-                                        expression: "menu2"
+                                        expression: "menuEdit"
                                       }
                                     },
                                     [
@@ -65246,7 +65270,7 @@ var render = function() {
                                         },
                                         on: {
                                           input: function($event) {
-                                            _vm.menu2 = false
+                                            _vm.menuEdit = false
                                           }
                                         },
                                         model: {
