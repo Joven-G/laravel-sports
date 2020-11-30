@@ -115,6 +115,7 @@
                 </v-btn>
               </v-toolbar>
             <v-card-text>
+              <!-- Mensajes de validación -->
               <ul class="text-danger">
                 <li v-for="error in errors">
                   {{ error[0] }}
@@ -287,7 +288,14 @@
                 color="secondary"
                 @click="updateEvent"
               >
-                Ok
+                Actualizar
+              </v-btn>
+              <v-btn
+                text
+                color="secondary"
+                @click="deleteEvent"
+              >
+                Eliminar
               </v-btn>
             </v-card-actions>
             <v-card-actions v-else>
@@ -618,7 +626,7 @@ export default {
     show() {
       let end = new Date(this.events[2].end);
       let start = new Date(this.events[2].start);
-      console.log(end.getHours() - start.getHours());
+      // console.log(end.getHours() - start.getHours());
       // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
     },
     showEvent ({ nativeEvent, event }) {
@@ -671,7 +679,7 @@ export default {
       this.resetForm();
     },
     addNewEvent() {
-      axios.post("/campo-uno", {
+      axios.post("/onefields", {
         name:  this.name,
         date:  this.date,
         start: this.start,
@@ -699,14 +707,14 @@ export default {
       // console.log(`${this.end} - Hora fin`);
     },
     getEvents() {
-      axios.get("/campo-uno")
+      axios.get("/onefields")
         .then(response => {
           this.events = response.data.data
         })
         .catch(err => console.log(err.response.data));
     },
     updateEvent() {
-      axios.put("/campo-uno/" + this.id, {
+      axios.put("/onefields/" + this.id, {
         id: this.id,
         name:  this.name,
         date:  this.date,
@@ -720,7 +728,7 @@ export default {
           this.getEvents();
           this.selectedOpen = false;
           this.resetForm();
-          console.log(response);
+          // console.log(response);
           this.$swal({
             title: response.data.title,
             text:  response.data.message,
@@ -732,12 +740,40 @@ export default {
           this.errors = err.response.data.errors
 
       );
-
-      // console.log(this.selectedEvent.name);
-      // console.log(this.selectedEvent.date);
-      // console.log(this.start);
-      // console.log(this.end);
     },
+    deleteEvent() {
+      this.$swal({
+        title: '¿Estás seguro?',
+        text:  'No podrás revertir los cambios',
+        icon:  'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, Eliminalo!'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          axios.delete("/onefields/" + this.id)
+          .then(response => {
+            this.getEvents();
+            this.selectedOpen = false;
+            this.resetForm();
+            // console.log(response);
+            this.$swal({
+              title: 'Eliminado!',
+              text: 'Tu reserva fue eliminada.',
+              icon: 'success'
+            });
+
+          })
+          .catch(err =>
+            console.log("Unable to delete event!", err.response.data)
+          )
+
+        }
+      })
+
+    },
+
     resetForm() {
       this.name = '',
       this.start = '',

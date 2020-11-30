@@ -10,7 +10,8 @@ Route::get('/', function () {
 Route::view('cancha-uno', 'chanchas.uno')->middleware('auth');
 Route::view('cancha-dos', 'chanchas.dos')->middleware('auth');
 
-Route::resource('campo-uno', FieldController::class);
+Route::resource('onefields', FieldController::class)
+		->except(['create', 'edit']);
 
 Auth::routes();
 

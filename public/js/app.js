@@ -2582,6 +2582,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -2655,8 +2663,8 @@ var _user = document.head.querySelector('meta[name="user"]');
   methods: {
     show: function show() {
       var end = new Date(this.events[2].end);
-      var start = new Date(this.events[2].start);
-      console.log(end.getHours() - start.getHours()); // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
+      var start = new Date(this.events[2].start); // console.log(end.getHours() - start.getHours());
+      // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
     },
     showEvent: function showEvent(_ref) {
       var _this = this;
@@ -2714,7 +2722,7 @@ var _user = document.head.querySelector('meta[name="user"]');
     addNewEvent: function addNewEvent() {
       var _this3 = this;
 
-      axios.post("/campo-uno", {
+      axios.post("/onefields", {
         name: this.name,
         date: this.date,
         start: this.start,
@@ -2743,7 +2751,7 @@ var _user = document.head.querySelector('meta[name="user"]');
     getEvents: function getEvents() {
       var _this4 = this;
 
-      axios.get("/campo-uno").then(function (response) {
+      axios.get("/onefields").then(function (response) {
         _this4.events = response.data.data;
       })["catch"](function (err) {
         return console.log(err.response.data);
@@ -2752,7 +2760,7 @@ var _user = document.head.querySelector('meta[name="user"]');
     updateEvent: function updateEvent() {
       var _this5 = this;
 
-      axios.put("/campo-uno/" + this.id, {
+      axios.put("/onefields/" + this.id, {
         id: this.id,
         name: this.name,
         date: this.date,
@@ -2766,9 +2774,8 @@ var _user = document.head.querySelector('meta[name="user"]');
 
         _this5.selectedOpen = false;
 
-        _this5.resetForm();
+        _this5.resetForm(); // console.log(response);
 
-        console.log(response);
 
         _this5.$swal({
           title: response.data.title,
@@ -2779,10 +2786,39 @@ var _user = document.head.querySelector('meta[name="user"]');
         return (// console.log("Unable to add new event!", err.response.data)          
           _this5.errors = err.response.data.errors
         );
-      }); // console.log(this.selectedEvent.name);
-      // console.log(this.selectedEvent.date);
-      // console.log(this.start);
-      // console.log(this.end);
+      });
+    },
+    deleteEvent: function deleteEvent() {
+      var _this6 = this;
+
+      this.$swal({
+        title: '¿Estás seguro?',
+        text: 'No podrás revertir los cambios',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Sí, Eliminalo!'
+      }).then(function (result) {
+        if (result.isConfirmed) {
+          axios["delete"]("/onefields/" + _this6.id).then(function (response) {
+            _this6.getEvents();
+
+            _this6.selectedOpen = false;
+
+            _this6.resetForm(); // console.log(response);
+
+
+            _this6.$swal({
+              title: 'Eliminado!',
+              text: 'Tu reserva fue eliminada.',
+              icon: 'success'
+            });
+          })["catch"](function (err) {
+            return console.log("Unable to delete event!", err.response.data);
+          });
+        }
+      });
     },
     resetForm: function resetForm() {
       this.name = '', this.start = '', this.end = '';
@@ -65598,7 +65634,24 @@ var render = function() {
                                   attrs: { text: "", color: "secondary" },
                                   on: { click: _vm.updateEvent }
                                 },
-                                [_vm._v("\n              Ok\n            ")]
+                                [
+                                  _vm._v(
+                                    "\n              Actualizar\n            "
+                                  )
+                                ]
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "v-btn",
+                                {
+                                  attrs: { text: "", color: "secondary" },
+                                  on: { click: _vm.deleteEvent }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n              Eliminar\n            "
+                                  )
+                                ]
                               )
                             ],
                             1

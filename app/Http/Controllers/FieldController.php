@@ -26,7 +26,7 @@ class FieldController extends Controller
         return FieldResource::collection(Field::all());
     }
 
-    public function store(Request $request, Field $field)
+    public function store(Request $request, Field $onefield)
     {
         $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
@@ -71,12 +71,12 @@ class FieldController extends Controller
 
     }
 
-    public function show(Field $field)
+    public function show(Field $onefield)
     {
-        return response($field, Response::HTTP_OK);
+        return response($onefield, Response::HTTP_OK);
     }
 
-    public function update(FieldRequest $request, $id, Field $field)
+    public function update(FieldRequest $request, Field $onefield)
     {
         // UNE LA FECHA Y LA HORA
         $startHour = Carbon::create(request('date'))
@@ -91,14 +91,6 @@ class FieldController extends Controller
             ->orWhereBetween('end', [$startHour, $endHour])
             ->get();
 
-        // LISTA HORAS REPETIDAS PERO SI PUEDO ACTUALIZAR CUANDO ES LA MISMA HORA
-        // $notUpdate = DB::table('users')
-        // ->join('fields', 'users.id', '=', 'fields.user_id')
-        // ->where('fields.id', $request->id)
-        // ->orWhereBetween('end', [$startHour, $endHour])
-        // ->select('fields.id', 'fields.start', 'fields.end')
-        // ->get();
-
         $notUpdate = Field::select('id','date','start','end')
             ->where('id', $request->id)
             ->orWhere('date', $request->date)
@@ -110,8 +102,8 @@ class FieldController extends Controller
 
         if (count($fieldsExists) > 0 && count($notUpdate) == 1)
         {
-            $new_field = Field::find($id);
-            $new_field->fill([
+            // $new_field = Field::find($id);
+            $onefield->fill([
                 'name'  => $request->name,
                 'date'  => $request->date,
                 'start' => Carbon::create($request->date)
@@ -124,10 +116,10 @@ class FieldController extends Controller
 
             // $this->campos($new_field);
 
-            $new_field->save();
+            $onefield->save();
 
             return response()->json([
-                'data'    => new FieldResource($new_field),
+                'data'    => new FieldResource($onefield),
                 'message' => 'Tu reserva fue actualizada!',
                 'title'   => 'Muy Bien!',
                 'icon'    => 'success',
@@ -144,8 +136,8 @@ class FieldController extends Controller
             ]); 
         }
          else {
-            $new_field = Field::find($id);
-            $new_field->fill([
+            // $new_field = Field::find($id);
+            $onefield->fill([
                 'name'  => $request->name,
                 'date'  => $request->date,
                 'start' => Carbon::create($request->date)
@@ -156,10 +148,10 @@ class FieldController extends Controller
                 'user_id' => auth()->id(),
             ]);
 
-            $new_field->save();
+            $onefield->save();
 
             return response()->json([
-                'data'    => new FieldResource($new_field),
+                'data'    => new FieldResource($onefield),
                 'message' => 'Tu reserva fue actualizada!',
                 'title'   => 'Muy Bien!',
                 'icon'    => 'success',
@@ -168,9 +160,10 @@ class FieldController extends Controller
         }
     }
 
-    public function destroy(Field $field)
-    {
-        //
+    public function destroy(Field $onefield)
+    {        
+        $onefield->delete();
+        return response('Event removed successfully!', Response::HTTP_NO_CONTENT);
     }
 
     // public function campos($new_field)
