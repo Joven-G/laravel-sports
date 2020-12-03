@@ -34,10 +34,12 @@ class FieldController extends Controller
         $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
 
-        $fields = Field::select('end', 'start')
-                ->whereBetween('end', [$startHour, $endHour])
-                ->orWhereBetween('start', [$startHour, $endHour])
-                ->get();
+        $fields = Field::select('start', 'end')
+            ->whereBetween('start', [$startHour, $endHour])
+            ->orWhereBetween('end', [$startHour, $endHour])
+            ->get();
+
+        dd($fields);
 
         if (count($fields) > 0) {
 
@@ -96,7 +98,7 @@ class FieldController extends Controller
             ->orWhere('date', $request->date)
             ->whereBetween('start', [$startHour, $endHour])
             ->orWhereBetween('end', [$startHour, $endHour])
-            ->get();
+            ->get();    
 
         // dd($notUpdate);
 

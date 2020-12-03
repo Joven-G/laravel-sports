@@ -2589,7 +2589,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -64908,6 +64907,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-row",
+    { attrs: { block: "" } },
     [
       _c(
         "v-col",
@@ -65096,7 +65096,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "v-sheet",
-            { attrs: { height: "600" }, on: { click: _vm.showCreateEvent } },
+            { on: { click: _vm.showCreateEvent } },
             [
               _c("v-calendar", {
                 ref: "calendar",

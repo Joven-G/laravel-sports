@@ -1,7 +1,7 @@
 <template>
-  <v-row>
+  <v-row block>
     <v-col>
-      <v-sheet height="64">
+      <v-sheet height="64" >
         <v-toolbar flat>
           <v-btn
             outlined
@@ -71,8 +71,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet height="600" @click="showCreateEvent">
-        <!-- :event-color="getEventColor" -->
+      <v-sheet  @click="showCreateEvent">
         <v-calendar
           ref="calendar"
           v-model="focus"
