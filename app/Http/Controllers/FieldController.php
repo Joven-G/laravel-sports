@@ -26,7 +26,7 @@ class FieldController extends Controller
         return FieldResource::collection(Field::all());
     }
 
-    public function store(Request $request, Field $onefield)
+    public function store(FieldRequest $request, Field $onefield)
     {
         $startHour = Carbon::create(request('date'))
                             ->modify(request('start'));
@@ -39,9 +39,12 @@ class FieldController extends Controller
             ->orWhereBetween('end', [$startHour, $endHour])
             ->get();
 
-        dd($fields);
+        $cuando = Field::select('id', 'start', 'end')
+            ->where('start', '<', $startHour)
+            ->where('end',   '>', $endHour)
+            ->get();
 
-        if (count($fields) > 0) {
+        if (count($fields) > 0 || count($cuando) > 0) {
 
             return response()->json([
                 'message' => 'La hora elegida está ocupada',
@@ -50,15 +53,14 @@ class FieldController extends Controller
             ]); 
 
         } else {
-
             $new_calendar = Field::create([
-                'name'  => request('name'),
-                'date'  => request('date'),
-                'start' => Carbon::create(request('date'))
-                            ->modify(request('start')),
-                'end'   => Carbon::create(request('date'))
-                            ->modify(request('end')),
-                'color' => request('color'),
+                'name'  => $request->name,
+                'date'  => $request->date,
+                'start' => Carbon::create($request->date)
+                            ->modify($request->start),
+                'end'   => Carbon::create($request->date)
+                            ->modify($request->end),
+                'color' => $request->color,
                 'user_id' => auth()->id(),
             ]);
 
@@ -70,7 +72,6 @@ class FieldController extends Controller
                 'status'  => Response::HTTP_CREATED
             ]); 
         }
-
     }
 
     public function show(Field $onefield)
@@ -105,18 +106,18 @@ class FieldController extends Controller
         if (count($fieldsExists) > 0 && count($notUpdate) == 1)
         {
             // $new_field = Field::find($id);
-            $onefield->fill([
-                'name'  => $request->name,
-                'date'  => $request->date,
-                'start' => Carbon::create($request->date)
-                            ->modify($request->start),
-                'end'   => Carbon::create($request->date)
-                            ->modify($request->end),
-                'color' => $request->color,
-                'user_id' => auth()->id(),
-            ]);
+            // $onefield->fill([
+            //     'name'  => $request->name,
+            //     'date'  => $request->date,
+            //     'start' => Carbon::create($request->date)
+            //                 ->modify($request->start),
+            //     'end'   => Carbon::create($request->date)
+            //                 ->modify($request->end),
+            //     'color' => $request->color,
+            //     'user_id' => auth()->id(),
+            // ]);
 
-            // $this->campos($new_field);
+            $this->campos($request, $onefield);
 
             $onefield->save();
 
@@ -139,16 +140,18 @@ class FieldController extends Controller
         }
          else {
             // $new_field = Field::find($id);
-            $onefield->fill([
-                'name'  => $request->name,
-                'date'  => $request->date,
-                'start' => Carbon::create($request->date)
-                            ->modify($request->start),
-                'end'   => Carbon::create($request->date)
-                            ->modify($request->end),
-                'color' => $request->color,
-                'user_id' => auth()->id(),
-            ]);
+            // $onefield->fill([
+            //     'name'  => $request->name,
+            //     'date'  => $request->date,
+            //     'start' => Carbon::create($request->date)
+            //                 ->modify($request->start),
+            //     'end'   => Carbon::create($request->date)
+            //                 ->modify($request->end),
+            //     'color' => $request->color,
+            //     'user_id' => auth()->id(),
+            // ]);
+
+            $this->campos($request, $onefield);
 
             $onefield->save();
 
@@ -168,19 +171,17 @@ class FieldController extends Controller
         return response('Event removed successfully!', Response::HTTP_NO_CONTENT);
     }
 
-    // public function campos($new_field)
-    // {
-    //     $new_field->fill([
-    //             'name'  => $new_field->name,
-    //             'date'  => $new_field->date,
-    //             'start' => Carbon::create($new_field->date)
-    //                         ->modify($new_field->start),
-    //             'end'   => Carbon::create($new_field->date)
-    //                         ->modify($new_field->end),
-    //             'color' => $new_field->color,
-    //             'user_id' => auth()->id(),
-    //         ]);
-
-    //     return $new_field->save();
-    // }
+    public function campos($request, $onefield)
+    {
+        return $onefield->fill([
+                'name'  => $request->name,
+                'date'  => $request->date,
+                'start' => Carbon::create($request->date)
+                            ->modify($request->start),
+                'end'   => Carbon::create($request->date)
+                            ->modify($request->end),
+                'color' => $request->color,
+                'user_id' => auth()->id(),
+            ]);
+    }
 }

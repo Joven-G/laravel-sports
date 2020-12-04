@@ -684,7 +684,8 @@ export default {
         start: this.start,
         end:   this.end,
         color: this.color,
-        user_id: this.user_id
+        // user_id: this.user_id antes de poner this.user.id
+        user_id: this.user.id
         })
         .then(response => {
           this.getEvents();

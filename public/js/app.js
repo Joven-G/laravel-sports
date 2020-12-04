@@ -2727,7 +2727,8 @@ var _user = document.head.querySelector('meta[name="user"]');
         start: this.start,
         end: this.end,
         color: this.color,
-        user_id: this.user_id
+        // user_id: this.user_id antes de poner this.user.id
+        user_id: this.user.id
       }).then(function (response) {
         _this3.getEvents();
 
