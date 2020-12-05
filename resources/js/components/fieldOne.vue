@@ -85,6 +85,119 @@
           locale="es"
         ></v-calendar>
 
+        <!-- Modal show -->
+        <v-menu
+          v-model="selectedOpenShow"
+            :close-on-content-click="false"
+            :activator="selectedElement"
+            offset-x
+          >
+            <v-card
+              color="grey lighten-4"
+              min-width="350px"
+              flat
+            >
+              <v-toolbar
+                :color="selectedEvent.color"
+                dark
+              >
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                  <v-icon @click="selectedOpen = true">
+                    mdi-pencil
+                  </v-icon>
+                </v-btn>
+                <!-- <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title> -->
+                <v-btn icon>
+                  <v-icon>mdi-delete</v-icon>
+                </v-btn>
+                <v-btn icon>
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+                <v-btn icon>
+                  <v-icon @click="closeModalUpdate">
+                    mdi-close
+                  </v-icon>
+                </v-btn>
+              </v-toolbar>
+            <v-card-text>
+
+              <!-- <span >{{ selectedEvent.hour }} Horas</span> -->
+
+              <!-- Input Name -->
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="10"
+                >
+                  <!-- <h4>{{ selectedEvent.name }}</h4> -->
+                  <v-list-item two-line>
+                    <v-icon
+                      style="padding-right: .5em"
+                    >
+                      mdi-inbox
+                    </v-icon>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        style="font-size: 1.5em;color: #3c4043;"
+                        >
+                        {{ selectedEvent.name }}
+                      </v-list-item-title>
+                      <v-list-item-subtitle>
+                        {{ getDateFormat(selectedEvent.date) }} <strong>&nbsp;·&nbsp;</strong> {{ getStartFormat(selectedEvent.start) }} - {{ getEndFormat(selectedEvent.end) }}
+                      </v-list-item-subtitle>
+                    </v-list-item-content>
+                  </v-list-item>
+
+<!--                   <v-list-item two-line>
+                    <v-list-item-content>
+                      <v-list-item-title
+                        style="font-size: 1.5em;color: #3c4043;"
+                        >
+                        {{ this.user.name }}
+                      </v-list-item-title>
+                    </v-list-item-content>
+                  </v-list-item> -->
+
+                </v-col>
+              </v-row>
+
+              <!-- Date Piker -->
+
+              <v-row>
+                <v-col
+                  cols="12"
+                  sm="6"
+                  md="6"
+                >
+              
+                </v-col>
+                <!-- <v-spacer></v-spacer> -->
+              </v-row>
+
+              <!-- Time Picker Start -->
+              <v-row>
+                <v-col
+                  cols="11"
+                  sm="5"
+                >
+      
+                </v-col>
+
+                <!-- Time Picker End -->
+
+                <v-col
+                  cols="11"
+                  sm="5"
+                >
+
+                </v-col>
+              </v-row>
+
+            </v-card-text>
+          </v-card>
+        </v-menu>
+
         <!-- Modal click fecha creada (EDIT) -->
         <v-menu
           v-model="selectedOpen"
@@ -107,10 +220,15 @@
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon>
-                  <v-icon>mdi-heart</v-icon>
+                  <v-icon>mdi-delete</v-icon>
                 </v-btn>
                 <v-btn icon>
                   <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+                <v-btn icon>
+                  <v-icon @click="closeModalUpdate">
+                    mdi-close
+                  </v-icon>
                 </v-btn>
               </v-toolbar>
             <v-card-text>
@@ -330,11 +448,15 @@
                 </v-btn>
                 <v-toolbar-title v-html="createEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
+                <!-- <v-btn icon>
                   <v-icon>mdi-heart</v-icon>
-                </v-btn>
+                </v-btn> -->
                 <v-btn icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
+                  <v-icon
+                    @click="closeModalUpdate"
+                  >
+                    mdi-close
+                  </v-icon>
                 </v-btn>
               </v-toolbar>
             <v-card-text>
@@ -520,13 +642,13 @@
 
             <!-- Buttons -->
             <v-card-actions>
-              <v-btn
+            <!--   <v-btn
                 text
                 color="secondary"
-                @click="createOpen = false"
+                @click="closeModalUpdate"
               >
                 Cancel
-              </v-btn>
+              </v-btn> -->
               <v-btn
                 text
                 color="primary"
@@ -556,6 +678,7 @@ export default {
     selectedEventEdit: {},
     selectedElement: null,
     selectedOpen: false,
+    selectedOpenShow: false,
 
     focus: '',
     type: 'week',
@@ -628,6 +751,16 @@ export default {
       // console.log(end.getHours() - start.getHours());
       // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
     },
+    getDateFormat(date) {
+      moment.locale('es');
+      return moment(date).format('dddd[,] d [de] MMMM');
+    },
+    getStartFormat(start) {
+      return moment(start).format('h:mma');
+    },
+    getEndFormat(end) {
+      return moment(end).format('h:mma');
+    },    
     showEvent ({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event
@@ -645,12 +778,14 @@ export default {
 
         this.selectedElement = nativeEvent.target
         setTimeout(() => {
-          this.selectedOpen = true
+          this.selectedOpen = false
+          this.selectedOpenShow = true
         }, 10)
       }
 
-      if (this.selectedOpen) {
-        this.selectedOpen = false
+      if (this.selectedOpenShow) {
+        // this.selectedOpen = false
+        this.selectedOpenShow = false
         setTimeout(open, 10)
       } else {
         open()
@@ -674,7 +809,9 @@ export default {
       
     },
     closeModalUpdate() {
+      this.selectedOpenShow = false;
       this.selectedOpen = false;
+      this.createOpen = false;
       this.resetForm();
     },
     addNewEvent() {

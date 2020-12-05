@@ -2589,6 +2589,128 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -2602,6 +2724,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       selectedEventEdit: {},
       selectedElement: null,
       selectedOpen: false,
+      selectedOpenShow: false,
       focus: '',
       type: 'week',
       typeToLabel: {
@@ -2665,6 +2788,16 @@ var _user = document.head.querySelector('meta[name="user"]');
       var start = new Date(this.events[2].start); // console.log(end.getHours() - start.getHours());
       // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
     },
+    getDateFormat: function getDateFormat(date) {
+      moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('dddd[,] d [de] MMMM');
+    },
+    getStartFormat: function getStartFormat(start) {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(start).format('h:mma');
+    },
+    getEndFormat: function getEndFormat(end) {
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(end).format('h:mma');
+    },
     showEvent: function showEvent(_ref) {
       var _this = this;
 
@@ -2685,12 +2818,14 @@ var _user = document.head.querySelector('meta[name="user"]');
 
         _this.selectedElement = nativeEvent.target;
         setTimeout(function () {
-          _this.selectedOpen = true;
+          _this.selectedOpen = false;
+          _this.selectedOpenShow = true;
         }, 10);
       };
 
-      if (this.selectedOpen) {
-        this.selectedOpen = false;
+      if (this.selectedOpenShow) {
+        // this.selectedOpen = false
+        this.selectedOpenShow = false;
         setTimeout(open, 10);
       } else {
         open();
@@ -2715,7 +2850,9 @@ var _user = document.head.querySelector('meta[name="user"]');
       }
     },
     closeModalUpdate: function closeModalUpdate() {
+      this.selectedOpenShow = false;
       this.selectedOpen = false;
+      this.createOpen = false;
       this.resetForm();
     },
     addNewEvent: function addNewEvent() {
@@ -64928,7 +65065,7 @@ var render = function() {
                       attrs: { outlined: "", color: "grey darken-2" },
                       on: { click: _vm.setToday }
                     },
-                    [_vm._v("\n          Hoy\n        ")]
+                    [_vm._v("\n            Hoy\n          ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -64944,7 +65081,7 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n            mdi-chevron-left\n          ")
+                        _vm._v("\n              mdi-chevron-left\n            ")
                       ])
                     ],
                     1
@@ -64963,7 +65100,9 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n            mdi-chevron-right\n          ")
+                        _vm._v(
+                          "\n              mdi-chevron-right\n            "
+                        )
                       ])
                     ],
                     1
@@ -64972,9 +65111,9 @@ var render = function() {
                   _vm.$refs.calendar
                     ? _c("v-toolbar-title", [
                         _vm._v(
-                          "\n          " +
+                          "\n            " +
                             _vm._s(_vm.$refs.calendar.title) +
-                            "\n        "
+                            "\n          "
                         )
                       ])
                     : _vm._e(),
@@ -65015,7 +65154,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-icon", { attrs: { right: "" } }, [
                                     _vm._v(
-                                      "\n                mdi-menu-down\n              "
+                                      "\n                  mdi-menu-down\n                "
                                     )
                                   ])
                                 ],
@@ -65129,6 +65268,215 @@ var render = function() {
                     "offset-x": ""
                   },
                   model: {
+                    value: _vm.selectedOpenShow,
+                    callback: function($$v) {
+                      _vm.selectedOpenShow = $$v
+                    },
+                    expression: "selectedOpenShow"
+                  }
+                },
+                [
+                  _c(
+                    "v-card",
+                    {
+                      attrs: {
+                        color: "grey lighten-4",
+                        "min-width": "350px",
+                        flat: ""
+                      }
+                    },
+                    [
+                      _c(
+                        "v-toolbar",
+                        { attrs: { color: _vm.selectedEvent.color, dark: "" } },
+                        [
+                          _c("v-spacer"),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [
+                              _c(
+                                "v-icon",
+                                {
+                                  on: {
+                                    click: function($event) {
+                                      _vm.selectedOpen = true
+                                    }
+                                  }
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                    mdi-pencil\n                  "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [_c("v-icon", [_vm._v("mdi-delete")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [
+                              _c(
+                                "v-icon",
+                                { on: { click: _vm.closeModalUpdate } },
+                                [
+                                  _vm._v(
+                                    "\n                    mdi-close\n                  "
+                                  )
+                                ]
+                              )
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "v-card-text",
+                        [
+                          _c(
+                            "v-row",
+                            [
+                              _c(
+                                "v-col",
+                                { attrs: { cols: "12", sm: "10" } },
+                                [
+                                  _c(
+                                    "v-list-item",
+                                    { attrs: { "two-line": "" } },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          staticStyle: {
+                                            "padding-right": ".5em"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                      mdi-inbox\n                    "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c(
+                                            "v-list-item-title",
+                                            {
+                                              staticStyle: {
+                                                "font-size": "1.5em",
+                                                color: "#3c4043"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                        " +
+                                                  _vm._s(
+                                                    _vm.selectedEvent.name
+                                                  ) +
+                                                  "\n                      "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c("v-list-item-subtitle", [
+                                            _vm._v(
+                                              "\n                        " +
+                                                _vm._s(
+                                                  _vm.getDateFormat(
+                                                    _vm.selectedEvent.date
+                                                  )
+                                                ) +
+                                                " "
+                                            ),
+                                            _c("strong", [_vm._v(" · ")]),
+                                            _vm._v(
+                                              " " +
+                                                _vm._s(
+                                                  _vm.getStartFormat(
+                                                    _vm.selectedEvent.start
+                                                  )
+                                                ) +
+                                                " - " +
+                                                _vm._s(
+                                                  _vm.getEndFormat(
+                                                    _vm.selectedEvent.end
+                                                  )
+                                                ) +
+                                                "\n                      "
+                                            )
+                                          ])
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  )
+                                ],
+                                1
+                              )
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", {
+                                attrs: { cols: "12", sm: "6", md: "6" }
+                              })
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-row",
+                            [
+                              _c("v-col", { attrs: { cols: "11", sm: "5" } }),
+                              _vm._v(" "),
+                              _c("v-col", { attrs: { cols: "11", sm: "5" } })
+                            ],
+                            1
+                          )
+                        ],
+                        1
+                      )
+                    ],
+                    1
+                  )
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "v-menu",
+                {
+                  attrs: {
+                    "close-on-content-click": false,
+                    activator: _vm.selectedElement,
+                    "offset-x": ""
+                  },
+                  model: {
                     value: _vm.selectedOpen,
                     callback: function($$v) {
                       _vm.selectedOpen = $$v
@@ -65169,7 +65517,7 @@ var render = function() {
                           _c(
                             "v-btn",
                             { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-heart")])],
+                            [_c("v-icon", [_vm._v("mdi-delete")])],
                             1
                           ),
                           _vm._v(" "),
@@ -65177,6 +65525,23 @@ var render = function() {
                             "v-btn",
                             { attrs: { icon: "" } },
                             [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "v-btn",
+                            { attrs: { icon: "" } },
+                            [
+                              _c(
+                                "v-icon",
+                                { on: { click: _vm.closeModalUpdate } },
+                                [
+                                  _vm._v(
+                                    "\n                    mdi-close\n                  "
+                                  )
+                                ]
+                              )
+                            ],
                             1
                           )
                         ],
@@ -65192,9 +65557,9 @@ var render = function() {
                             _vm._l(_vm.errors, function(error) {
                               return _c("li", [
                                 _vm._v(
-                                  "\n                " +
+                                  "\n                  " +
                                     _vm._s(error[0]) +
-                                    "\n              "
+                                    "\n                "
                                 )
                               ])
                             }),
@@ -65434,7 +65799,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -65457,7 +65822,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -65574,7 +65939,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -65596,7 +65961,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -65626,7 +65991,11 @@ var render = function() {
                                   attrs: { text: "", color: "secondary" },
                                   on: { click: _vm.closeModalUpdate }
                                 },
-                                [_vm._v("\n              Cancel\n            ")]
+                                [
+                                  _vm._v(
+                                    "\n                Cancel\n              "
+                                  )
+                                ]
                               ),
                               _vm._v(" "),
                               _c(
@@ -65637,7 +66006,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n              Actualizar\n            "
+                                    "\n                Actualizar\n              "
                                   )
                                 ]
                               ),
@@ -65650,7 +66019,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n              Eliminar\n            "
+                                    "\n                Eliminar\n              "
                                   )
                                 ]
                               )
@@ -65666,7 +66035,11 @@ var render = function() {
                                   attrs: { text: "", color: "secondary" },
                                   on: { click: _vm.closeModalUpdate }
                                 },
-                                [_vm._v("\n              Cancel\n            ")]
+                                [
+                                  _vm._v(
+                                    "\n                Cancel\n              "
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -65727,14 +66100,17 @@ var render = function() {
                           _c(
                             "v-btn",
                             { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-heart")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
+                            [
+                              _c(
+                                "v-icon",
+                                { on: { click: _vm.closeModalUpdate } },
+                                [
+                                  _vm._v(
+                                    "\n                    mdi-close\n                  "
+                                  )
+                                ]
+                              )
+                            ],
                             1
                           )
                         ],
@@ -65976,7 +66352,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -65999,7 +66375,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -66119,7 +66495,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      Cancel\n                    "
+                                                "\n                        Cancel\n                      "
                                               )
                                             ]
                                           ),
@@ -66141,7 +66517,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                      OK\n                    "
+                                                "\n                        OK\n                      "
                                               )
                                             ]
                                           )
@@ -66299,23 +66675,14 @@ var render = function() {
                           _c(
                             "v-btn",
                             {
-                              attrs: { text: "", color: "secondary" },
-                              on: {
-                                click: function($event) {
-                                  _vm.createOpen = false
-                                }
-                              }
-                            },
-                            [_vm._v("\n              Cancel\n            ")]
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            {
                               attrs: { text: "", color: "primary" },
                               on: { click: _vm.addNewEvent }
                             },
-                            [_vm._v("\n              Guardar\n            ")]
+                            [
+                              _vm._v(
+                                "\n                Guardar\n              "
+                              )
+                            ]
                           )
                         ],
                         1
