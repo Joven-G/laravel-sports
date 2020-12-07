@@ -2697,20 +2697,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -2721,7 +2707,6 @@ var _user = document.head.querySelector('meta[name="user"]');
       today: new Date().toISOString().substr(0, 10),
       events: [],
       selectedEvent: {},
-      selectedEventEdit: {},
       selectedElement: null,
       selectedOpen: false,
       selectedOpenShow: false,
@@ -2751,6 +2736,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       start: null,
       end: null,
       color: '#1976D2FF',
+      hour: null,
       user_id: null,
       indexToUpdate: "",
       other: false,
@@ -2790,7 +2776,7 @@ var _user = document.head.querySelector('meta[name="user"]');
     },
     getDateFormat: function getDateFormat(date) {
       moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
-      return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('dddd[,] d [de] MMMM');
+      return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('dddd[,] D [de] MMMM');
     },
     getStartFormat: function getStartFormat(start) {
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(start).format('h:mma');
@@ -2816,18 +2802,19 @@ var _user = document.head.querySelector('meta[name="user"]');
         _this.color = event.color;
         _this.user_id = event.user_id; // this.user_id = this.indexToUpdate;
 
-        _this.selectedElement = nativeEvent.target;
-        setTimeout(function () {
-          _this.selectedOpen = false;
-          _this.selectedOpenShow = true;
-        }, 10);
+        _this.selectedElement = nativeEvent.target; // setTimeout(() => {
+
+        _this.selectedOpen = false;
+        _this.selectedOpenShow = true; // }, .10)
       };
 
       if (this.selectedOpenShow) {
-        // this.selectedOpen = false
-        this.selectedOpenShow = false;
-        setTimeout(open, 10);
+        this.selectedOpen = false;
+        this.selectedOpenShow = false; // setTimeout(open, .10)
+
+        open();
       } else {
+        this.selectedOpen = false;
         open();
       }
 
@@ -2838,13 +2825,17 @@ var _user = document.head.querySelector('meta[name="user"]');
 
       var open = function open() {
         setTimeout(function () {
+          _this2.resetForm(); // this.selectedOpen = false
+
+
           _this2.createOpen = true;
-        }, 10);
+        }, .10);
       };
 
       if (this.createOpen) {
+        // this.selectedOpen = false
         this.createOpen = false;
-        setTimeout(open, 10);
+        setTimeout(open, .10);
       } else {
         open();
       }
@@ -2864,9 +2855,12 @@ var _user = document.head.querySelector('meta[name="user"]');
         start: this.start,
         end: this.end,
         color: this.color,
+        // hour:,
         // user_id: this.user_id antes de poner this.user.id
         user_id: this.user.id
       }).then(function (response) {
+        console.log(response);
+
         _this3.getEvents();
 
         _this3.createOpen = false;
@@ -2942,6 +2936,7 @@ var _user = document.head.querySelector('meta[name="user"]');
             _this6.getEvents();
 
             _this6.selectedOpen = false;
+            _this6.selectedOpenShow = false;
 
             _this6.resetForm(); // console.log(response);
 
@@ -65065,7 +65060,7 @@ var render = function() {
                       attrs: { outlined: "", color: "grey darken-2" },
                       on: { click: _vm.setToday }
                     },
-                    [_vm._v("\n            Hoy\n          ")]
+                    [_vm._v("\n          Hoy\n        ")]
                   ),
                   _vm._v(" "),
                   _c(
@@ -65081,7 +65076,7 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v("\n              mdi-chevron-left\n            ")
+                        _vm._v("\n            mdi-chevron-left\n          ")
                       ])
                     ],
                     1
@@ -65100,9 +65095,7 @@ var render = function() {
                     },
                     [
                       _c("v-icon", { attrs: { small: "" } }, [
-                        _vm._v(
-                          "\n              mdi-chevron-right\n            "
-                        )
+                        _vm._v("\n            mdi-chevron-right\n          ")
                       ])
                     ],
                     1
@@ -65111,9 +65104,9 @@ var render = function() {
                   _vm.$refs.calendar
                     ? _c("v-toolbar-title", [
                         _vm._v(
-                          "\n            " +
+                          "\n          " +
                             _vm._s(_vm.$refs.calendar.title) +
-                            "\n          "
+                            "\n        "
                         )
                       ])
                     : _vm._e(),
@@ -65154,7 +65147,7 @@ var render = function() {
                                   _vm._v(" "),
                                   _c("v-icon", { attrs: { right: "" } }, [
                                     _vm._v(
-                                      "\n                  mdi-menu-down\n                "
+                                      "\n                mdi-menu-down\n              "
                                     )
                                   ])
                                 ],
@@ -65292,42 +65285,64 @@ var render = function() {
                         [
                           _c("v-spacer"),
                           _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = true
-                                    }
-                                  }
-                                },
+                          _vm.user_id == _vm.indexToUpdate
+                            ? _c(
+                                "div",
                                 [
-                                  _vm._v(
-                                    "\n                    mdi-pencil\n                  "
+                                  _c(
+                                    "v-btn",
+                                    { attrs: { icon: "" } },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          on: {
+                                            click: function($event) {
+                                              _vm.selectedOpen = true
+                                            }
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                    mdi-pencil\n                  "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    { attrs: { icon: "" } },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        { on: { click: _vm.deleteEvent } },
+                                        [
+                                          _vm._v(
+                                            "\n                    mdi-delete\n                  "
+                                          )
+                                        ]
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-btn",
+                                    { attrs: { icon: "" } },
+                                    [
+                                      _c("v-icon", [
+                                        _vm._v("mdi-dots-vertical")
+                                      ])
+                                    ],
+                                    1
                                   )
-                                ]
+                                ],
+                                1
                               )
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-delete")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
-                            1
-                          ),
+                            : _vm._e(),
                           _vm._v(" "),
                           _c(
                             "v-btn",
@@ -65338,7 +65353,7 @@ var render = function() {
                                 { on: { click: _vm.closeModalUpdate } },
                                 [
                                   _vm._v(
-                                    "\n                    mdi-close\n                  "
+                                    "\n                  mdi-close\n                "
                                   )
                                 ]
                               )
@@ -65363,19 +65378,13 @@ var render = function() {
                                     "v-list-item",
                                     { attrs: { "two-line": "" } },
                                     [
-                                      _c(
-                                        "v-icon",
-                                        {
-                                          staticStyle: {
-                                            "padding-right": ".5em"
-                                          }
-                                        },
-                                        [
-                                          _vm._v(
-                                            "\n                      mdi-inbox\n                    "
-                                          )
-                                        ]
-                                      ),
+                                      _c("v-avatar", {
+                                        staticClass: "mr-5",
+                                        attrs: {
+                                          color: _vm.selectedEvent.color,
+                                          size: "20"
+                                        }
+                                      }),
                                       _vm._v(" "),
                                       _c(
                                         "v-list-item-content",
@@ -65390,42 +65399,108 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        " +
+                                                "\n                      " +
                                                   _vm._s(
                                                     _vm.selectedEvent.name
                                                   ) +
-                                                  "\n                      "
+                                                  "\n                    "
                                               )
                                             ]
                                           ),
                                           _vm._v(" "),
-                                          _c("v-list-item-subtitle", [
-                                            _vm._v(
-                                              "\n                        " +
-                                                _vm._s(
-                                                  _vm.getDateFormat(
-                                                    _vm.selectedEvent.date
-                                                  )
-                                                ) +
-                                                " "
-                                            ),
-                                            _c("strong", [_vm._v(" · ")]),
-                                            _vm._v(
-                                              " " +
-                                                _vm._s(
-                                                  _vm.getStartFormat(
-                                                    _vm.selectedEvent.start
-                                                  )
-                                                ) +
-                                                " - " +
-                                                _vm._s(
-                                                  _vm.getEndFormat(
-                                                    _vm.selectedEvent.end
-                                                  )
-                                                ) +
-                                                "\n                      "
-                                            )
-                                          ])
+                                          _c(
+                                            "v-list-item-subtitle",
+                                            { staticClass: "ml-3" },
+                                            [
+                                              _vm._v(
+                                                "\n                      " +
+                                                  _vm._s(
+                                                    _vm.getDateFormat(
+                                                      _vm.selectedEvent.date
+                                                    )
+                                                  ) +
+                                                  " "
+                                              ),
+                                              _c("strong", [_vm._v(" · ")]),
+                                              _vm._v(
+                                                " " +
+                                                  _vm._s(
+                                                    _vm.getStartFormat(
+                                                      _vm.selectedEvent.start
+                                                    )
+                                                  ) +
+                                                  " - " +
+                                                  _vm._s(
+                                                    _vm.getEndFormat(
+                                                      _vm.selectedEvent.end
+                                                    )
+                                                  ) +
+                                                  "\n                    "
+                                              )
+                                            ]
+                                          )
+                                        ],
+                                        1
+                                      )
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "v-list-item",
+                                    { attrs: { "two-line": "" } },
+                                    [
+                                      _c(
+                                        "v-icon",
+                                        {
+                                          staticStyle: {
+                                            "padding-right": ".5em"
+                                          }
+                                        },
+                                        [
+                                          _vm._v(
+                                            "\n                    mdi-alarm-check\n                  "
+                                          )
+                                        ]
+                                      ),
+                                      _vm._v(" "),
+                                      _c(
+                                        "v-list-item-content",
+                                        [
+                                          _c(
+                                            "v-list-item-title",
+                                            {
+                                              staticStyle: {
+                                                "font-size": "1.2em",
+                                                color: "#3c4043"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      Tiempo Alquilado\n                    "
+                                              )
+                                            ]
+                                          ),
+                                          _vm._v(" "),
+                                          _c(
+                                            "v-list-item-title",
+                                            {
+                                              staticClass: "ml-3",
+                                              staticStyle: {
+                                                "font-size": "1em",
+                                                color: "#3c4043"
+                                              }
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                      " +
+                                                  _vm._s(
+                                                    _vm.selectedEvent.hour
+                                                  ) +
+                                                  "\n                    "
+                                              )
+                                            ]
+                                          )
                                         ],
                                         1
                                       )
@@ -65445,16 +65520,6 @@ var render = function() {
                               _c("v-col", {
                                 attrs: { cols: "12", sm: "6", md: "6" }
                               })
-                            ],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-row",
-                            [
-                              _c("v-col", { attrs: { cols: "11", sm: "5" } }),
-                              _vm._v(" "),
-                              _c("v-col", { attrs: { cols: "11", sm: "5" } })
                             ],
                             1
                           )
@@ -65499,13 +65564,6 @@ var render = function() {
                         "v-toolbar",
                         { attrs: { color: _vm.selectedEvent.color, dark: "" } },
                         [
-                          _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-pencil")])],
-                            1
-                          ),
-                          _vm._v(" "),
                           _c("v-toolbar-title", {
                             domProps: {
                               innerHTML: _vm._s(_vm.selectedEvent.name)
@@ -65517,27 +65575,13 @@ var render = function() {
                           _c(
                             "v-btn",
                             { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-delete")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [_c("v-icon", [_vm._v("mdi-dots-vertical")])],
-                            1
-                          ),
-                          _vm._v(" "),
-                          _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
                             [
                               _c(
                                 "v-icon",
                                 { on: { click: _vm.closeModalUpdate } },
                                 [
                                   _vm._v(
-                                    "\n                    mdi-close\n                  "
+                                    "\n                  mdi-close\n                "
                                   )
                                 ]
                               )
@@ -65557,9 +65601,9 @@ var render = function() {
                             _vm._l(_vm.errors, function(error) {
                               return _c("li", [
                                 _vm._v(
-                                  "\n                  " +
+                                  "\n                " +
                                     _vm._s(error[0]) +
-                                    "\n                "
+                                    "\n              "
                                 )
                               ])
                             }),
@@ -65799,7 +65843,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        Cancel\n                      "
+                                                "\n                      Cancel\n                    "
                                               )
                                             ]
                                           ),
@@ -65822,7 +65866,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        OK\n                      "
+                                                "\n                      OK\n                    "
                                               )
                                             ]
                                           )
@@ -65939,7 +65983,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        Cancel\n                      "
+                                                "\n                      Cancel\n                    "
                                               )
                                             ]
                                           ),
@@ -65961,7 +66005,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        OK\n                      "
+                                                "\n                      OK\n                    "
                                               )
                                             ]
                                           )
@@ -65991,11 +66035,7 @@ var render = function() {
                                   attrs: { text: "", color: "secondary" },
                                   on: { click: _vm.closeModalUpdate }
                                 },
-                                [
-                                  _vm._v(
-                                    "\n                Cancel\n              "
-                                  )
-                                ]
+                                [_vm._v("\n              Cancel\n            ")]
                               ),
                               _vm._v(" "),
                               _c(
@@ -66006,20 +66046,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                Actualizar\n              "
-                                  )
-                                ]
-                              ),
-                              _vm._v(" "),
-                              _c(
-                                "v-btn",
-                                {
-                                  attrs: { text: "", color: "secondary" },
-                                  on: { click: _vm.deleteEvent }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                Eliminar\n              "
+                                    "\n              Actualizar\n            "
                                   )
                                 ]
                               )
@@ -66035,11 +66062,7 @@ var render = function() {
                                   attrs: { text: "", color: "secondary" },
                                   on: { click: _vm.closeModalUpdate }
                                 },
-                                [
-                                  _vm._v(
-                                    "\n                Cancel\n              "
-                                  )
-                                ]
+                                [_vm._v("\n              Cancel\n            ")]
                               )
                             ],
                             1
@@ -66106,7 +66129,7 @@ var render = function() {
                                 { on: { click: _vm.closeModalUpdate } },
                                 [
                                   _vm._v(
-                                    "\n                    mdi-close\n                  "
+                                    "\n                  mdi-close\n                "
                                   )
                                 ]
                               )
@@ -66352,7 +66375,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        Cancel\n                      "
+                                                "\n                      Cancel\n                    "
                                               )
                                             ]
                                           ),
@@ -66375,7 +66398,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        OK\n                      "
+                                                "\n                      OK\n                    "
                                               )
                                             ]
                                           )
@@ -66495,7 +66518,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        Cancel\n                      "
+                                                "\n                      Cancel\n                    "
                                               )
                                             ]
                                           ),
@@ -66517,7 +66540,7 @@ var render = function() {
                                             },
                                             [
                                               _vm._v(
-                                                "\n                        OK\n                      "
+                                                "\n                      OK\n                    "
                                               )
                                             ]
                                           )
@@ -66678,11 +66701,7 @@ var render = function() {
                               attrs: { text: "", color: "primary" },
                               on: { click: _vm.addNewEvent }
                             },
-                            [
-                              _vm._v(
-                                "\n                Guardar\n              "
-                              )
-                            ]
+                            [_vm._v("\n              Guardar\n            ")]
                           )
                         ],
                         1

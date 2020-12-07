@@ -102,20 +102,30 @@
                 dark
               >
                 <v-spacer></v-spacer>
+                <div v-if="user_id == indexToUpdate">
+                  <v-btn icon>
+                    <v-icon
+                      @click="selectedOpen = true"
+                    >
+                      mdi-pencil
+                    </v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon
+                      @click="deleteEvent"
+                    >
+                      mdi-delete
+                    </v-icon>
+                  </v-btn>
+                  <v-btn icon>
+                    <v-icon>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </div>
+
                 <v-btn icon>
-                  <v-icon @click="selectedOpen = true">
-                    mdi-pencil
-                  </v-icon>
-                </v-btn>
-                <!-- <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title> -->
-                <v-btn icon>
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon @click="closeModalUpdate">
+                  <v-icon
+                    @click="closeModalUpdate"
+                  >
                     mdi-close
                   </v-icon>
                 </v-btn>
@@ -130,34 +140,46 @@
                   cols="12"
                   sm="10"
                 >
-                  <!-- <h4>{{ selectedEvent.name }}</h4> -->
                   <v-list-item two-line>
-                    <v-icon
-                      style="padding-right: .5em"
-                    >
-                      mdi-inbox
-                    </v-icon>
+                    <v-avatar
+                      :color="selectedEvent.color"
+                      size="20"
+                      class="mr-5"
+                    ></v-avatar>
                     <v-list-item-content>
                       <v-list-item-title
                         style="font-size: 1.5em;color: #3c4043;"
                         >
                         {{ selectedEvent.name }}
                       </v-list-item-title>
-                      <v-list-item-subtitle>
+                      <v-list-item-subtitle
+                        class="ml-3"
+                      >
                         {{ getDateFormat(selectedEvent.date) }} <strong>&nbsp;·&nbsp;</strong> {{ getStartFormat(selectedEvent.start) }} - {{ getEndFormat(selectedEvent.end) }}
                       </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
 
-<!--                   <v-list-item two-line>
+                  <v-list-item two-line>
+                    <v-icon
+                      style="padding-right: .5em"
+                    >
+                      mdi-alarm-check
+                    </v-icon>
                     <v-list-item-content>
                       <v-list-item-title
-                        style="font-size: 1.5em;color: #3c4043;"
+                        style="font-size: 1.2em;color: #3c4043;"
                         >
-                        {{ this.user.name }}
+                        Tiempo Alquilado
+                      </v-list-item-title>
+                      <v-list-item-title
+                        style="font-size: 1em;color: #3c4043;"
+                        class="ml-3"
+                        >
+                        {{ selectedEvent.hour }}
                       </v-list-item-title>
                     </v-list-item-content>
-                  </v-list-item> -->
+                  </v-list-item>
 
                 </v-col>
               </v-row>
@@ -173,25 +195,6 @@
               
                 </v-col>
                 <!-- <v-spacer></v-spacer> -->
-              </v-row>
-
-              <!-- Time Picker Start -->
-              <v-row>
-                <v-col
-                  cols="11"
-                  sm="5"
-                >
-      
-                </v-col>
-
-                <!-- Time Picker End -->
-
-                <v-col
-                  cols="11"
-                  sm="5"
-                >
-
-                </v-col>
               </v-row>
 
             </v-card-text>
@@ -214,17 +217,8 @@
                 :color="selectedEvent.color"
                 dark
               >
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
                 <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
-                  <v-icon>mdi-delete</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon>mdi-dots-vertical</v-icon>
-                </v-btn>
                 <v-btn icon>
                   <v-icon @click="closeModalUpdate">
                     mdi-close
@@ -321,7 +315,6 @@
                     <!-- :min="endHoraMinutos" -->
                     <v-time-picker
                       v-model="start"
-                      
                       format="24hr"
                     >
                       <v-spacer></v-spacer>
@@ -406,13 +399,6 @@
                 @click="updateEvent"
               >
                 Actualizar
-              </v-btn>
-              <v-btn
-                text
-                color="secondary"
-                @click="deleteEvent"
-              >
-                Eliminar
               </v-btn>
             </v-card-actions>
             <v-card-actions v-else>
@@ -674,8 +660,7 @@ export default {
   data: () => ({
     today: new Date().toISOString().substr(0, 10),
     events: [],
-    selectedEvent: {},
-    selectedEventEdit: {},
+    selectedEvent: {},    
     selectedElement: null,
     selectedOpen: false,
     selectedOpenShow: false,
@@ -710,6 +695,7 @@ export default {
     start: null,
     end: null,
     color: '#1976D2FF',
+    hour: null,
     user_id: null,
 
     indexToUpdate: "",
@@ -753,7 +739,7 @@ export default {
     },
     getDateFormat(date) {
       moment.locale('es');
-      return moment(date).format('dddd[,] d [de] MMMM');
+      return moment(date).format('dddd[,] D [de] MMMM');
     },
     getStartFormat(start) {
       return moment(start).format('h:mma');
@@ -777,17 +763,19 @@ export default {
         // this.user_id = this.indexToUpdate;
 
         this.selectedElement = nativeEvent.target
-        setTimeout(() => {
+        // setTimeout(() => {
           this.selectedOpen = false
           this.selectedOpenShow = true
-        }, 10)
+        // }, .10)
       }
 
       if (this.selectedOpenShow) {
-        // this.selectedOpen = false
+        this.selectedOpen = false
         this.selectedOpenShow = false
-        setTimeout(open, 10)
+        // setTimeout(open, .10)
+        open()
       } else {
+        this.selectedOpen = false
         open()
       }
 
@@ -796,13 +784,16 @@ export default {
     showCreateEvent () {
       const open = () => {
         setTimeout(() => {
+          this.resetForm();
+          // this.selectedOpen = false
           this.createOpen = true
-        }, 10)
+        }, .10)
       }
 
       if (this.createOpen) {
+        // this.selectedOpen = false
         this.createOpen = false
-        setTimeout(open, 10)
+        setTimeout(open, .10)
       } else {
         open()
       }
@@ -821,10 +812,12 @@ export default {
         start: this.start,
         end:   this.end,
         color: this.color,
+        // hour:,
         // user_id: this.user_id antes de poner this.user.id
         user_id: this.user.id
         })
         .then(response => {
+          console.log(response);
           this.getEvents();
           this.createOpen = false;
           this.resetForm();
@@ -893,6 +886,7 @@ export default {
           .then(response => {
             this.getEvents();
             this.selectedOpen = false;
+            this.selectedOpenShow = false;
             this.resetForm();
             // console.log(response);
             this.$swal({

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use DateInterval;
 use Carbon\Carbon;
 use App\Models\Field;
 use Illuminate\Http\Request;
@@ -28,6 +29,12 @@ class FieldController extends Controller
 
         $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
+
+        $hours    = Carbon::parse(request('end'))
+                        ->diff(Carbon::parse(request('start')))
+                        ->format('%h:%i');
+
+        // dd($hours);
 
         $fields = Field::select('start', 'end')
             ->whereBetween('start', [$startHour, $endHour])
@@ -73,6 +80,7 @@ class FieldController extends Controller
                 'end'   => Carbon::create($request->date)
                             ->modify($request->end),
                 'color' => $request->color,
+                'hour' => $hours,
                 'user_id' => auth()->id(),
             ]);
 
