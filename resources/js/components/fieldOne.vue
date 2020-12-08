@@ -144,11 +144,12 @@
                     <v-avatar
                       :color="selectedEvent.color"
                       size="20"
-                      class="mr-5"
+                      class="mr-4"
                     ></v-avatar>
                     <v-list-item-content>
                       <v-list-item-title
-                        style="font-size: 1.5em;color: #3c4043;"
+                        style="font-size: 1.5em;
+                              color: #3c4043;"
                         >
                         {{ selectedEvent.name }}
                       </v-list-item-title>
@@ -168,16 +169,18 @@
                     </v-icon>
                     <v-list-item-content>
                       <v-list-item-title
-                        style="font-size: 1.2em;color: #3c4043;"
+                        style="font-size: 1.4em;
+                              color: #3c4043;"
                         >
                         Tiempo Alquilado
                       </v-list-item-title>
-                      <v-list-item-title
-                        style="font-size: 1em;color: #3c4043;"
+                      <v-list-item-subtitle
+                        style="font-size: 1em;
+                              color: #3c4043;"
                         class="ml-3"
                         >
                         {{ selectedEvent.hour }}
-                      </v-list-item-title>
+                      </v-list-item-subtitle>
                     </v-list-item-content>
                   </v-list-item>
 
@@ -226,13 +229,13 @@
                 </v-btn>
               </v-toolbar>
             <v-card-text>
+
               <!-- Mensajes de validación -->
               <ul class="text-danger">
                 <li v-for="error in errors">
                   {{ error[0] }}
                 </li>
               </ul>
-              <span >{{ selectedEvent.hour }} Horas</span>
 
               <!-- Input Name -->
               <v-row>
@@ -434,9 +437,6 @@
                 </v-btn>
                 <v-toolbar-title v-html="createEvent.name"></v-toolbar-title>
                 <v-spacer></v-spacer>
-                <!-- <v-btn icon>
-                  <v-icon>mdi-heart</v-icon>
-                </v-btn> -->
                 <v-btn icon>
                   <v-icon
                     @click="closeModalUpdate"
@@ -446,6 +446,13 @@
                 </v-btn>
               </v-toolbar>
             <v-card-text>
+
+              <!-- Mensajes de validación -->
+              <ul class="text-danger">
+                <li v-for="error in errors">
+                  {{ error[0] }}
+                </li>
+              </ul>
 
               <!-- Input Name -->
               <v-row>
@@ -696,6 +703,7 @@ export default {
     end: null,
     color: '#1976D2FF',
     hour: null,
+    field_number: '1',
     user_id: null,
 
     indexToUpdate: "",
@@ -731,12 +739,6 @@ export default {
     }
   },
   methods: {
-    show() {
-      let end = new Date(this.events[2].end);
-      let start = new Date(this.events[2].start);
-      // console.log(end.getHours() - start.getHours());
-      // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
-    },
     getDateFormat(date) {
       moment.locale('es');
       return moment(date).format('dddd[,] D [de] MMMM');
@@ -763,19 +765,21 @@ export default {
         // this.user_id = this.indexToUpdate;
 
         this.selectedElement = nativeEvent.target
-        // setTimeout(() => {
+        setTimeout(() => {
           this.selectedOpen = false
           this.selectedOpenShow = true
-        // }, .10)
+        }, 10)
       }
 
       if (this.selectedOpenShow) {
-        this.selectedOpen = false
+        console.log(`${this.selectedOpen} - open`)
+        // console.log(`${this.selectedOpenShow} - before show`)
         this.selectedOpenShow = false
-        // setTimeout(open, .10)
-        open()
+        // console.log(`${this.selectedOpenShow} - after show`)
+        setTimeout(open, 10)
+        // open()
       } else {
-        this.selectedOpen = false
+        // console.log(`${this.selectedOpen} - open otro`)
         open()
       }
 
@@ -812,7 +816,7 @@ export default {
         start: this.start,
         end:   this.end,
         color: this.color,
-        // hour:,
+        field_number: this.field_number,
         // user_id: this.user_id antes de poner this.user.id
         user_id: this.user.id
         })
@@ -828,13 +832,9 @@ export default {
           })
         })
         .catch(err =>
-          console.log("Unable to add new event!", err.response.data)
+          // console.log("Unable to add new event!", err.response.data)
+          this.errors = err.response.data.errors
         );
-
-      // console.log(`${this.name} - Nombre`);
-      // console.log(`${this.date} - Fecha Hoy`);
-      // console.log(`${this.start} - Hora inicio`);
-      // console.log(`${this.end} - Hora fin`);
     },
     getEvents() {
       axios.get("/onefields")
@@ -851,6 +851,7 @@ export default {
         start: this.start,
         end:   this.end,
         color: this.color,
+        field_number: this.field_number,
         // user_id: this.user_id
         // ...this.datos
         })
@@ -899,16 +900,15 @@ export default {
           .catch(err =>
             console.log("Unable to delete event!", err.response.data)
           )
-
         }
       })
-
     },
 
     resetForm() {
       this.name = '',
       this.start = '',
-      this.end = ''
+      this.end = '',
+      this.errors = ''
     },
     
     viewDay ({ date }) {

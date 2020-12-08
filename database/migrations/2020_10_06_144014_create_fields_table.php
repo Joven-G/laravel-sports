@@ -21,6 +21,7 @@ class CreateFieldsTable extends Migration
             $table->dateTime('end', 0);
             $table->string('color')->nullable();
             $table->string('hour')->nullable();
+            $table->string('field_number');
             $table->foreignId('user_id')
                         ->references('id')
                         ->on('users')

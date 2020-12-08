@@ -38,6 +38,7 @@ class FieldRequest extends FormRequest
               ],
             'color' => 'required',
             'hour' => 'nullable',
+            'field_number' => 'required',
             'user_id' => 'nullable',
         ];
     }

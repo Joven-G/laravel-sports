@@ -22,6 +22,7 @@ class FieldResource extends JsonResource
             'end'   => $this->end,
             'hour'  => $this->hour,
             'color' => $this->color,
+            'field_number' => $this->field_number,
             'user_id' => $this->user_id
         ];
     }

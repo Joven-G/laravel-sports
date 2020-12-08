@@ -12,6 +12,7 @@ Vue.use(VueSweetalert2);
 
 Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('field-one', require('./components/fieldOne.vue').default);
+Vue.component('field-two', require('./components/fieldTwo.vue').default);
 // Vue.component('fiel-one-create-modal', require('./components/fielOneCreateModal.vue').default);
 
 

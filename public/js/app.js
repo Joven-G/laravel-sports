@@ -2697,6 +2697,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -2737,6 +2744,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       end: null,
       color: '#1976D2FF',
       hour: null,
+      field_number: '1',
       user_id: null,
       indexToUpdate: "",
       other: false,
@@ -2769,11 +2777,6 @@ var _user = document.head.querySelector('meta[name="user"]');
     }
   },
   methods: {
-    show: function show() {
-      var end = new Date(this.events[2].end);
-      var start = new Date(this.events[2].start); // console.log(end.getHours() - start.getHours());
-      // Sería mejor usar ghetTime() y convertilo a horas o minutos. getHours redondea a horas
-    },
     getDateFormat: function getDateFormat(date) {
       moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('dddd[,] D [de] MMMM');
@@ -2802,19 +2805,21 @@ var _user = document.head.querySelector('meta[name="user"]');
         _this.color = event.color;
         _this.user_id = event.user_id; // this.user_id = this.indexToUpdate;
 
-        _this.selectedElement = nativeEvent.target; // setTimeout(() => {
-
-        _this.selectedOpen = false;
-        _this.selectedOpenShow = true; // }, .10)
+        _this.selectedElement = nativeEvent.target;
+        setTimeout(function () {
+          _this.selectedOpen = false;
+          _this.selectedOpenShow = true;
+        }, 10);
       };
 
       if (this.selectedOpenShow) {
-        this.selectedOpen = false;
-        this.selectedOpenShow = false; // setTimeout(open, .10)
+        console.log("".concat(this.selectedOpen, " - open")); // console.log(`${this.selectedOpenShow} - before show`)
 
-        open();
+        this.selectedOpenShow = false; // console.log(`${this.selectedOpenShow} - after show`)
+
+        setTimeout(open, 10); // open()
       } else {
-        this.selectedOpen = false;
+        // console.log(`${this.selectedOpen} - open otro`)
         open();
       }
 
@@ -2855,7 +2860,7 @@ var _user = document.head.querySelector('meta[name="user"]');
         start: this.start,
         end: this.end,
         color: this.color,
-        // hour:,
+        field_number: this.field_number,
         // user_id: this.user_id antes de poner this.user.id
         user_id: this.user.id
       }).then(function (response) {
@@ -2873,11 +2878,10 @@ var _user = document.head.querySelector('meta[name="user"]');
           icon: response.data.icon
         });
       })["catch"](function (err) {
-        return console.log("Unable to add new event!", err.response.data);
-      }); // console.log(`${this.name} - Nombre`);
-      // console.log(`${this.date} - Fecha Hoy`);
-      // console.log(`${this.start} - Hora inicio`);
-      // console.log(`${this.end} - Hora fin`);
+        return (// console.log("Unable to add new event!", err.response.data)
+          _this3.errors = err.response.data.errors
+        );
+      });
     },
     getEvents: function getEvents() {
       var _this4 = this;
@@ -2897,7 +2901,8 @@ var _user = document.head.querySelector('meta[name="user"]');
         date: this.date,
         start: this.start,
         end: this.end,
-        color: this.color // user_id: this.user_id
+        color: this.color,
+        field_number: this.field_number // user_id: this.user_id
         // ...this.datos
 
       }).then(function (response) {
@@ -2953,7 +2958,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       });
     },
     resetForm: function resetForm() {
-      this.name = '', this.start = '', this.end = '';
+      this.name = '', this.start = '', this.end = '', this.errors = '';
     },
     viewDay: function viewDay(_ref2) {
       var date = _ref2.date;
@@ -65379,7 +65384,7 @@ var render = function() {
                                     { attrs: { "two-line": "" } },
                                     [
                                       _c("v-avatar", {
-                                        staticClass: "mr-5",
+                                        staticClass: "mr-4",
                                         attrs: {
                                           color: _vm.selectedEvent.color,
                                           size: "20"
@@ -65471,7 +65476,7 @@ var render = function() {
                                             "v-list-item-title",
                                             {
                                               staticStyle: {
-                                                "font-size": "1.2em",
+                                                "font-size": "1.4em",
                                                 color: "#3c4043"
                                               }
                                             },
@@ -65483,7 +65488,7 @@ var render = function() {
                                           ),
                                           _vm._v(" "),
                                           _c(
-                                            "v-list-item-title",
+                                            "v-list-item-subtitle",
                                             {
                                               staticClass: "ml-3",
                                               staticStyle: {
@@ -65609,10 +65614,6 @@ var render = function() {
                             }),
                             0
                           ),
-                          _vm._v(" "),
-                          _c("span", [
-                            _vm._v(_vm._s(_vm.selectedEvent.hour) + " Horas")
-                          ]),
                           _vm._v(" "),
                           _c(
                             "v-row",
@@ -66143,6 +66144,21 @@ var render = function() {
                       _c(
                         "v-card-text",
                         [
+                          _c(
+                            "ul",
+                            { staticClass: "text-danger" },
+                            _vm._l(_vm.errors, function(error) {
+                              return _c("li", [
+                                _vm._v(
+                                  "\n                " +
+                                    _vm._s(error[0]) +
+                                    "\n              "
+                                )
+                              ])
+                            }),
+                            0
+                          ),
+                          _vm._v(" "),
                           _c(
                             "v-row",
                             [
@@ -122729,7 +122745,8 @@ window.Vue = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.
 Vue.use(vuetify__WEBPACK_IMPORTED_MODULE_0___default.a);
 Vue.use(vue_sweetalert2__WEBPACK_IMPORTED_MODULE_1__["default"]);
 Vue.component('example-component', __webpack_require__(/*! ./components/ExampleComponent.vue */ "./resources/js/components/ExampleComponent.vue")["default"]);
-Vue.component('field-one', __webpack_require__(/*! ./components/fieldOne.vue */ "./resources/js/components/fieldOne.vue")["default"]); // Vue.component('fiel-one-create-modal', require('./components/fielOneCreateModal.vue').default);
+Vue.component('field-one', __webpack_require__(/*! ./components/fieldOne.vue */ "./resources/js/components/fieldOne.vue")["default"]);
+Vue.component('field-two', __webpack_require__(/*! ./components/fieldTwo.vue */ "./resources/js/components/fieldTwo.vue")["default"]); // Vue.component('fiel-one-create-modal', require('./components/fielOneCreateModal.vue').default);
 
 var app = new Vue({
   el: '#app',
@@ -122954,6 +122971,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_fieldOne_vue_vue_type_template_id_6d80d352_scoped_true___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
 
 
+
+/***/ }),
+
+/***/ "./resources/js/components/fieldTwo.vue":
+/*!**********************************************!*\
+  !*** ./resources/js/components/fieldTwo.vue ***!
+  \**********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+var render, staticRenderFns
+var script = {}
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_0__["default"])(
+  script,
+  render,
+  staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+component.options.__file = "resources/js/components/fieldTwo.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
 
 /***/ }),
 

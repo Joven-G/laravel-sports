@@ -7,11 +7,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::view('cancha-uno', 'chanchas.uno')->middleware('auth');
-Route::view('cancha-dos', 'chanchas.dos')->middleware('auth');
+Route::view('cancha-uno', 'canchas.uno')
+					->name('cancha-uno')
+					->middleware('auth');
+Route::view('cancha-dos', 'canchas.two')
+					->name('cancha-dos')
+					->middleware('auth');
 
 Route::resource('onefields', FieldController::class)
-		->except(['create', 'edit']);
+					->except(['create', 'edit']);
 
 Auth::routes();
 

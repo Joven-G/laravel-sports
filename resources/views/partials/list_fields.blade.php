@@ -6,12 +6,15 @@
   	Listado de Canchas
   </li>
   <li class="list-group-item">
-  	<a href="#">Cancha Uno</a>
+  	<a href="{{ route('cancha-uno') }}">Cancha Uno</a>
   </li>
   <li class="list-group-item">
-  	<a href="#">Cancha Dos</a>
+  	<a href="{{ route('cancha-dos') }}">Cancha Dos</a>
   </li>
   <li class="list-group-item">
   	<a href="#">Cancha Tres</a>
+  </li>
+  <li class="list-group-item">
+    <a href="#">Inicio</a>
   </li>
 </ul>

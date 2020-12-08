@@ -30,9 +30,9 @@ class FieldController extends Controller
         $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
 
-        $hours    = Carbon::parse(request('end'))
-                        ->diff(Carbon::parse(request('start')))
-                        ->format('%h:%i');
+        $hours     = Carbon::parse(request('end'))
+                    ->diff(Carbon::parse(request('start')))
+                    ->format('%h:%i');
 
         // dd($hours);
 
@@ -49,19 +49,8 @@ class FieldController extends Controller
                 $query->where('start', '<', $startHour)
                       ->where('end',   '>', $endHour);
             })
+            ->where('field_number', '1')
             ->get();
-
-        // dd($fields);
-
-        // $fields = Field::select('start', 'end')
-        //     ->whereBetween('start', [$startHour, $endHour])
-        //     ->orWhereBetween('end', [$startHour, $endHour])
-        //     ->get();
-
-        // $betweenHours = Field::select('id', 'start', 'end')
-        //     ->where('start', '<', $startHour)
-        //     ->where('end',   '>', $endHour)
-        //     ->get();
 
         if (count($fields) > 0) {
 
@@ -81,6 +70,7 @@ class FieldController extends Controller
                             ->modify($request->end),
                 'color' => $request->color,
                 'hour' => $hours,
+                'field_number' => '1',
                 'user_id' => auth()->id(),
             ]);
 
@@ -108,6 +98,10 @@ class FieldController extends Controller
         $endHour   = Carbon::create(request('date'))
                             ->modify(request('end'));
 
+        $hours    = Carbon::parse(request('end'))
+                        ->diff(Carbon::parse(request('start')))
+                        ->format('%h:%i');
+
         $testing = Field::select('id','date','start','end')
             ->where('id', $request->id)
             ->orWhere('date', $request->date)
@@ -123,26 +117,12 @@ class FieldController extends Controller
                 $query->whereBetween('start',[$startHour,$endHour])
                       ->orWhereBetween('end',[$startHour,$endHour]);
             })
+            ->where('field_number', '1')
             ->get();
-
-        // dd($testing);
-
-        // LISTA HORAS REPETIDAS
-        // $fieldsExists = Field::select('start', 'end')
-        //     ->whereBetween('start', [$startHour, $endHour])
-        //     ->orWhereBetween('end', [$startHour, $endHour])
-        //     ->get();
-
-        // $notUpdate = Field::select('id','date','start','end')
-        //     ->where('id', $request->id)
-        //     ->orWhere('date', $request->date)
-        //     ->whereBetween('start', [$startHour, $endHour])
-        //     ->orWhereBetween('end', [$startHour, $endHour])
-        //     ->get();    
 
         if (count($testing) == 1)
         {
-            $this->campos($request, $onefield);
+            $this->campos($request, $onefield, $hours);
 
             $onefield->save();
 
@@ -163,20 +143,6 @@ class FieldController extends Controller
                 'icon'    => 'error',
             ]); 
         }
-        //  else {
-
-        //     $this->campos($request, $onefield);
-
-        //     $onefield->save();
-
-        //     return response()->json([
-        //         'data'    => new FieldResource($onefield),
-        //         'message' => 'Tu reserva fue actualizada!',
-        //         'title'   => 'Muy Bien!',
-        //         'icon'    => 'success',
-        //         'status'  => Response::HTTP_CREATED
-        //     ]); 
-        // }
     }
 
     public function destroy(Field $onefield)
@@ -185,7 +151,7 @@ class FieldController extends Controller
         return response('Event removed successfully!', Response::HTTP_NO_CONTENT);
     }
 
-    public function campos($request, $onefield)
+    public function campos($request, $onefield, $hours)
     {
         return $onefield->fill([
                 'name'  => $request->name,
@@ -195,6 +161,8 @@ class FieldController extends Controller
                 'end'   => Carbon::create($request->date)
                             ->modify($request->end),
                 'color' => $request->color,
+                'hour' => $hours,
+                'field_number' => '1',
                 'user_id' => auth()->id(),
             ]);
     }
