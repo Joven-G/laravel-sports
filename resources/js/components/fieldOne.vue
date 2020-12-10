@@ -718,8 +718,12 @@ export default {
     // console.log(moment("20111031", "YYYYMMDD").fromNow());
   },
   mounted () {
-    this.$refs.calendar.scrollToTime('08:00'),
-    this.$refs.calendar.checkChange()
+    this.$refs.calendar.scrollToTime('08:00');
+    this.$refs.calendar.checkChange();
+    let date = new Date();
+    let isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString(); 
+    console.log(isoDate);
+    // console.log(new Date().format('dddd'))
   },
   computed: {
     user() {
@@ -839,7 +843,7 @@ export default {
     getEvents() {
       axios.get("/onefields")
         .then(response => {
-          this.events = response.data.data
+          this.events = response.data.data.filter(event => event.field_number === '1')
         })
         .catch(err => console.log(err.response.data));
     },

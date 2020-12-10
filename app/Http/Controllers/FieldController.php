@@ -36,7 +36,7 @@ class FieldController extends Controller
 
         // dd($hours);
 
-        $fields = Field::select('start', 'end')
+        $fields = Field::select('id', 'start', 'end', 'field_number')
             ->whereBetween('start', [$startHour, $endHour])
             ->orWhereBetween('end', [$startHour, $endHour])
             ->orWhere(function($query) {
@@ -47,12 +47,15 @@ class FieldController extends Controller
                                 ->modify(request('end'));
 
                 $query->where('start', '<', $startHour)
-                      ->where('end',   '>', $endHour);
+                      ->where('end',   '>', $endHour)
+                      ->where('field_number', request('field_number'));
             })
-            ->where('field_number', '1')
+            ->where('field_number', $request->field_number)
             ->get();
 
-        if (count($fields) > 0) {
+            // dd($fields);
+            //Aumenta 1 más si agregas otra vista o calendario
+        if (count($fields) > 1) {
 
             return response()->json([
                 'message' => 'La hora elegida está ocupada',
@@ -70,7 +73,7 @@ class FieldController extends Controller
                             ->modify($request->end),
                 'color' => $request->color,
                 'hour' => $hours,
-                'field_number' => '1',
+                'field_number' => $request->field_number,
                 'user_id' => auth()->id(),
             ]);
 
@@ -102,11 +105,16 @@ class FieldController extends Controller
                         ->diff(Carbon::parse(request('start')))
                         ->format('%h:%i');
 
-        $testing = Field::select('id','date','start','end')
+        $testing = Field::select('id','date','start','end', 'field_number')
             ->where('id', $request->id)
-            ->orWhere('date', $request->date)
-            ->whereBetween('start', [$startHour, $endHour])
-            ->orWhereBetween('end', [$startHour, $endHour])
+            // ->orWhere('date', $request->date)
+            ->orWhere(function($query) {
+                $query->where('id', request('id'));
+            })
+            ->where('start', '<=', $startHour)
+            ->where('end',   '>=', $endHour)
+            // ->whereBetween('start', [$startHour, $endHour])
+            // ->orWhereBetween('end', [$startHour, $endHour])
             ->orWhere(function($query) {
                 $startHour = Carbon::create(request('date'))
                                 ->modify(request('start'));
@@ -114,11 +122,15 @@ class FieldController extends Controller
                 $endHour   = Carbon::create(request('date'))
                                 ->modify(request('end'));
 
-                $query->whereBetween('start',[$startHour,$endHour])
-                      ->orWhereBetween('end',[$startHour,$endHour]);
+                $query->whereBetween('start',[$startHour, 
+                                                $endHour])
+                      ->orWhereBetween('end',[$startHour,
+                                                $endHour]);
             })
-            ->where('field_number', '1')
+            ->where('field_number', $request->field_number)
             ->get();
+
+        // dd($testing);
 
         if (count($testing) == 1)
         {
@@ -162,7 +174,7 @@ class FieldController extends Controller
                             ->modify($request->end),
                 'color' => $request->color,
                 'hour' => $hours,
-                'field_number' => '1',
+                'field_number' => $request->field_number,
                 'user_id' => auth()->id(),
             ]);
     }
