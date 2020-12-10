@@ -665,7 +665,7 @@ let user = document.head.querySelector('meta[name="user"]');
 
 export default {
   data: () => ({
-    today: new Date().toISOString().substr(0, 10),
+    today: null,
     events: [],
     selectedEvent: {},    
     selectedElement: null,
@@ -692,7 +692,7 @@ export default {
     modal1: false,
 
     // Date Picker
-    date: new Date().toISOString().substr(0, 10),
+    date: null,
     menu: false,
     modal: false,
     menu2: false,
@@ -720,10 +720,13 @@ export default {
   mounted () {
     this.$refs.calendar.scrollToTime('08:00');
     this.$refs.calendar.checkChange();
-    let date = new Date();
-    let isoDate = new Date(date.getTime() - (date.getTimezoneOffset() * 60000)).toISOString(); 
-    console.log(isoDate);
-    // console.log(new Date().format('dddd'))
+    // console.log(new Date().toISOString().substr(0, 10));
+    // console.log(this.allowedDates());
+    this.getDateToday();
+    //   let d = new Date(); 
+    //   let m = moment(d).format('YYYY-MM-DD');
+    // console.log(m);
+    // console.log(new Date().toISOString().substr(0, 10));
   },
   computed: {
     user() {
@@ -776,10 +779,7 @@ export default {
       }
 
       if (this.selectedOpenShow) {
-        console.log(`${this.selectedOpen} - open`)
-        // console.log(`${this.selectedOpenShow} - before show`)
         this.selectedOpenShow = false
-        // console.log(`${this.selectedOpenShow} - after show`)
         setTimeout(open, 10)
         // open()
       } else {
@@ -909,10 +909,12 @@ export default {
     },
 
     resetForm() {
+      let d = new Date();
       this.name = '',
       this.start = '',
       this.end = '',
-      this.errors = ''
+      this.errors = '',
+      this.date = ''
     },
     
     viewDay ({ date }) {
@@ -931,10 +933,19 @@ export default {
     getEventColor(event) {
       return event.color
     },
+    getDateToday() {
+      let d = new Date(); 
+      let m = moment(d).format('Y-M-DD');
+      // return m;
+      this.today = m;
+      this.date = m;
+    },
 
     // Desabilita las fechas pasadas
     allowedDates(val) {
-      return val >= new Date().toISOString().substr(0, 10)
+      let d = new Date(); 
+      // return val >= new Date().toISOString().substr(0, 10)
+      return val >= moment(d).format('Y-M-DD')
     },
   }
 }

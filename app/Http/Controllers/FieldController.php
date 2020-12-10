@@ -32,7 +32,7 @@ class FieldController extends Controller
 
         $hours     = Carbon::parse(request('end'))
                     ->diff(Carbon::parse(request('start')))
-                    ->format('%h:%i');
+                    ->format('%h hora(s) con %i minuto(s)');
 
         // dd($hours);
 
@@ -103,7 +103,7 @@ class FieldController extends Controller
 
         $hours    = Carbon::parse(request('end'))
                         ->diff(Carbon::parse(request('start')))
-                        ->format('%h:%i');
+                        ->format('%h hora(s) con %i minuto(s)');
 
         $testing = Field::select('id','date','start','end', 'field_number')
             ->where('id', $request->id)

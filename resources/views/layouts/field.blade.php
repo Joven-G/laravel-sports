@@ -19,6 +19,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/myStyle.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -27,5 +28,12 @@
             @yield('content')
         </main>
     </div>
+
+    @stack('scripts')
+    <script type="text/javascript">
+          if (window.screen.width < 991.98) {
+    console.log('Pequeña') 
+  }
+    </script>
 </body>
 </html>

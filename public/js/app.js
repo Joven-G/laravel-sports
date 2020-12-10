@@ -2711,7 +2711,7 @@ var _user = document.head.querySelector('meta[name="user"]');
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
-      today: new Date().toISOString().substr(0, 10),
+      today: null,
       events: [],
       selectedEvent: {},
       selectedElement: null,
@@ -2734,7 +2734,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       modal2: false,
       modal1: false,
       // Date Picker
-      date: new Date().toISOString().substr(0, 10),
+      date: null,
       menu: false,
       modal: false,
       menu2: false,
@@ -2758,10 +2758,13 @@ var _user = document.head.querySelector('meta[name="user"]');
   },
   mounted: function mounted() {
     this.$refs.calendar.scrollToTime('08:00');
-    this.$refs.calendar.checkChange();
-    var date = new Date();
-    var isoDate = new Date(date.getTime() - date.getTimezoneOffset() * 60000).toISOString();
-    console.log(isoDate); // console.log(new Date().format('dddd'))
+    this.$refs.calendar.checkChange(); // console.log(new Date().toISOString().substr(0, 10));
+    // console.log(this.allowedDates());
+
+    this.getDateToday(); //   let d = new Date(); 
+    //   let m = moment(d).format('YYYY-MM-DD');
+    // console.log(m);
+    // console.log(new Date().toISOString().substr(0, 10));
   },
   computed: {
     user: function user() {
@@ -2817,10 +2820,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       };
 
       if (this.selectedOpenShow) {
-        console.log("".concat(this.selectedOpen, " - open")); // console.log(`${this.selectedOpenShow} - before show`)
-
-        this.selectedOpenShow = false; // console.log(`${this.selectedOpenShow} - after show`)
-
+        this.selectedOpenShow = false;
         setTimeout(open, 10); // open()
       } else {
         // console.log(`${this.selectedOpen} - open otro`)
@@ -2964,7 +2964,8 @@ var _user = document.head.querySelector('meta[name="user"]');
       });
     },
     resetForm: function resetForm() {
-      this.name = '', this.start = '', this.end = '', this.errors = '';
+      var d = new Date();
+      this.name = '', this.start = '', this.end = '', this.errors = '', this.date = '';
     },
     viewDay: function viewDay(_ref2) {
       var date = _ref2.date;
@@ -2983,9 +2984,18 @@ var _user = document.head.querySelector('meta[name="user"]');
     getEventColor: function getEventColor(event) {
       return event.color;
     },
+    getDateToday: function getDateToday() {
+      var d = new Date();
+      var m = moment__WEBPACK_IMPORTED_MODULE_0___default()(d).format('Y-M-DD'); // return m;
+
+      this.today = m;
+      this.date = m;
+    },
     // Desabilita las fechas pasadas
     allowedDates: function allowedDates(val) {
-      return val >= new Date().toISOString().substr(0, 10);
+      var d = new Date(); // return val >= new Date().toISOString().substr(0, 10)
+
+      return val >= moment__WEBPACK_IMPORTED_MODULE_0___default()(d).format('Y-M-DD');
     }
   }
 });

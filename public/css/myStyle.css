@@ -1,0 +1,10 @@
+// Medium devices (tablets, less than 992px)
+/*@media (max-width: 991.98px) {
+.changeFixed {
+	display: fixed;
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	left: 0;
+}
+}*/
