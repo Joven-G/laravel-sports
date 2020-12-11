@@ -1,9 +1,11 @@
 <ul class="list-group list-group-flush pr-1">
-  <li class="list-group-item pt-3 pb-2">
+  {{-- justify-content-between --}}
+  <li class="list-group-item pt-3 pb-2 ">
   	<a href="#"
     class="list-group-item border-0
         font-weight-bold h3 d-flex" 
     >
+    {{-- <div> --}}
       <svg width="1em" height="1em" viewBox="0 0 16 16"
         class="bi bi-plus-circle" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
         <path fill-rule="evenodd" d="M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
@@ -11,6 +13,14 @@
       </svg>
 
       Nuevo
+    {{-- </div> --}}
+
+{{--       <div>
+        <svg id="down" width="1em" height="1em" viewBox="0 0 16 16"
+          class="bi bi-caret-down" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path fill-rule="evenodd" d="M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"/>
+        </svg>
+      </div> --}}
     </a>
   </li>
   <li class="list-group-item text-secondary font-weight-bolder">

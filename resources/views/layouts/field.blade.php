@@ -30,10 +30,5 @@
     </div>
 
     @stack('scripts')
-    <script type="text/javascript">
-          if (window.screen.width < 991.98) {
-    console.log('Pequeña') 
-  }
-    </script>
 </body>
 </html>
