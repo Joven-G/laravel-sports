@@ -1,8 +1,7 @@
 // Medium devices (tablets, less than 992px)
-@media (max-width: 991.98px) {
+/*@media (max-width: 991.98px) {
 .hiddenList {
-    /*bottom: -30% !important;*/
     transform: translateY(65%) !important;
 }
-}
+}*/
 

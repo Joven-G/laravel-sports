@@ -71,7 +71,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet  @click="showCreateEvent">
+      <v-sheet  >
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -719,7 +719,10 @@ export default {
   },
   mounted () {
     this.$refs.calendar.scrollToTime('08:00'),
-    this.$refs.calendar.checkChange()
+    this.$refs.calendar.checkChange(),
+    EventBus.$on('open-modal-create', state => {
+      this.createOpen = state;
+    })
   },
   computed: {
     user() {

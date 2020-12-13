@@ -44,9 +44,9 @@
 @endsection
 
 @push('scripts')
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="js/jquery-1.10.2.js"></script>
 <script>
-  console.log(window.screen.width);
+  // console.log(window.screen.width);
   if (window.screen.width < 991) {
       let fieldOne = document.querySelector('#fieldOne');
 

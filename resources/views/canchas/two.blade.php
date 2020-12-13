@@ -19,7 +19,7 @@
 @endsection
 
 @push('scripts')
-<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+<script src="js/jquery-1.10.2.js"></script>
 <script>
   if (window.screen.width < 991) {
       let fieldTwo = document.querySelector('#fieldTwo');

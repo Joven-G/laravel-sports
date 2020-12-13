@@ -71,7 +71,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet  @click="showCreateEvent">
+      <v-sheet >
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -721,17 +721,14 @@ export default {
     this.$refs.calendar.scrollToTime('08:00');
     this.$refs.calendar.checkChange();
     // console.log(new Date().toISOString().substr(0, 10));
-    // console.log(this.allowedDates());
     this.getDateToday();
-    //   let d = new Date(); 
-    //   let m = moment(d).format('YYYY-MM-DD');
-    // console.log(m);
-    // console.log(new Date().toISOString().substr(0, 10));
+    EventBus.$on('open-modal-create', state => {
+      this.createOpen = state;
+    })
   },
   computed: {
     user() {
       return JSON.parse(user.content);
-      // console.log(user.content);
     },
     swatchStyle() {
       const { color, menu } = this
@@ -746,6 +743,10 @@ export default {
     }
   },
   methods: {
+    menus() {
+      this.time = null,
+      this.time1 = null
+    },
     getDateFormat(date) {
       moment.locale('es');
       return moment(date).format('dddd[,] D [de] MMMM');
@@ -846,6 +847,10 @@ export default {
           this.events = response.data.data.filter(event => event.field_number === '1')
         })
         .catch(err => console.log(err.response.data));
+
+        // EventBus.$on('event-created', status => {
+        //   this.events.push(status);
+        // })
     },
     updateEvent() {
       axios.put("/onefields/" + this.id, {
@@ -863,6 +868,7 @@ export default {
           this.getEvents();
           this.selectedOpen = false;
           this.resetForm();
+          this.menus();
           // console.log(response);
           this.$swal({
             title: response.data.title,
@@ -913,8 +919,8 @@ export default {
       this.name = '',
       this.start = '',
       this.end = '',
-      this.errors = '',
-      this.date = ''
+      this.errors = ''
+      // this.date = ''
     },
     
     viewDay ({ date }) {
