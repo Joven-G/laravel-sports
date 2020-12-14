@@ -71,7 +71,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet >
+      <v-sheet  class="fg">
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -429,13 +429,10 @@
               flat
             >
               <v-toolbar
-                :color="createEvent.color"
+                :color="color"
                 dark
               >
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-toolbar-title v-html="createEvent.name"></v-toolbar-title>
+                <v-toolbar-title v-html="name"></v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon>
                   <v-icon
@@ -455,16 +452,16 @@
               </ul>
 
               <!-- Input Name -->
-              <v-row>
+              <v-row class="pb-4 mb-2">
                 <v-col
                   cols="12"
                   sm="10"
                 >
                   <v-text-field
-                    label="Nombre"
+                    label="Nombre del evento"
                     v-model="name"
                     hide-details="auto"
-                    prepend-icon="mdi-inbox"
+                    prepend-icon="mdi-clipboard-text-multiple-outline "
                     
                   ></v-text-field>
                 </v-col>
@@ -511,8 +508,9 @@
               <!-- Time Picker Start -->
               <v-row>
                 <v-col
-                  cols="11"
-                  sm="5"
+                  cols="12"
+                  md="5"
+                  sm="12"
                 >
                   <v-dialog
                     ref="dialog"
@@ -559,8 +557,9 @@
                 <!-- Time Picker End -->
 
                 <v-col
-                  cols="11"
-                  sm="5"
+                  cols="12"
+                  md="5"
+                  sm="12"
                 >
                   <v-dialog
                     ref="dialog"
@@ -606,13 +605,13 @@
               </v-row>
             </v-card-text>
 
-            <!-- Input Name -->
+            <!-- Input Color -->
             <v-row>
               <v-col
                 cols="12"
                 sm="10"
               >
-              <v-row justify="center" align="center">
+              <v-row justify="center mb-4" align="center">
                 <v-col class="shrink" style="min-width: 220px;">
                   <v-text-field v-model="color" hide-details class="ma-0 pa-0" solo>
                     <template v-slot:append>
@@ -643,7 +642,6 @@
                 Cancel
               </v-btn> -->
               <v-btn
-                text
                 color="primary"
                 @click="addNewEvent"
               >
@@ -724,7 +722,8 @@ export default {
     this.getDateToday();
     EventBus.$on('open-modal-create', state => {
       this.createOpen = state;
-    })
+    });
+    console.log(this.color)
   },
   computed: {
     user() {

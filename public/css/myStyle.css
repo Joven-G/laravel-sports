@@ -5,3 +5,10 @@
 }
 }*/
 
+#app {
+	height: 100vh;
+}
+
+.fg {
+	height: 85vh !important;
+}

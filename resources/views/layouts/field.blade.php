@@ -24,7 +24,7 @@
 <body>
     <div id="app">
 
-        <main class="p-1">
+        <main class="pl-1">
             @yield('content')
         </main>
     </div>

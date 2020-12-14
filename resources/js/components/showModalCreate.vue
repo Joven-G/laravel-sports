@@ -1,7 +1,7 @@
 <template>
-<section class="border-0">
-  <li @click="showCreateEvent" class="list-group-item pt-3 pb-2 ">
-  	<span class="list-group-item border-0
+<section class="p-2 d-block" style="background-color: #fff;">
+  <li @click="showCreateEvent" class=" ">
+  	<a href="#" class="list-group-item border-0
         font-weight-bold h3 d-flex text-secondary"
        
     >
@@ -11,8 +11,8 @@
         <path fill-rule="evenodd" d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
     	</svg>
 
-      Nuevo
-    </span>
+      Reservar
+    </a>
   </li>
 
     <!-- Modal click nueva fecha -->
