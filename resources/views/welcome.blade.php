@@ -16,6 +16,7 @@
     <body>
         <div id="app">
             <h1>Welcome</h1>
+            <a href="{{ route('cancha-uno') }}">Cancha uno</a>
             {{-- <v-app>
                 <example-component></example-component>
             </v-app> --}}

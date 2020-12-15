@@ -1,5 +1,5 @@
 <template>
-  <v-row block>
+  <section>
     <v-col>
       <v-sheet height="64" >
         <v-toolbar flat>
@@ -432,15 +432,35 @@
                 :color="color"
                 dark
               >
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      class="mr-4"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="addNewEvent"
+                    >
+                      mdi-check
+                    </v-icon>
+                  </template>
+                  <span>Agendar reserva</span>
+                </v-tooltip>
                 <v-toolbar-title v-html="name"></v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
-                  <v-icon
-                    @click="closeModalUpdate"
-                  >
-                    mdi-close
-                  </v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="closeModalUpdate"
+                    >
+                      mdi-close
+                    </v-icon>
+                  </template>
+                  <span>Cerrar</span>
+                </v-tooltip>
               </v-toolbar>
             <v-card-text>
 
@@ -611,7 +631,7 @@
                 cols="12"
                 sm="10"
               >
-              <v-row justify="center mb-4" align="center">
+              <v-row justify="center" align="center">
                 <v-col class="shrink" style="min-width: 220px;">
                   <v-text-field v-model="color" hide-details class="ma-0 pa-0" solo>
                     <template v-slot:append>
@@ -633,7 +653,7 @@
             </v-row>
 
             <!-- Buttons -->
-            <v-card-actions>
+            <!-- <v-card-actions> -->
             <!--   <v-btn
                 text
                 color="secondary"
@@ -641,19 +661,20 @@
               >
                 Cancel
               </v-btn> -->
-              <v-btn
+<!--               <v-btn
+
                 color="primary"
                 @click="addNewEvent"
               >
                 Guardar
-              </v-btn>
-            </v-card-actions>
+              </v-btn> -->
+            <!-- </v-card-actions> -->
           </v-card>
         </v-menu>
 
       </v-sheet>
     </v-col>
-  </v-row>
+  </section>
 </template>
 
 <script>
@@ -723,7 +744,6 @@ export default {
     EventBus.$on('open-modal-create', state => {
       this.createOpen = state;
     });
-    console.log(this.color)
   },
   computed: {
     user() {

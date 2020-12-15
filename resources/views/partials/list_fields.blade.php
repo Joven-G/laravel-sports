@@ -1,6 +1,6 @@
-<ul class="list-group list-group-flush pr-1">
+{{-- <ul class="list-group list-group-flush pr-1"> --}}
   <show-modal-create></show-modal-create>
-  <li class="list-group-item text-secondary font-weight-bolder">
+{{--   <li class="list-group-item text-secondary font-weight-bolder">
   	Listado de Canchas
   </li>
   <li class="list-group-item p-0">
@@ -50,4 +50,4 @@
       Inicio
     </a>
   </li>
-</ul>
+</ul> --}}
