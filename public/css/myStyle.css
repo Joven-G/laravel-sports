@@ -4,9 +4,6 @@
     transform: translateY(65%) !important;
 }
 }*/
-.z-index {
-	z-index: 1;
-}
 
 #app {
 	height: 100vh;

@@ -4084,57 +4084,161 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
-    return {
-      createOpen: false
-    };
+    return {};
   },
   computed: {},
+  create: function create() {},
   mounted: function mounted() {
-    // console.log(this.showListField())
-    console.log(window.addEventListener('resize', this.go()));
+    this.changePositionListField();
   },
   methods: {
+    hiddenListField: function hiddenListField() {
+      var listField = document.querySelector('#listField');
+      var iconDown = document.querySelector('#down');
+      var iconUp = document.querySelector('#up');
+      listField.classList.add("d-none");
+      iconDown.classList.remove("d-none");
+      iconDown.classList.add("d-block");
+      iconUp.classList.remove("d-block");
+      iconUp.classList.add("d-none");
+    },
     showListField: function showListField() {
-      console.log("xD");
+      var listField = document.querySelector('#listField');
+      var iconDown = document.querySelector('#down');
+      var iconUp = document.querySelector('#up');
+      listField.classList.remove("d-none");
+      listField.classList.add("d-block");
+      iconDown.classList.remove("d-block");
+      iconDown.classList.add("d-none");
+      iconUp.classList.remove("d-none");
+      iconUp.classList.add("d-block");
     },
     showCreateEvent: function showCreateEvent() {
       EventBus.$emit('open-modal-create', true);
     },
-    go: function go() {
+    changePositionListField: function changePositionListField() {
+      if (window.screen.width < 991) {
+        var fieldOne = document.querySelector('#fieldOne');
+        var listField = document.querySelector('#listField');
+        var iconDown = document.querySelector('#down');
+        var iconUp = document.querySelector('#up');
+        fieldOne.classList.remove("fixed-top");
+        fieldOne.classList.add("fixed-bottom");
+        listField.classList.remove("d-block");
+        listField.classList.add("d-none");
+        iconDown.classList.remove("d-none");
+        iconDown.classList.add("d-block");
+        iconUp.classList.remove("d-block");
+        iconUp.classList.add("d-none");
+      } else {
+        var _fieldOne = document.querySelector('#fieldOne');
+
+        var _listField = document.querySelector('#listField');
+
+        var _iconDown = document.querySelector('#down');
+
+        var _iconUp = document.querySelector('#up');
+
+        _fieldOne.classList.remove("fixed-bottom");
+
+        _fieldOne.classList.add("fixed-top");
+
+        _listField.classList.remove("d-none");
+
+        _listField.classList.add("d-block");
+
+        _iconDown.classList.remove("d-block");
+
+        _iconDown.classList.add("d-none");
+
+        _iconUp.classList.remove("d-block");
+
+        _iconUp.classList.add("d-none");
+      }
+
       window.addEventListener('resize', function () {
         document.querySelector('.width').innerText = document.documentElement.clientWidth;
-        document.querySelector('.height').innerText = document.documentElement.clientHeight;
+        var width = document.querySelector('.width').innerText;
+
+        if (width < 991 || window.screen.width < 991) {
+          var _fieldOne2 = document.querySelector('#fieldOne');
+
+          var _listField2 = document.querySelector('#listField');
+
+          var _iconDown2 = document.querySelector('#down');
+
+          var _iconUp2 = document.querySelector('#up');
+
+          _fieldOne2.classList.remove("fixed-top");
+
+          _fieldOne2.classList.add("fixed-bottom");
+
+          _listField2.classList.remove("d-block");
+
+          _listField2.classList.add("d-none");
+
+          _iconDown2.classList.remove("d-none");
+
+          _iconDown2.classList.add("d-block");
+
+          _iconUp2.classList.remove("d-block");
+
+          _iconUp2.classList.add("d-none");
+        } else {
+          var _fieldOne3 = document.querySelector('#fieldOne');
+
+          var _listField3 = document.querySelector('#listField');
+
+          var _iconDown3 = document.querySelector('#down');
+
+          var _iconUp3 = document.querySelector('#up');
+
+          _fieldOne3.classList.remove("fixed-bottom");
+
+          _fieldOne3.classList.add("fixed-top");
+
+          _listField3.classList.remove("d-none");
+
+          _listField3.classList.add("d-block");
+
+          _iconDown3.classList.remove("d-block");
+
+          _iconDown3.classList.add("d-none");
+
+          _iconUp3.classList.remove("d-block");
+
+          _iconUp3.classList.add("d-none");
+        }
       });
-    }
+    } // getQueries() {
+    //   let fieldOne = document.querySelector('#fieldOne');
+    //   let listField = document.querySelector('#listField');
+    //   let iconDown = document.querySelector('#down');
+    //   let iconUp = document.querySelector('#up');
+    // },
+    // addAttributes() {
+    //   fieldOne.classList.remove("fixed-top");
+    //   fieldOne.classList.add("fixed-bottom");
+    //   listField.classList.remove("d-block");
+    //   listField.classList.add("d-none");
+    //   iconDown.classList.remove("d-none");
+    //   iconDown.classList.add("d-block"); 
+    //   iconUp.classList.remove("d-block");
+    //   iconUp.classList.add("d-none"); 
+    // },
+    // addAttributesElse() {
+    //   fieldOne.classList.remove("fixed-bottom");
+    //   fieldOne.classList.add("fixed-top");
+    //   listField.classList.remove("d-none");
+    //   listField.classList.add("d-block");
+    //   iconDown.classList.remove("d-block");
+    //   iconDown.classList.add("d-none");
+    //   iconUp.classList.remove("d-block");
+    //   iconUp.classList.add("d-none");
+    // }
+
   }
 });
 
@@ -69733,62 +69837,151 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("ul", { staticClass: "list-group list-group-flush pr-1" }, [
-    _c("li", { staticClass: "list-group-item pt-3 pb-2" }, [
-      _c(
-        "a",
-        {
-          staticClass:
-            "list-group-item border-0 font-weight-bold h3 d-flex justify-content-between",
-          attrs: { href: "#" }
-        },
-        [
-          _c("div", { on: { click: _vm.showCreateEvent } }, [
+  return _c(
+    "ul",
+    {
+      staticClass: "list-group list-group-flush pr-1",
+      attrs: { id: "groupField" }
+    },
+    [
+      _c("li", { staticClass: "list-group-item pt-3 pb-2" }, [
+        _c(
+          "a",
+          {
+            staticClass:
+              "list-group-item border-0 font-weight-bold h3 d-flex justify-content-between align-items-center",
+            attrs: { href: "#" }
+          },
+          [
             _c(
-              "svg",
+              "div",
               {
-                staticClass: "bi bi-plus-circle",
-                attrs: {
-                  width: "1em",
-                  height: "1em",
-                  viewBox: "0 0 16 16",
-                  fill: "currentColor",
-                  xmlns: "http://www.w3.org/2000/svg"
-                }
+                staticClass: "d-flex align-items-center text-secondary",
+                on: { click: _vm.showCreateEvent }
               },
               [
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
-                  }
-                }),
-                _vm._v(" "),
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
-                  }
-                })
+                _c(
+                  "svg",
+                  {
+                    staticClass: "bi bi-plus-circle",
+                    attrs: {
+                      width: "1em",
+                      height: "1em",
+                      viewBox: "0 0 16 16",
+                      fill: "currentColor",
+                      xmlns: "http://www.w3.org/2000/svg"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M8 15A7 7 0 1 0 8 1a7 7 0 0 0 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"
+                      }
+                    })
+                  ]
+                ),
+                _vm._v("\r\n\r\n          Reserva\r\n      ")
               ]
             ),
-            _vm._v("\r\n\r\n          Nuevo\r\n      ")
-          ]),
-          _vm._v(" "),
+            _vm._v(" "),
+            _c(
+              "div",
+              {
+                staticClass: "d-lg-none d-block",
+                attrs: { id: "up" },
+                on: { click: _vm.hiddenListField }
+              },
+              [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "bi bi-caret-down",
+                    attrs: {
+                      width: "1em",
+                      height: "1em",
+                      viewBox: "0 0 16 16",
+                      fill: "currentColor",
+                      xmlns: "http://www.w3.org/2000/svg"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M3.204 5L8 10.481 12.796 5H3.204zm-.753.659l4.796 5.48a1 1 0 0 0 1.506 0l4.796-5.48c.566-.647.106-1.659-.753-1.659H3.204a1 1 0 0 0-.753 1.659z"
+                      }
+                    })
+                  ]
+                )
+              ]
+            ),
+            _vm._v(" "),
+            _c(
+              "span",
+              {
+                staticClass: "d-none",
+                attrs: { id: "down" },
+                on: { click: _vm.showListField }
+              },
+              [
+                _c(
+                  "svg",
+                  {
+                    staticClass: "bi bi-caret-up",
+                    attrs: {
+                      width: "1em",
+                      height: "1em",
+                      viewBox: "0 0 16 16",
+                      fill: "currentColor",
+                      xmlns: "http://www.w3.org/2000/svg"
+                    }
+                  },
+                  [
+                    _c("path", {
+                      attrs: {
+                        "fill-rule": "evenodd",
+                        d:
+                          "M3.204 11L8 5.519 12.796 11H3.204zm-.753-.659l4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                      }
+                    })
+                  ]
+                )
+              ]
+            )
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { attrs: { id: "listField" } }, [
+        _c(
+          "li",
+          { staticClass: "list-group-item text-secondary font-weight-bolder" },
+          [_vm._v("\r\n      Listado de Canchas\r\n    ")]
+        ),
+        _vm._v(" "),
+        _c("li", { staticClass: "list-group-item p-0" }, [
           _c(
-            "div",
+            "a",
             {
-              staticClass: "d-lg-none d-block",
-              attrs: { id: "up" },
-              on: { click: _vm.showListField }
+              staticClass: "list-group-item border-0  text-secondary",
+              attrs: { href: "cancha-uno" }
             },
             [
               _c(
                 "svg",
                 {
-                  staticClass: "bi bi-caret-up",
+                  staticClass: "bi bi-asterisk",
                   attrs: {
                     width: "1em",
                     height: "1em",
@@ -69802,161 +69995,132 @@ var render = function() {
                     attrs: {
                       "fill-rule": "evenodd",
                       d:
-                        "M3.204 11L8 5.519 12.796 11H3.204zm-.753-.659l4.796-5.48a1 1 0 0 1 1.506 0l4.796 5.48c.566.647.106 1.659-.753 1.659H3.204a1 1 0 0 1-.753-1.659z"
+                        "M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"
                     }
                   })
                 ]
-              )
+              ),
+              _vm._v("\r\n        Cancha Uno\r\n      ")
             ]
           )
-        ]
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", { attrs: { id: "listField" } }, [
-      _c(
-        "li",
-        { staticClass: "list-group-item text-secondary font-weight-bolder" },
-        [_vm._v("\r\n      Listado de Canchas\r\n    ")]
-      ),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item p-0" }, [
-        _c(
-          "a",
-          { staticClass: "list-group-item border-0", attrs: { href: "#" } },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "bi bi-asterisk",
-                attrs: {
-                  width: "1em",
-                  height: "1em",
-                  viewBox: "0 0 16 16",
-                  fill: "currentColor",
-                  xmlns: "http://www.w3.org/2000/svg"
-                }
-              },
-              [
-                _c("path", {
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "list-group-item p-0" }, [
+          _c(
+            "a",
+            {
+              staticClass: "list-group-item border-0  text-secondary",
+              attrs: { href: "cancha-dos" }
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "bi bi-asterisk",
                   attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"
+                    width: "1em",
+                    height: "1em",
+                    viewBox: "0 0 16 16",
+                    fill: "currentColor",
+                    xmlns: "http://www.w3.org/2000/svg"
                   }
-                })
-              ]
-            ),
-            _vm._v("\r\n        Cancha Uno\r\n      ")
-          ]
-        )
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v("\r\n        Cancha Dos\r\n      ")
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "list-group-item p-0" }, [
+          _c(
+            "a",
+            {
+              staticClass: "list-group-item border-0  text-secondary",
+              attrs: { href: "#" }
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "bi bi-asterisk",
+                  attrs: {
+                    width: "1em",
+                    height: "1em",
+                    viewBox: "0 0 16 16",
+                    fill: "currentColor",
+                    xmlns: "http://www.w3.org/2000/svg"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v("\r\n        Cancha Tres\r\n      ")
+            ]
+          )
+        ]),
+        _vm._v(" "),
+        _c("li", { staticClass: "list-group-item p-0" }, [
+          _c(
+            "a",
+            {
+              staticClass: "list-group-item border-0 text-secondary",
+              attrs: { href: "#" }
+            },
+            [
+              _c(
+                "svg",
+                {
+                  staticClass: "bi bi-house-door-fill",
+                  attrs: {
+                    width: "1em",
+                    height: "1em",
+                    viewBox: "0 0 16 16",
+                    fill: "currentColor",
+                    xmlns: "http://www.w3.org/2000/svg"
+                  }
+                },
+                [
+                  _c("path", {
+                    attrs: {
+                      d:
+                        "M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"
+                    }
+                  }),
+                  _vm._v(" "),
+                  _c("path", {
+                    attrs: {
+                      "fill-rule": "evenodd",
+                      d:
+                        "M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
+                    }
+                  })
+                ]
+              ),
+              _vm._v("\r\n        Inicio\r\n      ")
+            ]
+          )
+        ])
       ]),
       _vm._v(" "),
-      _c("li", { staticClass: "list-group-item p-0" }, [
-        _c(
-          "a",
-          { staticClass: "list-group-item border-0", attrs: { href: "#" } },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "bi bi-asterisk",
-                attrs: {
-                  width: "1em",
-                  height: "1em",
-                  viewBox: "0 0 16 16",
-                  fill: "currentColor",
-                  xmlns: "http://www.w3.org/2000/svg"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"
-                  }
-                })
-              ]
-            ),
-            _vm._v("\r\n        Cancha Dos\r\n      ")
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item p-0" }, [
-        _c(
-          "a",
-          { staticClass: "list-group-item border-0", attrs: { href: "#" } },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "bi bi-asterisk",
-                attrs: {
-                  width: "1em",
-                  height: "1em",
-                  viewBox: "0 0 16 16",
-                  fill: "currentColor",
-                  xmlns: "http://www.w3.org/2000/svg"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d:
-                      "M8 0a1 1 0 0 1 1 1v5.268l4.562-2.634a1 1 0 1 1 1 1.732L10 8l4.562 2.634a1 1 0 1 1-1 1.732L9 9.732V15a1 1 0 1 1-2 0V9.732l-4.562 2.634a1 1 0 1 1-1-1.732L6 8 1.438 5.366a1 1 0 0 1 1-1.732L7 6.268V1a1 1 0 0 1 1-1z"
-                  }
-                })
-              ]
-            ),
-            _vm._v("\r\n        Cancha Tres\r\n      ")
-          ]
-        )
-      ]),
-      _vm._v(" "),
-      _c("li", { staticClass: "list-group-item p-0" }, [
-        _c(
-          "a",
-          { staticClass: "list-group-item border-0", attrs: { href: "#" } },
-          [
-            _c(
-              "svg",
-              {
-                staticClass: "bi bi-house-door-fill",
-                attrs: {
-                  width: "1em",
-                  height: "1em",
-                  viewBox: "0 0 16 16",
-                  fill: "currentColor",
-                  xmlns: "http://www.w3.org/2000/svg"
-                }
-              },
-              [
-                _c("path", {
-                  attrs: {
-                    d:
-                      "M6.5 10.995V14.5a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5V11c0-.25-.25-.5-.5-.5H7c-.25 0-.5.25-.5.495z"
-                  }
-                }),
-                _vm._v(" "),
-                _c("path", {
-                  attrs: {
-                    "fill-rule": "evenodd",
-                    d: "M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
-                  }
-                })
-              ]
-            ),
-            _vm._v("\r\n        Inicio\r\n      ")
-          ]
-        )
-      ])
-    ]),
-    _vm._v(" "),
-    _vm._m(0)
-  ])
+      _vm._m(0)
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
@@ -69964,13 +70128,10 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("div", [
-      _c("h1", [_vm._v("Window Stats")]),
-      _vm._v(" "),
-      _c("span", [_vm._v("Width: "), _c("span", { staticClass: "width" })]),
-      _vm._v(" "),
-      _c("br"),
-      _vm._v(" "),
-      _c("span", [_vm._v("Height: "), _c("span", { staticClass: "height" })])
+      _c("span", { staticClass: "d-none" }, [
+        _vm._v("Width: "),
+        _c("span", { staticClass: "width" })
+      ])
     ])
   }
 ]
