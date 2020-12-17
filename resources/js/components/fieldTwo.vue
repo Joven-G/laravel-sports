@@ -1,5 +1,5 @@
 <template>
-  <v-row block>
+  <section>
     <v-col>
       <v-sheet height="64" >
         <v-toolbar flat>
@@ -71,7 +71,7 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
-      <v-sheet  >
+      <v-sheet  class="fg">
         <v-calendar
           ref="calendar"
           v-model="focus"
@@ -88,7 +88,7 @@
         <!-- Modal show -->
         <v-menu
           v-model="selectedOpenShow"
-            :close-on-content-click="false"
+            :close-on-content-click="true"
             :activator="selectedElement"
             offset-x
           >
@@ -187,19 +187,6 @@
                 </v-col>
               </v-row>
 
-              <!-- Date Piker -->
-
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="6"
-                >
-              
-                </v-col>
-                <!-- <v-spacer></v-spacer> -->
-              </v-row>
-
             </v-card-text>
           </v-card>
         </v-menu>
@@ -208,7 +195,6 @@
         <v-menu
           v-model="selectedOpen"
             :close-on-content-click="false"
-            :activator="selectedElement"
             offset-x
           >
             <v-card
@@ -429,21 +415,38 @@
               flat
             >
               <v-toolbar
-                :color="createEvent.color"
+                :color="color"
                 dark
               >
-                <v-btn icon>
-                  <v-icon>mdi-pencil</v-icon>
-                </v-btn>
-                <v-toolbar-title v-html="createEvent.name"></v-toolbar-title>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      class="mr-4"
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="addNewEvent"
+                    >
+                      mdi-check
+                    </v-icon>
+                  </template>
+                  <span>Agendar reserva</span>
+                </v-tooltip>
+                <v-toolbar-title v-html="name"></v-toolbar-title>
                 <v-spacer></v-spacer>
-                <v-btn icon>
-                  <v-icon
-                    @click="closeModalUpdate"
-                  >
-                    mdi-close
-                  </v-icon>
-                </v-btn>
+                <v-tooltip bottom>
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-icon
+                      dark
+                      v-bind="attrs"
+                      v-on="on"
+                      @click="closeModalUpdate"
+                    >
+                      mdi-close
+                    </v-icon>
+                  </template>
+                  <span>Cerrar</span>
+                </v-tooltip>
               </v-toolbar>
             <v-card-text>
 
@@ -455,16 +458,16 @@
               </ul>
 
               <!-- Input Name -->
-              <v-row>
+              <v-row class="pb-4 mb-2">
                 <v-col
                   cols="12"
                   sm="10"
                 >
                   <v-text-field
-                    label="Nombre"
+                    label="Nombre del evento"
                     v-model="name"
                     hide-details="auto"
-                    prepend-icon="mdi-inbox"
+                    prepend-icon="mdi-clipboard-text-multiple-outline "
                     
                   ></v-text-field>
                 </v-col>
@@ -511,8 +514,9 @@
               <!-- Time Picker Start -->
               <v-row>
                 <v-col
-                  cols="11"
-                  sm="5"
+                  cols="12"
+                  md="5"
+                  sm="12"
                 >
                   <v-dialog
                     ref="dialog"
@@ -559,8 +563,9 @@
                 <!-- Time Picker End -->
 
                 <v-col
-                  cols="11"
-                  sm="5"
+                  cols="12"
+                  md="5"
+                  sm="12"
                 >
                   <v-dialog
                     ref="dialog"
@@ -606,7 +611,7 @@
               </v-row>
             </v-card-text>
 
-            <!-- Input Name -->
+            <!-- Input Color -->
             <v-row>
               <v-col
                 cols="12"
@@ -632,30 +637,12 @@
               </v-row>
               </v-col>
             </v-row>
-
-            <!-- Buttons -->
-            <v-card-actions>
-            <!--   <v-btn
-                text
-                color="secondary"
-                @click="closeModalUpdate"
-              >
-                Cancel
-              </v-btn> -->
-              <v-btn
-                text
-                color="primary"
-                @click="addNewEvent"
-              >
-                Guardar
-              </v-btn>
-            </v-card-actions>
           </v-card>
         </v-menu>
 
       </v-sheet>
     </v-col>
-  </v-row>
+  </section>
 </template>
 
 <script>

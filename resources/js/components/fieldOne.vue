@@ -88,7 +88,7 @@
         <!-- Modal show -->
         <v-menu
           v-model="selectedOpenShow"
-            :close-on-content-click="false"
+            :close-on-content-click="true"
             :activator="selectedElement"
             offset-x
           >
@@ -132,9 +132,7 @@
               </v-toolbar>
             <v-card-text>
 
-              <!-- <span >{{ selectedEvent.hour }} Horas</span> -->
-
-              <!-- Input Name -->
+              <!-- show information event -->
               <v-row>
                 <v-col
                   cols="12"
@@ -187,19 +185,6 @@
                 </v-col>
               </v-row>
 
-              <!-- Date Piker -->
-
-              <v-row>
-                <v-col
-                  cols="12"
-                  sm="6"
-                  md="6"
-                >
-              
-                </v-col>
-                <!-- <v-spacer></v-spacer> -->
-              </v-row>
-
             </v-card-text>
           </v-card>
         </v-menu>
@@ -208,7 +193,6 @@
         <v-menu
           v-model="selectedOpen"
             :close-on-content-click="false"
-            :activator="selectedElement"
             offset-x
           >
             <v-card
@@ -651,24 +635,6 @@
               </v-row>
               </v-col>
             </v-row>
-
-            <!-- Buttons -->
-            <!-- <v-card-actions> -->
-            <!--   <v-btn
-                text
-                color="secondary"
-                @click="closeModalUpdate"
-              >
-                Cancel
-              </v-btn> -->
-<!--               <v-btn
-
-                color="primary"
-                @click="addNewEvent"
-              >
-                Guardar
-              </v-btn> -->
-            <!-- </v-card-actions> -->
           </v-card>
         </v-menu>
 
@@ -735,6 +701,8 @@ export default {
     this.getEvents();
     // console.log(new Date().toISOString().substr(0, 10));
     // console.log(moment("20111031", "YYYYMMDD").fromNow());
+    // console.log(this.time);
+    // console.log(this.time1);
   },
   mounted () {
     this.$refs.calendar.scrollToTime('08:00');
@@ -763,6 +731,8 @@ export default {
   },
   methods: {
     menus() {
+      this.modal1 = false,
+      this.moda2 = false,
       this.time = null,
       this.time1 = null
     },
@@ -801,9 +771,7 @@ export default {
       if (this.selectedOpenShow) {
         this.selectedOpenShow = false
         setTimeout(open, 10)
-        // open()
       } else {
-        // console.log(`${this.selectedOpen} - open otro`)
         open()
       }
 
@@ -812,14 +780,11 @@ export default {
     showCreateEvent () {
       const open = () => {
         setTimeout(() => {
-          this.resetForm();
-          // this.selectedOpen = false
           this.createOpen = true
         }, .10)
       }
 
       if (this.createOpen) {
-        // this.selectedOpen = false
         this.createOpen = false
         setTimeout(open, .10)
       } else {
@@ -881,7 +846,6 @@ export default {
         color: this.color,
         field_number: this.field_number,
         // user_id: this.user_id
-        // ...this.datos
         })
         .then(response => {
           this.getEvents();
@@ -934,7 +898,7 @@ export default {
     },
 
     resetForm() {
-      let d = new Date();
+      // let d = new Date();
       this.name = '',
       this.start = '',
       this.end = '',
