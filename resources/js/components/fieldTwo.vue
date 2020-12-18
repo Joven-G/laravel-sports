@@ -248,7 +248,7 @@
                   md="6"
                 >
                   <v-menu
-                    v-model="menuEdit"
+                    v-model="dateEdit"
                     :close-on-content-click="false"
                     :nudge-right="40"
                     transition="scale-transition"
@@ -269,7 +269,7 @@
                     <v-date-picker
                       v-model="date"
                       :allowed-dates="allowedDates"
-                      @input="menuEdit = false"
+                      @input="dateEdit = false"
                       locale="es"
                     ></v-date-picker>
                   </v-menu>
@@ -285,8 +285,8 @@
                 >
                   <v-dialog
                     ref="dialog"
-                    v-model="modal1"
-                    :return-value.sync="time"
+                    v-model="modalTimeStartEdit"
+                    :return-value.sync="timeStartEdit"
                     persistent
                     width="290px"
                   >
@@ -310,14 +310,14 @@
                       <v-btn
                         text
                         color="primary"
-                        @click="modal1 = false"
+                        @click="modalTimeStartEdit = false"
                       >
                         Cancel
                       </v-btn>
                       <v-btn
                         text
                         color="primary"
-                        @click="$refs.dialog.save(time); modal1 = false"
+                        @click="$refs.dialog.save(timeStartEdit); modalTimeStartEdit = false"
                       >
                         OK
                       </v-btn>
@@ -333,8 +333,8 @@
                 >
                   <v-dialog
                     ref="dialog"
-                    v-model="modal2"
-                    :return-value.sync="time"
+                    v-model="modalTimeEndEdit"
+                    :return-value.sync="timeEndEdit"
                     persistent
                     width="290px"
                   >
@@ -357,14 +357,14 @@
                       <v-btn
                         text
                         color="primary"
-                        @click="modal2 = false"
+                        @click="modalTimeEndEdit = false"
                       >
                         Cancel
                       </v-btn>
                       <v-btn
                         text
                         color="primary"
-                        @click="$refs.dialog.save(time)"
+                        @click="$refs.dialog.save(timeEndEdit)"
                       >
                         OK
                       </v-btn>
@@ -482,7 +482,7 @@
                   md="6"
                 >
                   <v-menu
-                    v-model="menu2"
+                    v-model="dateCreate"
                     :close-on-content-click="false"
                     :nudge-right="40"
                     transition="scale-transition"
@@ -503,7 +503,7 @@
                     <v-date-picker
                       v-model="date"
                       :allowed-dates="allowedDates"
-                      @input="menu2 = false"
+                      @input="dateCreate = false"
                       locale="es"
                     ></v-date-picker>
                   </v-menu>
@@ -520,8 +520,8 @@
                 >
                   <v-dialog
                     ref="dialog"
-                    v-model="modal1"
-                    :return-value.sync="time1"
+                    v-model="modalTimeStartCreate"
+                    :return-value.sync="timeStartCreate"
                     persistent
                     width="290px"
                   >
@@ -545,14 +545,14 @@
                       <v-btn
                         text
                         color="primary"
-                        @click="modal1 = false"
+                        @click="modalTimeStartCreate = false"
                       >
                         Cancel
                       </v-btn>
                       <v-btn
                         text
                         color="primary"
-                        @click="$refs.dialog.save(time1); modal1 = false"
+                        @click="$refs.dialog.save(timeStartCreate); modalTimeStartCreate = false"
                       >
                         OK
                       </v-btn>
@@ -569,8 +569,8 @@
                 >
                   <v-dialog
                     ref="dialog"
-                    v-model="modal2"
-                    :return-value.sync="time"
+                    v-model="modalTimeEndCreate"
+                    :return-value.sync="timeEndCreate"
                     persistent
                     width="290px"
                   >
@@ -594,14 +594,14 @@
                       <v-btn
                         text
                         color="primary"
-                        @click="modal2 = false"
+                        @click="modalTimeEndCreate = false"
                       >
                         Cancel
                       </v-btn>
                       <v-btn
                         text
                         color="primary"
-                        @click="$refs.dialog.save(time)"
+                        @click="$refs.dialog.save(timeEndCreate)"
                       >
                         OK
                       </v-btn>
@@ -621,7 +621,7 @@
                 <v-col class="shrink" style="min-width: 220px;">
                   <v-text-field v-model="color" hide-details class="ma-0 pa-0" solo>
                     <template v-slot:append>
-                      <v-menu v-model="menu" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
+                      <v-menu v-model="menuColor" top nudge-bottom="105" nudge-left="16" :close-on-content-click="false">
                         <template v-slot:activator="{ on }">
                           <div :style="swatchStyle" v-on="on" />
                         </template>
@@ -672,18 +672,28 @@ export default {
     createElement: null,
     createOpen: false,
 
-    time: null, // Recuerda que las horas elegidas se guardan aquí. no estoy seguro. pero hazle un console.log
-    time1: null,
+    // Hora Time Picker
+    // time: null, 
+    // time1: null,
+
+    // Hora Time Picker
+    timeStartEdit: null,
+    timeEndEdit: null,
+    timeStartCreate: null,
+    timeEndCreate: null,
     
-    modal2: false,
-    modal1: false,
+    // Modals time Picker
+    modalTimeStartEdit: false,
+    modalTimeEndEdit: false,
+    modalTimeStartCreate: false,
+    modalTimeEndCreate: false,
 
     // Date Picker
     date: new Date().toISOString().substr(0, 10),
-    menu: false,
-    modal: false,
-    menu2: false,
-    menuEdit : false,
+    menuColor: false,
+    // modal: false,
+    dateCreate: false,
+    dateEdit : false,
     
     name: null,
     start: null,
@@ -811,7 +821,7 @@ export default {
         user_id: this.user.id
         })
         .then(response => {
-          console.log(response);
+          // console.log(response);
           this.getEvents();
           this.createOpen = false;
           this.resetForm();

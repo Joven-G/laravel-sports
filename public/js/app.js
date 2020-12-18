@@ -2713,17 +2713,25 @@ var _user = document.head.querySelector('meta[name="user"]');
       createEvent: {},
       createElement: null,
       createOpen: false,
-      time: null,
-      // Recuerda que las horas elegidas se guardan aquí. no estoy seguro. pero hazle un console.log
-      time1: null,
-      modal2: false,
-      modal1: false,
+      // Hora Time Picker
+      // time: null, // Time Edit
+      // time1: null, // Time Create
+      // Hora Time Picker
+      timeStartEdit: null,
+      timeEndEdit: null,
+      timeStartCreate: null,
+      timeEndCreate: null,
+      // Modals time Picker
+      modalTimeStartEdit: false,
+      modalTimeEndEdit: false,
+      modalTimeStartCreate: false,
+      modalTimeEndCreate: false,
       // Date Picker
       date: null,
-      menu: false,
-      modal: false,
-      menu2: false,
-      menuEdit: false,
+      menuColor: false,
+      // modal: false, borra si no sirve
+      dateCreate: false,
+      dateEdit: false,
       name: null,
       start: null,
       end: null,
@@ -2740,8 +2748,6 @@ var _user = document.head.querySelector('meta[name="user"]');
   created: function created() {
     this.getEvents(); // console.log(new Date().toISOString().substr(0, 10));
     // console.log(moment("20111031", "YYYYMMDD").fromNow());
-    // console.log(this.time);
-    // console.log(this.time1);
   },
   mounted: function mounted() {
     var _this = this;
@@ -2772,9 +2778,6 @@ var _user = document.head.querySelector('meta[name="user"]');
     }
   },
   methods: {
-    menus: function menus() {
-      this.modal1 = false, this.moda2 = false, this.time = null, this.time1 = null;
-    },
     getDateFormat: function getDateFormat(date) {
       moment__WEBPACK_IMPORTED_MODULE_0___default.a.locale('es');
       return moment__WEBPACK_IMPORTED_MODULE_0___default()(date).format('dddd[,] D [de] MMMM');
@@ -2854,8 +2857,7 @@ var _user = document.head.querySelector('meta[name="user"]');
         // user_id: this.user_id antes de poner this.user.id
         user_id: this.user.id
       }).then(function (response) {
-        console.log(response);
-
+        // console.log(response);
         _this4.getEvents();
 
         _this4.createOpen = false;
@@ -2903,9 +2905,7 @@ var _user = document.head.querySelector('meta[name="user"]');
 
         _this6.selectedOpen = false;
 
-        _this6.resetForm();
-
-        _this6.menus(); // console.log(response);
+        _this6.resetForm(); // console.log(response);
 
 
         _this6.$swal({
@@ -2953,7 +2953,6 @@ var _user = document.head.querySelector('meta[name="user"]');
       });
     },
     resetForm: function resetForm() {
-      // let d = new Date();
       this.name = '', this.start = '', this.end = '', this.errors = ''; // this.date = ''
     },
     viewDay: function viewDay(_ref2) {
@@ -3673,17 +3672,25 @@ var _user = document.head.querySelector('meta[name="user"]');
       createEvent: {},
       createElement: null,
       createOpen: false,
-      time: null,
-      // Recuerda que las horas elegidas se guardan aquí. no estoy seguro. pero hazle un console.log
-      time1: null,
-      modal2: false,
-      modal1: false,
+      // Hora Time Picker
+      // time: null, 
+      // time1: null,
+      // Hora Time Picker
+      timeStartEdit: null,
+      timeEndEdit: null,
+      timeStartCreate: null,
+      timeEndCreate: null,
+      // Modals time Picker
+      modalTimeStartEdit: false,
+      modalTimeEndEdit: false,
+      modalTimeStartCreate: false,
+      modalTimeEndCreate: false,
       // Date Picker
       date: new Date().toISOString().substr(0, 10),
-      menu: false,
-      modal: false,
-      menu2: false,
-      menuEdit: false,
+      menuColor: false,
+      // modal: false,
+      dateCreate: false,
+      dateEdit: false,
       name: null,
       start: null,
       end: null,
@@ -3813,8 +3820,7 @@ var _user = document.head.querySelector('meta[name="user"]');
         // user_id: this.user_id antes de poner this.user.id
         user_id: this.user.id
       }).then(function (response) {
-        console.log(response);
-
+        // console.log(response);
         _this4.getEvents();
 
         _this4.createOpen = false;
@@ -66942,11 +66948,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.menuEdit,
+                                        value: _vm.dateEdit,
                                         callback: function($$v) {
-                                          _vm.menuEdit = $$v
+                                          _vm.dateEdit = $$v
                                         },
-                                        expression: "menuEdit"
+                                        expression: "dateEdit"
                                       }
                                     },
                                     [
@@ -66958,7 +66964,7 @@ var render = function() {
                                         },
                                         on: {
                                           input: function($event) {
-                                            _vm.menuEdit = false
+                                            _vm.dateEdit = false
                                           }
                                         },
                                         model: {
@@ -66991,18 +66997,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time,
+                                        "return-value": _vm.timeStartEdit,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time = $event
+                                          _vm.timeStartEdit = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time = $event
+                                          _vm.timeStartEdit = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -67046,11 +67052,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal1,
+                                        value: _vm.modalTimeStartEdit,
                                         callback: function($$v) {
-                                          _vm.modal1 = $$v
+                                          _vm.modalTimeStartEdit = $$v
                                         },
-                                        expression: "modal1"
+                                        expression: "modalTimeStartEdit"
                                       }
                                     },
                                     [
@@ -67079,7 +67085,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartEdit = false
                                                 }
                                               }
                                             },
@@ -67100,9 +67106,9 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   _vm.$refs.dialog.save(
-                                                    _vm.time
+                                                    _vm.timeStartEdit
                                                   )
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartEdit = false
                                                 }
                                               }
                                             },
@@ -67131,18 +67137,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time,
+                                        "return-value": _vm.timeEndEdit,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time = $event
+                                          _vm.timeEndEdit = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time = $event
+                                          _vm.timeEndEdit = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -67186,11 +67192,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal2,
+                                        value: _vm.modalTimeEndEdit,
                                         callback: function($$v) {
-                                          _vm.modal2 = $$v
+                                          _vm.modalTimeEndEdit = $$v
                                         },
-                                        expression: "modal2"
+                                        expression: "modalTimeEndEdit"
                                       }
                                     },
                                     [
@@ -67219,7 +67225,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal2 = false
+                                                  _vm.modalTimeEndEdit = false
                                                 }
                                               }
                                             },
@@ -67240,7 +67246,7 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   return _vm.$refs.dialog.save(
-                                                    _vm.time
+                                                    _vm.timeEndEdit
                                                   )
                                                 }
                                               }
@@ -67546,11 +67552,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.menu2,
+                                        value: _vm.dateCreate,
                                         callback: function($$v) {
-                                          _vm.menu2 = $$v
+                                          _vm.dateCreate = $$v
                                         },
-                                        expression: "menu2"
+                                        expression: "dateCreate"
                                       }
                                     },
                                     [
@@ -67562,7 +67568,7 @@ var render = function() {
                                         },
                                         on: {
                                           input: function($event) {
-                                            _vm.menu2 = false
+                                            _vm.dateCreate = false
                                           }
                                         },
                                         model: {
@@ -67595,18 +67601,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time1,
+                                        "return-value": _vm.timeStartCreate,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time1 = $event
+                                          _vm.timeStartCreate = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time1 = $event
+                                          _vm.timeStartCreate = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -67650,11 +67656,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal1,
+                                        value: _vm.modalTimeStartCreate,
                                         callback: function($$v) {
-                                          _vm.modal1 = $$v
+                                          _vm.modalTimeStartCreate = $$v
                                         },
-                                        expression: "modal1"
+                                        expression: "modalTimeStartCreate"
                                       }
                                     },
                                     [
@@ -67686,7 +67692,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartCreate = false
                                                 }
                                               }
                                             },
@@ -67707,9 +67713,9 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   _vm.$refs.dialog.save(
-                                                    _vm.time1
+                                                    _vm.timeStartCreate
                                                   )
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartCreate = false
                                                 }
                                               }
                                             },
@@ -67738,18 +67744,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time,
+                                        "return-value": _vm.timeEndCreate,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time = $event
+                                          _vm.timeEndCreate = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time = $event
+                                          _vm.timeEndCreate = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -67793,11 +67799,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal2,
+                                        value: _vm.modalTimeEndCreate,
                                         callback: function($$v) {
-                                          _vm.modal2 = $$v
+                                          _vm.modalTimeEndCreate = $$v
                                         },
-                                        expression: "modal2"
+                                        expression: "modalTimeEndCreate"
                                       }
                                     },
                                     [
@@ -67829,7 +67835,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal2 = false
+                                                  _vm.modalTimeEndCreate = false
                                                 }
                                               }
                                             },
@@ -67850,7 +67856,7 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   return _vm.$refs.dialog.save(
-                                                    _vm.time
+                                                    _vm.timeEndCreate
                                                   )
                                                 }
                                               }
@@ -67935,11 +67941,11 @@ var render = function() {
                                                       }
                                                     ]),
                                                     model: {
-                                                      value: _vm.menu,
+                                                      value: _vm.menuColor,
                                                       callback: function($$v) {
-                                                        _vm.menu = $$v
+                                                        _vm.menuColor = $$v
                                                       },
-                                                      expression: "menu"
+                                                      expression: "menuColor"
                                                     }
                                                   },
                                                   [
@@ -68689,11 +68695,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.menuEdit,
+                                        value: _vm.dateEdit,
                                         callback: function($$v) {
-                                          _vm.menuEdit = $$v
+                                          _vm.dateEdit = $$v
                                         },
-                                        expression: "menuEdit"
+                                        expression: "dateEdit"
                                       }
                                     },
                                     [
@@ -68705,7 +68711,7 @@ var render = function() {
                                         },
                                         on: {
                                           input: function($event) {
-                                            _vm.menuEdit = false
+                                            _vm.dateEdit = false
                                           }
                                         },
                                         model: {
@@ -68738,18 +68744,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time,
+                                        "return-value": _vm.timeStartEdit,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time = $event
+                                          _vm.timeStartEdit = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time = $event
+                                          _vm.timeStartEdit = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -68793,11 +68799,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal1,
+                                        value: _vm.modalTimeStartEdit,
                                         callback: function($$v) {
-                                          _vm.modal1 = $$v
+                                          _vm.modalTimeStartEdit = $$v
                                         },
-                                        expression: "modal1"
+                                        expression: "modalTimeStartEdit"
                                       }
                                     },
                                     [
@@ -68826,7 +68832,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartEdit = false
                                                 }
                                               }
                                             },
@@ -68847,9 +68853,9 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   _vm.$refs.dialog.save(
-                                                    _vm.time
+                                                    _vm.timeStartEdit
                                                   )
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartEdit = false
                                                 }
                                               }
                                             },
@@ -68878,18 +68884,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time,
+                                        "return-value": _vm.timeEndEdit,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time = $event
+                                          _vm.timeEndEdit = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time = $event
+                                          _vm.timeEndEdit = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -68933,11 +68939,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal2,
+                                        value: _vm.modalTimeEndEdit,
                                         callback: function($$v) {
-                                          _vm.modal2 = $$v
+                                          _vm.modalTimeEndEdit = $$v
                                         },
-                                        expression: "modal2"
+                                        expression: "modalTimeEndEdit"
                                       }
                                     },
                                     [
@@ -68966,7 +68972,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal2 = false
+                                                  _vm.modalTimeEndEdit = false
                                                 }
                                               }
                                             },
@@ -68987,7 +68993,7 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   return _vm.$refs.dialog.save(
-                                                    _vm.time
+                                                    _vm.timeEndEdit
                                                   )
                                                 }
                                               }
@@ -69293,11 +69299,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.menu2,
+                                        value: _vm.dateCreate,
                                         callback: function($$v) {
-                                          _vm.menu2 = $$v
+                                          _vm.dateCreate = $$v
                                         },
-                                        expression: "menu2"
+                                        expression: "dateCreate"
                                       }
                                     },
                                     [
@@ -69309,7 +69315,7 @@ var render = function() {
                                         },
                                         on: {
                                           input: function($event) {
-                                            _vm.menu2 = false
+                                            _vm.dateCreate = false
                                           }
                                         },
                                         model: {
@@ -69342,18 +69348,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time1,
+                                        "return-value": _vm.timeStartCreate,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time1 = $event
+                                          _vm.timeStartCreate = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time1 = $event
+                                          _vm.timeStartCreate = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -69397,11 +69403,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal1,
+                                        value: _vm.modalTimeStartCreate,
                                         callback: function($$v) {
-                                          _vm.modal1 = $$v
+                                          _vm.modalTimeStartCreate = $$v
                                         },
-                                        expression: "modal1"
+                                        expression: "modalTimeStartCreate"
                                       }
                                     },
                                     [
@@ -69433,7 +69439,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartCreate = false
                                                 }
                                               }
                                             },
@@ -69454,9 +69460,9 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   _vm.$refs.dialog.save(
-                                                    _vm.time1
+                                                    _vm.timeStartCreate
                                                   )
-                                                  _vm.modal1 = false
+                                                  _vm.modalTimeStartCreate = false
                                                 }
                                               }
                                             },
@@ -69485,18 +69491,18 @@ var render = function() {
                                     {
                                       ref: "dialog",
                                       attrs: {
-                                        "return-value": _vm.time,
+                                        "return-value": _vm.timeEndCreate,
                                         persistent: "",
                                         width: "290px"
                                       },
                                       on: {
                                         "update:returnValue": function($event) {
-                                          _vm.time = $event
+                                          _vm.timeEndCreate = $event
                                         },
                                         "update:return-value": function(
                                           $event
                                         ) {
-                                          _vm.time = $event
+                                          _vm.timeEndCreate = $event
                                         }
                                       },
                                       scopedSlots: _vm._u([
@@ -69540,11 +69546,11 @@ var render = function() {
                                         }
                                       ]),
                                       model: {
-                                        value: _vm.modal2,
+                                        value: _vm.modalTimeEndCreate,
                                         callback: function($$v) {
-                                          _vm.modal2 = $$v
+                                          _vm.modalTimeEndCreate = $$v
                                         },
-                                        expression: "modal2"
+                                        expression: "modalTimeEndCreate"
                                       }
                                     },
                                     [
@@ -69576,7 +69582,7 @@ var render = function() {
                                               },
                                               on: {
                                                 click: function($event) {
-                                                  _vm.modal2 = false
+                                                  _vm.modalTimeEndCreate = false
                                                 }
                                               }
                                             },
@@ -69597,7 +69603,7 @@ var render = function() {
                                               on: {
                                                 click: function($event) {
                                                   return _vm.$refs.dialog.save(
-                                                    _vm.time
+                                                    _vm.timeEndCreate
                                                   )
                                                 }
                                               }
@@ -69682,11 +69688,11 @@ var render = function() {
                                                       }
                                                     ]),
                                                     model: {
-                                                      value: _vm.menu,
+                                                      value: _vm.menuColor,
                                                       callback: function($$v) {
-                                                        _vm.menu = $$v
+                                                        _vm.menuColor = $$v
                                                       },
-                                                      expression: "menu"
+                                                      expression: "menuColor"
                                                     }
                                                   },
                                                   [
