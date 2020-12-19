@@ -20,6 +20,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'is_admin',
     ];
 
     /**
@@ -44,5 +45,10 @@ class User extends Authenticatable
     public function fields()
     {
         return $this->hasMany('App\Models\Field');
+    }
+
+    public function isAdmin()
+    {
+        return $this->is_admin == true;
     }
 }

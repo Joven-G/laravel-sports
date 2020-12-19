@@ -102,7 +102,7 @@
                 dark
               >
                 <v-spacer></v-spacer>
-                <div v-if="user_id == indexToUpdate">
+                <div v-if="user_id == indexToUpdate || isAdmin == 1">
                   <v-btn icon>
                     <v-icon
                       @click="selectedOpen = true"
@@ -374,7 +374,7 @@
               </v-row>
 
             </v-card-text>
-            <v-card-actions v-if="user_id == indexToUpdate">
+            <v-card-actions v-if="user_id == indexToUpdate || isAdmin == 1">
               <v-btn
                 text
                 color="secondary"
@@ -704,6 +704,7 @@ export default {
     user_id: null,
 
     indexToUpdate: "",
+    isAdmin: null,
     other: false,
     id: "",
 
@@ -754,6 +755,7 @@ export default {
         this.selectedEvent = event
         // Obteniendo el ID del usuario auth
         this.indexToUpdate = this.user.id;
+        this.isAdmin = this.user.is_admin;
         
         this.id = event.id;
         this.name = event.name;
@@ -762,7 +764,6 @@ export default {
         this.end   = moment(event.end).format('HH:mm');
         this.color = event.color;
         this.user_id = event.user_id;
-        // this.user_id = this.indexToUpdate;
 
         this.selectedElement = nativeEvent.target
         setTimeout(() => {
@@ -853,8 +854,7 @@ export default {
         end:   this.end,
         color: this.color,
         field_number: this.field_number,
-        // user_id: this.user_id
-        // ...this.datos
+        user_id: this.user_id
         })
         .then(response => {
           this.getEvents();

@@ -2,6 +2,9 @@
 
 namespace App\Http\Resources;
 
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use App\Http\Resources\UserResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class FieldResource extends JsonResource
@@ -23,7 +26,9 @@ class FieldResource extends JsonResource
             'hour'  => $this->hour,
             'color' => $this->color,
             'field_number' => $this->field_number,
-            'user_id' => $this->user_id
+            'user_id' => $this->user_id,
+            // 'is_admin' => UserResource::collection(User::all()),
+            // 'secret' => $this->when(Auth::user()->isAdmin(), 'secret-value'),
         ];
     }
 }

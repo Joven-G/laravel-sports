@@ -185,7 +185,8 @@ class FieldController extends Controller
                 'color' => $request->color,
                 'hour' => $hours,
                 'field_number' => $request->field_number,
-                'user_id' => auth()->id(),
+                'user_id' => $request->user_id,
+                // 'user_id' => auth()->id(),
             ]);
     }
 }

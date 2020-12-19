@@ -2740,6 +2740,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       field_number: '1',
       user_id: null,
       indexToUpdate: "",
+      isAdmin: null,
       other: false,
       id: "",
       errors: ''
@@ -2758,7 +2759,7 @@ var _user = document.head.querySelector('meta[name="user"]');
     this.getDateToday();
     EventBus.$on('open-modal-create', function (state) {
       _this.createOpen = state;
-    });
+    }); // console.log(user.content);
   },
   computed: {
     user: function user() {
@@ -2798,14 +2799,14 @@ var _user = document.head.querySelector('meta[name="user"]');
         _this2.selectedEvent = event; // Obteniendo el ID del usuario auth
 
         _this2.indexToUpdate = _this2.user.id;
+        _this2.isAdmin = _this2.user.is_admin;
         _this2.id = event.id;
         _this2.name = event.name;
         _this2.date = event.date;
         _this2.start = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.start).format('HH:mm');
         _this2.end = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.end).format('HH:mm');
         _this2.color = event.color;
-        _this2.user_id = event.user_id; // this.user_id = this.indexToUpdate;
-
+        _this2.user_id = event.user_id;
         _this2.selectedElement = nativeEvent.target;
         setTimeout(function () {
           _this2.selectedOpen = false;
@@ -2853,11 +2854,12 @@ var _user = document.head.querySelector('meta[name="user"]');
         start: this.start,
         end: this.end,
         color: this.color,
-        field_number: this.field_number,
-        // user_id: this.user_id antes de poner this.user.id
-        user_id: this.user.id
+        field_number: this.field_number // user_id: this.user_id antes de poner this.user.id
+        // user_id: this.user.id
+
       }).then(function (response) {
-        // console.log(response);
+        console.log(response);
+
         _this4.getEvents();
 
         _this4.createOpen = false;
@@ -2898,15 +2900,16 @@ var _user = document.head.querySelector('meta[name="user"]');
         start: this.start,
         end: this.end,
         color: this.color,
-        field_number: this.field_number // user_id: this.user_id
-
+        field_number: this.field_number,
+        user_id: this.user_id
       }).then(function (response) {
         _this6.getEvents();
 
         _this6.selectedOpen = false;
 
-        _this6.resetForm(); // console.log(response);
+        _this6.resetForm();
 
+        console.log(response);
 
         _this6.$swal({
           title: response.data.title,
@@ -3699,6 +3702,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       field_number: '2',
       user_id: null,
       indexToUpdate: "",
+      isAdmin: null,
       other: false,
       id: "",
       errors: ''
@@ -3753,14 +3757,14 @@ var _user = document.head.querySelector('meta[name="user"]');
         _this2.selectedEvent = event; // Obteniendo el ID del usuario auth
 
         _this2.indexToUpdate = _this2.user.id;
+        _this2.isAdmin = _this2.user.is_admin;
         _this2.id = event.id;
         _this2.name = event.name;
         _this2.date = event.date;
         _this2.start = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.start).format('HH:mm');
         _this2.end = moment__WEBPACK_IMPORTED_MODULE_0___default()(event.end).format('HH:mm');
         _this2.color = event.color;
-        _this2.user_id = event.user_id; // this.user_id = this.indexToUpdate;
-
+        _this2.user_id = event.user_id;
         _this2.selectedElement = nativeEvent.target;
         setTimeout(function () {
           _this2.selectedOpen = false;
@@ -3859,9 +3863,8 @@ var _user = document.head.querySelector('meta[name="user"]');
         start: this.start,
         end: this.end,
         color: this.color,
-        field_number: this.field_number // user_id: this.user_id
-        // ...this.datos
-
+        field_number: this.field_number,
+        user_id: this.user_id
       }).then(function (response) {
         _this6.getEvents();
 
@@ -66551,7 +66554,7 @@ var render = function() {
                         [
                           _c("v-spacer"),
                           _vm._v(" "),
-                          _vm.user_id == _vm.indexToUpdate
+                          _vm.user_id == _vm.indexToUpdate || _vm.isAdmin == 1
                             ? _c(
                                 "div",
                                 [
@@ -67273,7 +67276,7 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _vm.user_id == _vm.indexToUpdate
+                      _vm.user_id == _vm.indexToUpdate || _vm.isAdmin == 1
                         ? _c(
                             "v-card-actions",
                             [
@@ -68298,7 +68301,7 @@ var render = function() {
                         [
                           _c("v-spacer"),
                           _vm._v(" "),
-                          _vm.user_id == _vm.indexToUpdate
+                          _vm.user_id == _vm.indexToUpdate || _vm.isAdmin == 1
                             ? _c(
                                 "div",
                                 [
@@ -69020,7 +69023,7 @@ var render = function() {
                         1
                       ),
                       _vm._v(" "),
-                      _vm.user_id == _vm.indexToUpdate
+                      _vm.user_id == _vm.indexToUpdate || _vm.isAdmin == 1
                         ? _c(
                             "v-card-actions",
                             [
@@ -70042,7 +70045,7 @@ var render = function() {
             "a",
             {
               staticClass: "list-group-item border-0 text-secondary",
-              attrs: { href: "#" }
+              attrs: { href: "/" }
             },
             [
               _c(
