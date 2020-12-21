@@ -814,7 +814,7 @@ export default {
         // user_id: this.user.id
         })
         .then(response => {
-          console.log(response);
+          // console.log(response);
           this.getEvents();
           this.createOpen = false;
           this.resetForm();

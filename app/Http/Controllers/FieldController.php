@@ -40,22 +40,22 @@ class FieldController extends Controller
             ->whereBetween('start', [$startHour, $endHour])
             // ->orWhereBetween('end', [$startHour, $endHour])
             ->where('field_number', $request->field_number)
-            ->orWhere(function($nav) {
-                $startHour = Carbon::create(request('date'))
-                                ->modify(request('start'));
+            ->orWhere(function($nav) use ($startHour, $endHour) {
+                // $startHour = Carbon::create(request('date'))
+                //                 ->modify(request('start'));
 
-                $endHour   = Carbon::create(request('date'))
-                                ->modify(request('end'));
+                // $endHour   = Carbon::create(request('date'))
+                //                 ->modify(request('end'));
 
                 $nav->whereBetween('end', [$startHour, $endHour])
                 ->where('field_number', request('field_number'));
             })
-            ->orWhere(function($query) {
-                $startHour = Carbon::create(request('date'))
-                                ->modify(request('start'));
+            ->orWhere(function($query) use ($startHour, $endHour) {
+                // $startHour = Carbon::create(request('date'))
+                //                 ->modify(request('start'));
 
-                $endHour   = Carbon::create(request('date'))
-                                ->modify(request('end'));
+                // $endHour   = Carbon::create(request('date'))
+                //                 ->modify(request('end'));
 
                 $query->where('start', '<', $startHour)
                       ->where('end',   '>', $endHour)
@@ -125,12 +125,12 @@ class FieldController extends Controller
             ->where('end',   '>=', $endHour)
             // ->whereBetween('start', [$startHour, $endHour])
             // ->orWhereBetween('end', [$startHour, $endHour])
-            ->orWhere(function($query) {
-                $startHour = Carbon::create(request('date'))
-                                ->modify(request('start'));
+            ->orWhere(function($query) use ($startHour, $endHour) {
+                // $startHour = Carbon::create(request('date'))
+                //                 ->modify(request('start'));
 
-                $endHour   = Carbon::create(request('date'))
-                                ->modify(request('end'));
+                // $endHour   = Carbon::create(request('date'))
+                //                 ->modify(request('end'));
 
                 $query->whereBetween('start',[$startHour, 
                                                 $endHour])
