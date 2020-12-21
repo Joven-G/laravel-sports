@@ -12,181 +12,161 @@ use Symfony\Component\HttpFoundation\Response;
 
 class FieldController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+  public function __construct()
+  {
+    $this->middleware('auth');
+  }
 
-    public function index()
-    {
-        return FieldResource::collection(Field::all());
-    }
+  public function index()
+  {
+    return FieldResource::collection(Field::all());
+  }
 
-    public function store(FieldRequest $request, Field $onefield)
-    {
-        $startHour = Carbon::create(request('date'))
-                            ->modify(request('start'));
+  public function store(FieldRequest $request, Field $onefield)
+  {
+    $startHour = Carbon::create(request('date'))
+                          ->modify(request('start'));
 
-        $endHour   = Carbon::create(request('date'))
-                            ->modify(request('end'));
+    $endHour   = Carbon::create(request('date'))
+                          ->modify(request('end'));
 
-        $hours     = Carbon::parse(request('end'))
-                    ->diff(Carbon::parse(request('start')))
-                    ->format('%h hora(s) con %i minuto(s)');
+    $hours     = Carbon::parse(request('end'))
+                  ->diff(Carbon::parse(request('start')))
+                  ->format('%h hora(s) con %i minuto(s)');
 
-        // dd($hours);
+      // dd($hours);
 
-        $fields = Field::select('id', 'start', 'end', 'field_number')
-            ->whereBetween('start', [$startHour, $endHour])
-            // ->orWhereBetween('end', [$startHour, $endHour])
-            ->where('field_number', $request->field_number)
-            ->orWhere(function($nav) use ($startHour, $endHour) {
-                // $startHour = Carbon::create(request('date'))
-                //                 ->modify(request('start'));
+    $data =  [
+      'name'  => $request->name,
+      'date'  => $request->date,
+      'start' => $startHour,
+      'end'   => $endHour,
+      'color' => $request->color,
+      'hour' => $hours,
+      'field_number' => $request->field_number,
+      'user_id' => auth()->id(),
+    ];
 
-                // $endHour   = Carbon::create(request('date'))
-                //                 ->modify(request('end'));
+    $fields = Field::select('id', 'start', 'end', 'field_number')
+        ->whereBetween('start', [$startHour, $endHour])
+        ->where('field_number', $request->field_number)
+        ->orWhere(function ($nav) use ($startHour, $endHour) {
 
-                $nav->whereBetween('end', [$startHour, $endHour])
+          $nav->whereBetween('end', [$startHour, $endHour])
+          ->where('field_number', request('field_number'));
+        })
+        ->orWhere(function ($query) use ($startHour, $endHour) {
+
+          $query->where('start', '<', $startHour)
+                ->where('end',   '>', $endHour)
                 ->where('field_number', request('field_number'));
-            })
-            ->orWhere(function($query) use ($startHour, $endHour) {
-                // $startHour = Carbon::create(request('date'))
-                //                 ->modify(request('start'));
+        })
+        ->get();
 
-                // $endHour   = Carbon::create(request('date'))
-                //                 ->modify(request('end'));
+      // dd($fields);
+      //Aumenta 1 más si agregas otra vista o calendario
+    if (count($fields) > 0) {
 
-                $query->where('start', '<', $startHour)
-                      ->where('end',   '>', $endHour)
-                      ->where('field_number', request('field_number'));
-            })
-            ->get();
+      return response()->json([
+        'message' => 'La hora elegida está ocupada',
+        'title'   => 'Algo Salio Mal!',
+        'icon'    => 'error',
+      ]); 
 
-            // dd($fields);
-            //Aumenta 1 más si agregas otra vista o calendario
-        if (count($fields) > 0) {
+    } else {
 
-            return response()->json([
-                'message' => 'La hora elegida está ocupada',
-                'title'   => 'Algo Salio Mal!',
-                'icon'    => 'error',
-            ]); 
+      $new_calendar = Field::create($data);
 
-        } else {
-            $new_calendar = Field::create([
-                'name'  => $request->name,
-                'date'  => $request->date,
-                'start' => Carbon::create($request->date)
-                            ->modify($request->start),
-                'end'   => Carbon::create($request->date)
-                            ->modify($request->end),
-                'color' => $request->color,
-                'hour' => $hours,
-                'field_number' => $request->field_number,
-                'user_id' => auth()->id(),
-            ]);
+      return response()->json([
+        'data'    => new FieldResource($new_calendar),
+        'message' => 'Tu reserva está hecha!',
+        'title'   => 'Muy Bien!',
+        'icon'    => 'success',
+        'status'  => Response::HTTP_CREATED
+      ]); 
+    }
+  }
 
-            return response()->json([
-                'data'    => new FieldResource($new_calendar),
-                'message' => 'Tu reserva está hecha!',
-                'title'   => 'Muy Bien!',
-                'icon'    => 'success',
-                'status'  => Response::HTTP_CREATED
-            ]); 
-        }
+  public function show(Field $onefield)
+  {
+    return response($onefield, Response::HTTP_OK);
+  }
+
+  public function update(FieldRequest $request, Field $onefield)
+  {
+      // UNE LA FECHA Y LA HORA
+    $startHour  = Carbon::create(request('date'))
+                          ->modify(request('start'));
+
+    $endHour    = Carbon::create(request('date'))
+                          ->modify(request('end'));
+
+    $hours      = Carbon::parse(request('end'))
+                      ->diff(Carbon::parse(request('start')))
+                      ->format('%h hora(s) con %i minuto(s)');
+
+    $testing = Field::select('id','date','start','end', 'field_number')
+        ->where('id', $request->id)
+        ->orWhere(function ($query) {
+          $query->where('id', request('id'));
+        })
+        ->where('start', '<=', $startHour)
+        ->where('end',   '>=', $endHour)
+        ->orWhere(function ($query) use ($startHour, $endHour) {
+
+          $query->whereBetween('start',[$startHour, $endHour])
+                ->orWhereBetween('end',[$startHour, $endHour]);
+        })
+        ->where('field_number', $request->field_number)
+        ->get();
+
+      // dd($testing);
+
+    if (count($testing) == 1) {
+
+      $this->campos($request, $onefield, $hours);
+
+      $onefield->save();
+
+      return response()->json([
+        'data'    => new FieldResource($onefield),
+        'message' => 'Tu reserva fue actualizada!',
+        'title'   => 'Muy Bien!',
+        'icon'    => 'success',
+        'status'  => Response::HTTP_CREATED
+      ]); 
     }
 
-    public function show(Field $onefield)
-    {
-        return response($onefield, Response::HTTP_OK);
+      // VALIDA SI HAY HORAS REPETIDAS
+    else {
+      return response()->json([
+        'message' => 'La hora elegida está ocupada',
+        'title'   => 'Algo Salio Mal!',
+        'icon'    => 'error',
+      ]); 
     }
+  }
 
-    public function update(FieldRequest $request, Field $onefield)
-    {
-        // UNE LA FECHA Y LA HORA
-        $startHour = Carbon::create(request('date'))
-                            ->modify(request('start'));
+  public function destroy(Field $onefield)
+  {        
+    $onefield->delete();
+    return response('Event removed successfully!', Response::HTTP_NO_CONTENT);
+  }
 
-        $endHour   = Carbon::create(request('date'))
-                            ->modify(request('end'));
-
-        $hours    = Carbon::parse(request('end'))
-                        ->diff(Carbon::parse(request('start')))
-                        ->format('%h hora(s) con %i minuto(s)');
-
-        $testing = Field::select('id','date','start','end', 'field_number')
-            ->where('id', $request->id)
-            // ->orWhere('date', $request->date)
-            ->orWhere(function($query) {
-                $query->where('id', request('id'));
-            })
-            ->where('start', '<=', $startHour)
-            ->where('end',   '>=', $endHour)
-            // ->whereBetween('start', [$startHour, $endHour])
-            // ->orWhereBetween('end', [$startHour, $endHour])
-            ->orWhere(function($query) use ($startHour, $endHour) {
-                // $startHour = Carbon::create(request('date'))
-                //                 ->modify(request('start'));
-
-                // $endHour   = Carbon::create(request('date'))
-                //                 ->modify(request('end'));
-
-                $query->whereBetween('start',[$startHour, 
-                                                $endHour])
-                      ->orWhereBetween('end',[$startHour,
-                                                $endHour]);
-            })
-            ->where('field_number', $request->field_number)
-            ->get();
-
-        // dd($testing);
-
-        if (count($testing) == 1)
-        {
-            $this->campos($request, $onefield, $hours);
-
-            $onefield->save();
-
-            return response()->json([
-                'data'    => new FieldResource($onefield),
-                'message' => 'Tu reserva fue actualizada!',
-                'title'   => 'Muy Bien!',
-                'icon'    => 'success',
-                'status'  => Response::HTTP_CREATED
-            ]); 
-        }
-
-        // VALIDA SI HAY HORAS REPETIDAS
-        else {
-            return response()->json([
-                'message' => 'La hora elegida está ocupada',
-                'title'   => 'Algo Salio Mal!',
-                'icon'    => 'error',
-            ]); 
-        }
-    }
-
-    public function destroy(Field $onefield)
-    {        
-        $onefield->delete();
-        return response('Event removed successfully!', Response::HTTP_NO_CONTENT);
-    }
-
-    public function campos($request, $onefield, $hours)
-    {
-        return $onefield->fill([
-                'name'  => $request->name,
-                'date'  => $request->date,
-                'start' => Carbon::create($request->date)
-                            ->modify($request->start),
-                'end'   => Carbon::create($request->date)
-                            ->modify($request->end),
-                'color' => $request->color,
-                'hour' => $hours,
-                'field_number' => $request->field_number,
-                'user_id' => $request->user_id,
-                // 'user_id' => auth()->id(),
-            ]);
-    }
+  public function campos($request, $onefield, $hours)
+  {
+    return $onefield->fill([
+      'name'  => $request->name,
+      'date'  => $request->date,
+      'start' => Carbon::create($request->date)
+                  ->modify($request->start),
+      'end'   => Carbon::create($request->date)
+                  ->modify($request->end),
+      'color' => $request->color,
+      'hour' => $hours,
+      'field_number' => $request->field_number,
+      'user_id' => $request->user_id,
+      // 'user_id' => auth()->id(),
+    ]);
+  }
 }

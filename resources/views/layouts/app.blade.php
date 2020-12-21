@@ -56,7 +56,10 @@
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                   <a href="{{ route('cancha-uno') }}" class="dropdown-item">
-                    Reservar
+                    {{ __('Reserve') }}
+                  </a>
+                  <a class="dropdown-item" href="{{ route('profile.edit') }}">
+                      {{ __('Profile') }}
                   </a>
                   <a class="dropdown-item" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
@@ -75,7 +78,13 @@
       </div>
     </nav>
 
-    <main class="">
+    <main class="container">
+      @if (session()->has('flash'))
+        <div class="alert alert-success">
+          {{ session()->get('flash') }}
+        </div>
+      @endif
+
       @yield('content')
     </main>
   </div>
