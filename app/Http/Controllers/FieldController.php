@@ -34,8 +34,6 @@ class FieldController extends Controller
                   ->diff(Carbon::parse(request('start')))
                   ->format('%h hora(s) con %i minuto(s)');
 
-      // dd($hours);
-
     $data =  [
       'name'  => $request->name,
       'date'  => $request->date,
@@ -47,23 +45,8 @@ class FieldController extends Controller
       'user_id' => auth()->id(),
     ];
 
-    $fields = Field::select('id', 'start', 'end', 'field_number')
-        ->whereBetween('start', [$startHour, $endHour])
-        ->where('field_number', $request->field_number)
-        ->orWhere(function ($nav) use ($startHour, $endHour) {
+    $fields = Field::EventNotAvailable($startHour, $endHour)->get();
 
-          $nav->whereBetween('end', [$startHour, $endHour])
-          ->where('field_number', request('field_number'));
-        })
-        ->orWhere(function ($query) use ($startHour, $endHour) {
-
-          $query->where('start', '<', $startHour)
-                ->where('end',   '>', $endHour)
-                ->where('field_number', request('field_number'));
-        })
-        ->get();
-
-      // dd($fields);
       //Aumenta 1 más si agregas otra vista o calendario
     if (count($fields) > 0) {
 
@@ -105,26 +88,23 @@ class FieldController extends Controller
                       ->diff(Carbon::parse(request('start')))
                       ->format('%h hora(s) con %i minuto(s)');
 
-    $testing = Field::select('id','date','start','end', 'field_number')
-        ->where('id', $request->id)
-        ->orWhere(function ($query) {
-          $query->where('id', request('id'));
-        })
-        ->where('start', '<=', $startHour)
-        ->where('end',   '>=', $endHour)
-        ->orWhere(function ($query) use ($startHour, $endHour) {
+    $data = [
+      'name'  => $request->name,
+      'date'  => $request->date,
+      'start' => $startHour,
+      'end'   => $endHour,
+      'color' => $request->color,
+      'hour' => $hours,
+      'field_number' => $request->field_number,
+      'user_id' => $request->user_id,
+      // 'user_id' => auth()->id(),
+    ];
 
-          $query->whereBetween('start',[$startHour, $endHour])
-                ->orWhereBetween('end',[$startHour, $endHour]);
-        })
-        ->where('field_number', $request->field_number)
-        ->get();
+    $fields = Field::EventNotAvailableUpdate($startHour, $endHour)->get();
 
-      // dd($testing);
+    if (count($fields) == 1) {
 
-    if (count($testing) == 1) {
-
-      $this->campos($request, $onefield, $hours);
+      $onefield->fill($data);
 
       $onefield->save();
 
@@ -151,22 +131,5 @@ class FieldController extends Controller
   {        
     $onefield->delete();
     return response('Event removed successfully!', Response::HTTP_NO_CONTENT);
-  }
-
-  public function campos($request, $onefield, $hours)
-  {
-    return $onefield->fill([
-      'name'  => $request->name,
-      'date'  => $request->date,
-      'start' => Carbon::create($request->date)
-                  ->modify($request->start),
-      'end'   => Carbon::create($request->date)
-                  ->modify($request->end),
-      'color' => $request->color,
-      'hour' => $hours,
-      'field_number' => $request->field_number,
-      'user_id' => $request->user_id,
-      // 'user_id' => auth()->id(),
-    ]);
   }
 }
