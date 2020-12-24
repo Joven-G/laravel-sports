@@ -12,11 +12,10 @@ import 'sweetalert2/dist/sweetalert2.min.css';
 Vue.use(Vuetify);
 Vue.use(VueSweetalert2);
 
-Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 Vue.component('field-one', require('./components/fieldOne.vue').default);
 Vue.component('field-two', require('./components/fieldTwo.vue').default);
+Vue.component('field-three', require('./components/fieldThree.vue').default);
 Vue.component('show-modal-create', require('./components/showModalCreate.vue').default);
-// Vue.component('fiel-one-create-modal', require('./components/fielOneCreateModal.vue').default);
 
 const app = new Vue({
     el: '#app',

@@ -20,6 +20,9 @@ Route::view('cancha-uno', 'canchas.uno')
 Route::view('cancha-dos', 'canchas.two')
 					->name('cancha-dos')
 					->middleware('auth');
+Route::view('cancha-tres', 'canchas.three')
+					->name('cancha-tres')
+					->middleware('auth');
 
 Route::resource('onefields', FieldController::class)
 					->except(['create', 'edit']);

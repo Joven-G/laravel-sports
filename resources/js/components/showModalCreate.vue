@@ -55,7 +55,7 @@
       </a>
     </li>
     <li class="list-group-item p-0">
-      <a href="#"
+      <a href="cancha-tres"
         class="list-group-item border-0  text-secondary" 
       >
         <svg width="1em" height="1em" viewBox="0 0 16 16"
