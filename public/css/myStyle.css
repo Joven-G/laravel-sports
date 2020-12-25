@@ -9,6 +9,11 @@
 	height: 100vh;
 }
 
+.active-bg {
+	color: rgba(31, 41, 55, 1) !important;
+	background-color: rgba(209, 213, 219, 1);
+}
+
 .fg {
 	/*height: 85vh !important;*/
 	height: 600px !important;

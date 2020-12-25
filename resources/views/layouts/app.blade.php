@@ -34,26 +34,28 @@
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-              <a href="{{ route('cancha-uno') }}"
-                class="nav-link">
-                Cancha Uno
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('cancha-dos') }}"
-                class="nav-link active">
-                Cancha Dos
-              </a>
-            </li>
-            <li class="nav-item">
-              <a href="{{ route('cancha-tres') }}"
-                class="nav-link">
-                Cancha Tres
-              </a>
-            </li>
-          </ul>
+          @if (request()->routeIs('cancha-*'))
+            <ul class="navbar-nav mr-auto">
+              <li class="nav-item">
+                <a href="{{ route('cancha-uno') }}"
+                  class="nav-link {{ request()->routeIs('cancha-uno') ? 'active-bg text-white rounded' : '' }}">
+                  Cancha Uno
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('cancha-dos') }}"
+                  class="nav-link {{ request()->routeIs('cancha-dos') ? 'active-bg text-white rounded' : '' }}">
+                  Cancha Dos
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ route('cancha-tres') }}"
+                  class="nav-link {{ request()->routeIs('cancha-tres') ? 'active-bg text-white rounded' : '' }}">
+                  Cancha Tres
+                </a>
+              </li>
+            </ul>
+          @endif
 
           <!-- Right Side Of Navbar -->
           <ul class="navbar-nav ml-auto">

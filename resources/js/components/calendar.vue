@@ -4,7 +4,6 @@
       <v-toolbar flat>
         <v-btn
           outlined
-          class="mr-4"
           color="grey darken-2"
           @click="setToday"
         >
@@ -36,6 +35,14 @@
           {{ $refs.calendar.title }}
         </v-toolbar-title>
         <v-spacer></v-spacer>
+        <v-btn
+          outlined
+          color="grey darken-2"
+          class="mr-4"
+          @click="showCreateEvent"
+        >
+          Reservar
+        </v-btn>
         <v-menu
           bottom
           right
@@ -109,6 +116,9 @@
       this.$refs.calendar.checkChange();
     },
     methods: {
+      showCreateEvent() {
+        EventBus.$emit('open-modal-create', true)
+      },
       closeModalUpdate() {
         EventBus.$emit('close-modal-update', false);
         // EventBus.$emit('close-modal-show-event', false);
