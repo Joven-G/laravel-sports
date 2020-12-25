@@ -32,33 +32,36 @@
           <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            
+          </ul>
           <!-- Left Side Of Navbar -->
           @if (request()->routeIs('cancha-*'))
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav ">
               <li class="nav-item">
                 <a href="{{ route('cancha-uno') }}"
-                  class="nav-link {{ request()->routeIs('cancha-uno') ? 'active-bg text-white rounded' : '' }}">
-                  Cancha Uno
+                  class="nav-link  {{ request()->routeIs('cancha-uno') ? 'font-weight-bold text-capitalize ' : '' }}">
+                  cancha uno
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('cancha-dos') }}"
-                  class="nav-link {{ request()->routeIs('cancha-dos') ? 'active-bg text-white rounded' : '' }}">
-                  Cancha Dos
+                  class="nav-link {{ request()->routeIs('cancha-dos') ? 'font-weight-bold text-capitalize ' : '' }}">
+                  cancha dos
                 </a>
               </li>
               <li class="nav-item">
                 <a href="{{ route('cancha-tres') }}"
-                  class="nav-link {{ request()->routeIs('cancha-tres') ? 'active-bg text-white rounded' : '' }}">
-                  Cancha Tres
+                  class="nav-link {{ request()->routeIs('cancha-tres') ? 'font-weight-bold text-capitalize ' : '' }}">
+                  cancha tres
                 </a>
               </li>
             </ul>
           @endif
 
           <!-- Right Side Of Navbar -->
-          <ul class="navbar-nav ml-auto">
+          <ul class="navbar-nav ">
             <!-- Authentication Links -->
             @guest
               <li class="nav-item">
