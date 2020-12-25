@@ -220,33 +220,27 @@
       selectedElement: null,
       // selectedOpen: false,
       selectedOpenShow: false,
-
       // Hora Time Picker
       timeStartEdit: null,
       timeEndEdit: null,
-
       // Modals time Picker
       modalTimeStartEdit: false,
       modalTimeEndEdit: false,
-
      // Date Picker
       date: null,
       menuColor: false,
       dateCreate: false,
       dateEdit : false,
-
       name: null,
       start: null,
       end: null,
       color: '#1976D2FF',
       hour: null,
       user_id: null,
-
       indexToUpdate: "",
       isAdmin: null,
       other: false,
       id: "",
-
       errors: '',
     }),
     computed: {
@@ -254,10 +248,8 @@
         return JSON.parse(user.content);
       },
       addValueR() {
-
         this.indexToUpdate = this.user.id;
         this.isAdmin = this.user.is_admin;
-
         this.id = this.selectedEvent.id;
         this.name = this.selectedEvent.name;
         this.date = this.selectedEvent.date;
@@ -269,10 +261,8 @@
     },
     watch: {
       addValueR() {
-
         this.indexToUpdate = this.user.id;
         this.isAdmin = this.user.is_admin;
-
         this.id = this.selectedEvent.id;
         this.name = this.selectedEvent.name;
         this.date = this.selectedEvent.date;

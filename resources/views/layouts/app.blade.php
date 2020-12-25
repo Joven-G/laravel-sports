@@ -6,6 +6,7 @@
 
   <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}">
+  <meta name="user" content="{{ Auth::user() }}">
 
   <title>{{ config('app.name', 'Canchas') }}</title>
 
@@ -18,6 +19,7 @@
 
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+  <link href="{{ asset('css/myStyle.css') }}" rel="stylesheet">
 </head>
 <body>
   <div id="app">
@@ -33,7 +35,24 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <!-- Left Side Of Navbar -->
           <ul class="navbar-nav mr-auto">
-
+            <li class="nav-item">
+              <a href="{{ route('cancha-uno') }}"
+                class="nav-link">
+                Cancha Uno
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('cancha-dos') }}"
+                class="nav-link active">
+                Cancha Dos
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="{{ route('cancha-tres') }}"
+                class="nav-link">
+                Cancha Tres
+              </a>
+            </li>
           </ul>
 
           <!-- Right Side Of Navbar -->

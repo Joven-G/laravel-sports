@@ -138,7 +138,6 @@ import calendar from './calendar.vue';
 import modalCreate from './modalCreate.vue';
 import modalUpdate from './modalUpdate.vue';
 let user = document.head.querySelector('meta[name="user"]');
-
 export default {
   
   components: { calendar, modalCreate, modalUpdate },
@@ -149,15 +148,11 @@ export default {
     selectedElement: null,
     selectedOpen: false,
     selectedOpenShow: false,
-
     nativeEvent: null,
     event: null,
-
     createEvent: {},
-
     field_number: '3',
     user_id: null,
-
     indexToUpdate: "",
     isAdmin: null,
     other: false,
@@ -187,53 +182,43 @@ export default {
       moment.locale('es');
       return moment(date).format('dddd[,] D [de] MMMM');
     },
-
     getStartFormat(start) {
       return moment(start).format('h:mma');
     },
-
     getEndFormat(end) {
       return moment(end).format('h:mma');
     },
-
     showEvent ({ nativeEvent, event }) {
       const open = () => {
         this.selectedEvent = event
         // Obteniendo el ID del usuario auth
         this.indexToUpdate = this.user.id;
         this.isAdmin = this.user.is_admin;
-
         // Para eliminar
         this.id = this.selectedEvent.id;
-
         this.selectedElement = nativeEvent.target
         setTimeout(() => {
           this.selectedOpen = false
           this.selectedOpenShow = true
         }, 10)
       }
-
       if (this.selectedOpenShow) {
         this.selectedOpenShow = false
         setTimeout(open, 10)
       } else {
         open()
       }
-
       nativeEvent.stopPropagation()
     },
-
     getEvents() {
       axios.get("/onefields")
         .then(response => {
           this.events = response.data.data.filter(event => event.field_number === '3')
         })
         .catch(err => console.log(err.response.data));
-
         EventBus.$on('close-modal-update', status => {
           this.selectedOpen = status;
         })
-
     },
     deleteEvent() {
       this.$swal({
@@ -258,7 +243,6 @@ export default {
               text: 'Tu reserva fue eliminada.',
               icon: 'success'
             });
-
           })
           .catch(err =>
             console.log("Unable to delete event!", err.response.data)
@@ -266,7 +250,6 @@ export default {
         }
       })
     },
-
     resetForm() {
       this.name = '',
       this.start = '',
@@ -274,14 +257,12 @@ export default {
       this.errors = ''
       // this.date = ''
     },
-
     closeModalUpdate() {
       this.selectedOpenShow = false;
       this.selectedOpen = false;
       this.createOpen = false;
       this.resetForm();
     },
-
     getDateToday() {
       let d = new Date(); 
       let m = moment(d).format('Y-M-DD');
@@ -289,7 +270,6 @@ export default {
       this.today = m;
       this.date = m;
     },
-
     // Desabilita las fechas pasadas
     allowedDates(val) {
       let d = new Date(); 
@@ -317,12 +297,9 @@ export default {
   margin-right: 8px;
   position: relative;
 }
-
 .my-event.with-time {
   position: absolute;
   right: 4px;
   margin-right: 0px;
 }
 </style>
-
-

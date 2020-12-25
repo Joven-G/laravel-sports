@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="row">
-  <div id="fieldOne" class="col-lg-2 fixed-top p-1" style="z-index: 1">
+  <div id="fieldOne" class="col-lg-2 fixed-top p-1" style="z-index: 1;padding-top: 0px !important;">
   	@include('partials.list_fields')
   </div>
   <div class="col-lg-2 p-0">

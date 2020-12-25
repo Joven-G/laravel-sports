@@ -10,5 +10,7 @@
 }
 
 .fg {
-	height: 85vh !important;
+	/*height: 85vh !important;*/
+	height: 600px !important;
+	/*height: 400px !important;*/
 }

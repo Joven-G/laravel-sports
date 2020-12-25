@@ -245,26 +245,21 @@
       createEvent: {},
       createElement: null,
       createOpen: false,
-
       // Date Picker
       date: null,
       menuColor: false,
       dateCreate: false,
-
       // Hora Time Picker
       timeStartCreate: null,
       timeEndCreate: null,
-
       // Modals time Picker
       modalTimeStartCreate: false,
       modalTimeEndCreate: false,
-
       name: null,
       start: null,
       end: null,
       color: '#1976D2FF',
       hour: null,
-
       errors: '',
     }),
     computed: {
@@ -293,7 +288,6 @@
             this.createOpen = true
           }, .10)
         }
-
         if (this.createOpen) {
           this.createOpen = false
           setTimeout(open, .10)

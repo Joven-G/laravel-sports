@@ -110,7 +110,8 @@
     },
     methods: {
       closeModalUpdate() {
-        EventBus.$emit('close-modal-update', false)
+        EventBus.$emit('close-modal-update', false);
+        // EventBus.$emit('close-modal-show-event', false);
       },
       viewDay ({ date }) {
         this.focus = date
