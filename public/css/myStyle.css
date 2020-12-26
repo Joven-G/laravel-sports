@@ -5,9 +5,14 @@
 }
 }*/
 
+/* NavBar */
+
+/* Fin NavBar */
+
 #app {
 	height: 100vh;
 }
+
 
 .active-bg {
 	color: rgba(31, 41, 55, 1) !important;
@@ -19,3 +24,4 @@
 	height: 600px !important;
 	/*height: 400px !important;*/
 }
+

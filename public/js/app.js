@@ -66105,7 +66105,7 @@ var render = function() {
       _vm._v(" "),
       _c(
         "v-sheet",
-        { staticClass: "fg" },
+        { attrs: { height: "600" } },
         [
           _c("v-calendar", {
             ref: "calendar",
