@@ -1,8 +1,8 @@
-# Reservar canchas deportivas
+# Reserva canchas deportivas
 
 ![Imagen del sistema!](public/img/photo.jpg "Imagen del sistema")
 
-## Sobre el proyecto
+# Sobre el proyecto
 
 Sistema para hacer reservas de canchas deportivas
 
