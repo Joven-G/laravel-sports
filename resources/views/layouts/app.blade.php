@@ -64,7 +64,9 @@
               </li>
               @if (Route::has('register'))
                 <li class="nav-item">
-                  <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
+                  <a class="nav-link" href="{{ route('register') }}">
+                    {{ trans('validation.attributes.register') }}
+                  </a>
                 </li>
               @endif
             @else
@@ -75,15 +77,15 @@
 
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                   <a href="{{ route('cancha-uno') }}" class="dropdown-item text-secondary">
-                    {{ __('Reserve') }}
+                    {{ trans('validation.attributes.reserve') }}
                   </a>
                   <a class="dropdown-item text-secondary" href="{{ route('profile.edit') }}">
-                      {{ __('Profile') }}
+                      {{ trans('validation.attributes.profile') }}
                   </a>
                   <a class="dropdown-item text-secondary" href="{{ route('logout') }}"
                     onclick="event.preventDefault();
                                    document.getElementById('logout-form').submit();">
-                    {{ __('Logout') }}
+                    {{ trans('validation.attributes.logout') }}
                   </a>
 
                   <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">

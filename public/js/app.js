@@ -2202,6 +2202,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2515,6 +2536,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -2695,6 +2737,27 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _calendar_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar.vue */ "./resources/js/components/calendar.vue");
 /* harmony import */ var _modalCreate_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modalCreate.vue */ "./resources/js/components/modalCreate.vue");
 /* harmony import */ var _modalUpdate_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./modalUpdate.vue */ "./resources/js/components/modalUpdate.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3244,6 +3307,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   props: ['field_number', 'getEvents', 'allowedDates'],
@@ -3252,6 +3316,7 @@ __webpack_require__.r(__webpack_exports__);
       createEvent: {},
       createElement: null,
       createOpen: false,
+      disabled: false,
       // Date Picker
       date: null,
       menuColor: false,
@@ -3312,6 +3377,7 @@ __webpack_require__.r(__webpack_exports__);
     addNewEvent: function addNewEvent() {
       var _this3 = this;
 
+      this.disabled = true;
       axios.post("/onefields", {
         name: this.name,
         date: this.date,
@@ -3323,6 +3389,9 @@ __webpack_require__.r(__webpack_exports__);
 
       }).then(function (response) {
         // console.log(response);
+        _this3.disabled = false;
+        _this3.errors = '';
+
         _this3.getEvents();
 
         EventBus.$emit('close-modal-update', false);
@@ -3337,9 +3406,9 @@ __webpack_require__.r(__webpack_exports__);
         });
       })["catch"](function (err) {
         // console.log("Unable to add new event!", err.response.data)
-        _this3.resetForm();
-
+        // this.resetForm();
         _this3.errors = err.response.data.errors;
+        _this3.disabled = false;
       });
     },
     getDateToday: function getDateToday() {
@@ -3591,6 +3660,31 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 var _user = document.head.querySelector('meta[name="user"]');
@@ -3609,6 +3703,7 @@ var _user = document.head.querySelector('meta[name="user"]');
       // Modals time Picker
       modalTimeStartEdit: false,
       modalTimeEndEdit: false,
+      disabled: false,
       // Date Picker
       date: null,
       menuColor: false,
@@ -3660,6 +3755,7 @@ var _user = document.head.querySelector('meta[name="user"]');
     updateEvent: function updateEvent() {
       var _this = this;
 
+      this.disabled = true;
       axios.put("/onefields/" + this.id, {
         id: this.id,
         name: this.name,
@@ -3670,8 +3766,10 @@ var _user = document.head.querySelector('meta[name="user"]');
         field_number: this.field_number,
         user_id: this.user_id
       }).then(function (response) {
-        _this.getEvents(); // this.selectedOpen = false;
+        _this.getEvents();
 
+        _this.disabled = false;
+        _this.errors = ''; // this.selectedOpen = false;
 
         EventBus.$emit('close-modal-update', false);
 
@@ -3683,9 +3781,9 @@ var _user = document.head.querySelector('meta[name="user"]');
           text: response.data.message,
           icon: response.data.icon
         });
-      })["catch"](function (error) {
-        console.log(error);
-        this.errors = error.response.data.errors;
+      })["catch"](function (err) {
+        _this.errors = err.response.data.errors;
+        _this.disabled = false;
       });
     }
   }
@@ -9067,6 +9165,44 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 // module
 exports.push([module.i, "\n.my-event[data-v-3cb17186] {\r\n  overflow: hidden;\r\n  text-overflow: ellipsis;\r\n  white-space: nowrap;\r\n  border-radius: 2px;\r\n  background-color: #1867c0;\r\n  color: #ffffff;\r\n  border: 1px solid #1867c0;\r\n  font-size: 12px;\r\n  padding: 3px;\r\n  cursor: pointer;\r\n  margin-bottom: 1px;\r\n  left: 4px;\r\n  margin-right: 8px;\r\n  position: relative;\n}\n.my-event.with-time[data-v-3cb17186] {\r\n  position: absolute;\r\n  right: 4px;\r\n  margin-right: 0px;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn-outlined) {\r\n  color: fuchsia !important;\n}\r\n", ""]);
+
+// exports
+
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css&":
+/*!*****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loader/lib/css-base.js */ "./node_modules/css-loader/lib/css-base.js")(false);
+// imports
+
+
+// module
+exports.push([module.i, "\n.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn-outlined) {\r\n  color: fuchsia !important;\n}\r\n", ""]);
 
 // exports
 
@@ -61893,6 +62029,66 @@ if(false) {}
 
 /***/ }),
 
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./modalCreate.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
+/***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css&":
+/*!*********************************************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/style-loader!./node_modules/css-loader??ref--6-1!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--6-2!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+
+var content = __webpack_require__(/*! !../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./modalUpdate.vue?vue&type=style&index=0&lang=css& */ "./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css&");
+
+if(typeof content === 'string') content = [[module.i, content, '']];
+
+var transform;
+var insertInto;
+
+
+
+var options = {"hmr":true}
+
+options.transform = transform
+options.insertInto = undefined;
+
+var update = __webpack_require__(/*! ../../../node_modules/style-loader/lib/addStyles.js */ "./node_modules/style-loader/lib/addStyles.js")(content, options);
+
+if(content.locals) module.exports = content.locals;
+
+if(false) {}
+
+/***/ }),
+
 /***/ "./node_modules/style-loader/lib/addStyles.js":
 /*!****************************************************!*\
   !*** ./node_modules/style-loader/lib/addStyles.js ***!
@@ -66197,39 +66393,96 @@ var render = function() {
                         "div",
                         [
                           _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = true
+                            "v-tooltip",
+                            {
+                              attrs: { bottom: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-icon",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                staticClass: "mr-4",
+                                                attrs: { dark: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.selectedOpen = true
+                                                  }
+                                                }
+                                              },
+                                              "v-icon",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                  mdi-pencil\n                "
+                                            )
+                                          ]
+                                        )
+                                      ]
                                     }
                                   }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                mdi-pencil\n              "
-                                  )
-                                ]
+                                ],
+                                null,
+                                false,
+                                1731484941
                               )
-                            ],
-                            1
+                            },
+                            [_vm._v(" "), _c("span", [_vm._v("Editar")])]
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [
-                              _c("v-icon", { on: { click: _vm.deleteEvent } }, [
-                                _vm._v(
-                                  "\n                mdi-delete\n              "
-                                )
-                              ])
-                            ],
-                            1
+                            "v-tooltip",
+                            {
+                              attrs: { bottom: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-icon",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                attrs: { dark: "" },
+                                                on: { click: _vm.deleteEvent }
+                                              },
+                                              "v-icon",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                  mdi-delete\n                "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3639077057
+                              )
+                            },
+                            [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
                           ),
                           _vm._v(" "),
                           _c(
@@ -66244,14 +66497,42 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    { attrs: { icon: "" } },
-                    [
-                      _c("v-icon", { on: { click: _vm.closeModalUpdate } }, [
-                        _vm._v("\n              mdi-close\n            ")
+                    "v-tooltip",
+                    {
+                      attrs: { bottom: "" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-icon",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: { dark: "" },
+                                      on: { click: _vm.closeModalUpdate }
+                                    },
+                                    "v-icon",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                ),
+                                [
+                                  _vm._v(
+                                    "\n                mdi-close\n              "
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
                       ])
-                    ],
-                    1
+                    },
+                    [_vm._v(" "), _c("span", [_vm._v("Cerrar")])]
                   )
                 ],
                 1
@@ -66494,39 +66775,96 @@ var render = function() {
                         "div",
                         [
                           _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = true
+                            "v-tooltip",
+                            {
+                              attrs: { bottom: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-icon",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                staticClass: "mr-4",
+                                                attrs: { dark: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.selectedOpen = true
+                                                  }
+                                                }
+                                              },
+                                              "v-icon",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                  mdi-pencil\n                "
+                                            )
+                                          ]
+                                        )
+                                      ]
                                     }
                                   }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                mdi-pencil\n              "
-                                  )
-                                ]
+                                ],
+                                null,
+                                false,
+                                1731484941
                               )
-                            ],
-                            1
+                            },
+                            [_vm._v(" "), _c("span", [_vm._v("Editar")])]
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [
-                              _c("v-icon", { on: { click: _vm.deleteEvent } }, [
-                                _vm._v(
-                                  "\n                mdi-delete\n              "
-                                )
-                              ])
-                            ],
-                            1
+                            "v-tooltip",
+                            {
+                              attrs: { bottom: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-icon",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                attrs: { dark: "" },
+                                                on: { click: _vm.deleteEvent }
+                                              },
+                                              "v-icon",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                  mdi-delete\n                "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3639077057
+                              )
+                            },
+                            [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
                           ),
                           _vm._v(" "),
                           _c(
@@ -66541,14 +66879,42 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    { attrs: { icon: "" } },
-                    [
-                      _c("v-icon", { on: { click: _vm.closeModalUpdate } }, [
-                        _vm._v("\n              mdi-close\n            ")
+                    "v-tooltip",
+                    {
+                      attrs: { bottom: "" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-icon",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: { dark: "" },
+                                      on: { click: _vm.closeModalUpdate }
+                                    },
+                                    "v-icon",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                ),
+                                [
+                                  _vm._v(
+                                    "\n                mdi-close\n              "
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
                       ])
-                    ],
-                    1
+                    },
+                    [_vm._v(" "), _c("span", [_vm._v("Cerrar")])]
                   )
                 ],
                 1
@@ -66791,39 +67157,96 @@ var render = function() {
                         "div",
                         [
                           _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [
-                              _c(
-                                "v-icon",
-                                {
-                                  on: {
-                                    click: function($event) {
-                                      _vm.selectedOpen = true
+                            "v-tooltip",
+                            {
+                              attrs: { bottom: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-icon",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                staticClass: "mr-4",
+                                                attrs: { dark: "" },
+                                                on: {
+                                                  click: function($event) {
+                                                    _vm.selectedOpen = true
+                                                  }
+                                                }
+                                              },
+                                              "v-icon",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                  mdi-pencil\n                "
+                                            )
+                                          ]
+                                        )
+                                      ]
                                     }
                                   }
-                                },
-                                [
-                                  _vm._v(
-                                    "\n                mdi-pencil\n              "
-                                  )
-                                ]
+                                ],
+                                null,
+                                false,
+                                1731484941
                               )
-                            ],
-                            1
+                            },
+                            [_vm._v(" "), _c("span", [_vm._v("Editar")])]
                           ),
                           _vm._v(" "),
                           _c(
-                            "v-btn",
-                            { attrs: { icon: "" } },
-                            [
-                              _c("v-icon", { on: { click: _vm.deleteEvent } }, [
-                                _vm._v(
-                                  "\n                mdi-delete\n              "
-                                )
-                              ])
-                            ],
-                            1
+                            "v-tooltip",
+                            {
+                              attrs: { bottom: "" },
+                              scopedSlots: _vm._u(
+                                [
+                                  {
+                                    key: "activator",
+                                    fn: function(ref) {
+                                      var on = ref.on
+                                      var attrs = ref.attrs
+                                      return [
+                                        _c(
+                                          "v-icon",
+                                          _vm._g(
+                                            _vm._b(
+                                              {
+                                                attrs: { dark: "" },
+                                                on: { click: _vm.deleteEvent }
+                                              },
+                                              "v-icon",
+                                              attrs,
+                                              false
+                                            ),
+                                            on
+                                          ),
+                                          [
+                                            _vm._v(
+                                              "\n                  mdi-delete\n                "
+                                            )
+                                          ]
+                                        )
+                                      ]
+                                    }
+                                  }
+                                ],
+                                null,
+                                false,
+                                3639077057
+                              )
+                            },
+                            [_vm._v(" "), _c("span", [_vm._v("Eliminar")])]
                           ),
                           _vm._v(" "),
                           _c(
@@ -66838,14 +67261,42 @@ var render = function() {
                     : _vm._e(),
                   _vm._v(" "),
                   _c(
-                    "v-btn",
-                    { attrs: { icon: "" } },
-                    [
-                      _c("v-icon", { on: { click: _vm.closeModalUpdate } }, [
-                        _vm._v("\n              mdi-close\n            ")
+                    "v-tooltip",
+                    {
+                      attrs: { bottom: "" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "activator",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-icon",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: { dark: "" },
+                                      on: { click: _vm.closeModalUpdate }
+                                    },
+                                    "v-icon",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                ),
+                                [
+                                  _vm._v(
+                                    "\n                mdi-close\n              "
+                                  )
+                                ]
+                              )
+                            ]
+                          }
+                        }
                       ])
-                    ],
-                    1
+                    },
+                    [_vm._v(" "), _c("span", [_vm._v("Cerrar")])]
                   )
                 ],
                 1
@@ -67089,7 +67540,7 @@ var render = function() {
                               _vm._b(
                                 {
                                   staticClass: "mr-4",
-                                  attrs: { dark: "" },
+                                  attrs: { dark: "", disabled: _vm.disabled },
                                   on: { click: _vm.addNewEvent }
                                 },
                                 "v-icon",
@@ -67711,6 +68162,62 @@ var render = function() {
             "v-toolbar",
             { attrs: { color: _vm.selectedEvent.color, dark: "" } },
             [
+              _vm.user_id == _vm.indexToUpdate || _vm.isAdmin == 1
+                ? _c(
+                    "div",
+                    [
+                      _c(
+                        "v-tooltip",
+                        {
+                          attrs: { bottom: "" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "activator",
+                                fn: function(ref) {
+                                  var on = ref.on
+                                  var attrs = ref.attrs
+                                  return [
+                                    _c(
+                                      "v-icon",
+                                      _vm._g(
+                                        _vm._b(
+                                          {
+                                            staticClass: "mr-4",
+                                            attrs: {
+                                              dark: "",
+                                              disabled: _vm.disabled
+                                            },
+                                            on: { click: _vm.updateEvent }
+                                          },
+                                          "v-icon",
+                                          attrs,
+                                          false
+                                        ),
+                                        on
+                                      ),
+                                      [
+                                        _vm._v(
+                                          "\n                  mdi-pencil\n                "
+                                        )
+                                      ]
+                                    )
+                                  ]
+                                }
+                              }
+                            ],
+                            null,
+                            false,
+                            3229674461
+                          )
+                        },
+                        [_vm._v(" "), _c("span", [_vm._v("Guardar cambios")])]
+                      )
+                    ],
+                    1
+                  )
+                : _vm._e(),
+              _vm._v(" "),
               _c("v-toolbar-title", {
                 domProps: { innerHTML: _vm._s(_vm.selectedEvent.name) }
               }),
@@ -67718,14 +68225,42 @@ var render = function() {
               _c("v-spacer"),
               _vm._v(" "),
               _c(
-                "v-btn",
-                { attrs: { icon: "" } },
-                [
-                  _c("v-icon", { on: { click: _vm.closeModalUpdate } }, [
-                    _vm._v("\n            mdi-close\n          ")
+                "v-tooltip",
+                {
+                  attrs: { bottom: "" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "activator",
+                      fn: function(ref) {
+                        var on = ref.on
+                        var attrs = ref.attrs
+                        return [
+                          _c(
+                            "v-icon",
+                            _vm._g(
+                              _vm._b(
+                                {
+                                  attrs: { dark: "" },
+                                  on: { click: _vm.closeModalUpdate }
+                                },
+                                "v-icon",
+                                attrs,
+                                false
+                              ),
+                              on
+                            ),
+                            [
+                              _vm._v(
+                                "\n                mdi-close\n              "
+                              )
+                            ]
+                          )
+                        ]
+                      }
+                    }
                   ])
-                ],
-                1
+                },
+                [_vm._v(" "), _c("span", [_vm._v("Cerrar")])]
               )
             ],
             1
@@ -67739,7 +68274,7 @@ var render = function() {
                 { staticClass: "text-danger" },
                 _vm._l(_vm.errors, function(error) {
                   return _c("li", [
-                    _vm._v("\n          " + _vm._s(error[0]) + "\n        ")
+                    _vm._v("\n            " + _vm._s(error[0]) + "\n          ")
                   ])
                 }),
                 0
@@ -67964,7 +68499,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                Cancel\n              "
+                                    "\n                  Cancel\n                "
                                   )
                                 ]
                               ),
@@ -67980,7 +68515,11 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("\n                OK\n              ")]
+                                [
+                                  _vm._v(
+                                    "\n                  OK\n                "
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -68088,7 +68627,7 @@ var render = function() {
                                 },
                                 [
                                   _vm._v(
-                                    "\n                Cancel\n              "
+                                    "\n                  Cancel\n                "
                                   )
                                 ]
                               ),
@@ -68105,7 +68644,11 @@ var render = function() {
                                     }
                                   }
                                 },
-                                [_vm._v("\n                OK\n              ")]
+                                [
+                                  _vm._v(
+                                    "\n                  OK\n                "
+                                  )
+                                ]
                               )
                             ],
                             1
@@ -68121,46 +68664,7 @@ var render = function() {
               )
             ],
             1
-          ),
-          _vm._v(" "),
-          _vm.user_id == _vm.indexToUpdate || _vm.isAdmin == 1
-            ? _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "", color: "secondary" },
-                      on: { click: _vm.closeModalUpdate }
-                    },
-                    [_vm._v("\n        Cancel\n      ")]
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "", color: "secondary" },
-                      on: { click: _vm.updateEvent }
-                    },
-                    [_vm._v("\n        Actualizar\n      ")]
-                  )
-                ],
-                1
-              )
-            : _c(
-                "v-card-actions",
-                [
-                  _c(
-                    "v-btn",
-                    {
-                      attrs: { text: "", color: "secondary" },
-                      on: { click: _vm.closeModalUpdate }
-                    },
-                    [_vm._v("\n        Cancel\n      ")]
-                  )
-                ],
-                1
-              )
+          )
         ],
         1
       )
@@ -124859,7 +125363,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modalCreate_vue_vue_type_template_id_0607288e___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modalCreate.vue?vue&type=template&id=0607288e& */ "./resources/js/components/modalCreate.vue?vue&type=template&id=0607288e&");
 /* harmony import */ var _modalCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modalCreate.vue?vue&type=script&lang=js& */ "./resources/js/components/modalCreate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _modalCreate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modalCreate.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -124867,7 +125373,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _modalCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _modalCreate_vue_vue_type_template_id_0607288e___WEBPACK_IMPORTED_MODULE_0__["render"],
   _modalCreate_vue_vue_type_template_id_0607288e___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -124896,6 +125402,22 @@ component.options.__file = "resources/js/components/modalCreate.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./modalCreate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalCreate.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./modalCreate.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalCreate.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalCreate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -124928,7 +125450,9 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _modalUpdate_vue_vue_type_template_id_ba71dc4a___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./modalUpdate.vue?vue&type=template&id=ba71dc4a& */ "./resources/js/components/modalUpdate.vue?vue&type=template&id=ba71dc4a&");
 /* harmony import */ var _modalUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./modalUpdate.vue?vue&type=script&lang=js& */ "./resources/js/components/modalUpdate.vue?vue&type=script&lang=js&");
-/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+/* empty/unused harmony star reexport *//* harmony import */ var _modalUpdate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./modalUpdate.vue?vue&type=style&index=0&lang=css& */ "./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
 
 
 
@@ -124936,7 +125460,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* normalize component */
 
-var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_3__["default"])(
   _modalUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
   _modalUpdate_vue_vue_type_template_id_ba71dc4a___WEBPACK_IMPORTED_MODULE_0__["render"],
   _modalUpdate_vue_vue_type_template_id_ba71dc4a___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
@@ -124965,6 +125489,22 @@ component.options.__file = "resources/js/components/modalUpdate.vue"
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./modalUpdate.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalUpdate.vue?vue&type=script&lang=js&");
 /* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css& ***!
+  \**********************************************************************************/
+/*! no static exports found */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader??ref--6-1!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--6-2!../../../node_modules/vue-loader/lib??vue-loader-options!./modalUpdate.vue?vue&type=style&index=0&lang=css& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js?!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/modalUpdate.vue?vue&type=style&index=0&lang=css&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__) if(["default"].indexOf(__WEBPACK_IMPORT_KEY__) < 0) (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_ref_6_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_2_node_modules_vue_loader_lib_index_js_vue_loader_options_modalUpdate_vue_vue_type_style_index_0_lang_css___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 

@@ -13,13 +13,38 @@
           :color="selectedEvent.color"
           dark
         >
+          <div v-if="user_id == indexToUpdate || isAdmin == 1">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  class="mr-4"
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  :disabled="disabled"
+                  @click="updateEvent"
+                >
+                  mdi-pencil
+                </v-icon>
+              </template>
+              <span>Guardar cambios</span>
+            </v-tooltip>
+          </div>
           <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
           <v-spacer></v-spacer>
-          <v-btn icon>
-            <v-icon @click="closeModalUpdate">
-              mdi-close
-            </v-icon>
-          </v-btn>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-icon
+                dark
+                v-bind="attrs"
+                v-on="on"
+                @click="closeModalUpdate"
+              >
+                mdi-close
+              </v-icon>
+            </template>
+            <span>Cerrar</span>
+          </v-tooltip>
         </v-toolbar>
       <v-card-text>
 
@@ -181,7 +206,7 @@
         </v-row>
 
       </v-card-text>
-      <v-card-actions v-if="user_id == indexToUpdate || isAdmin == 1">
+<!--       <v-card-actions v-if="user_id == indexToUpdate || isAdmin == 1">
         <v-btn
           text
           color="secondary"
@@ -196,8 +221,8 @@
         >
           Actualizar
         </v-btn>
-      </v-card-actions>
-      <v-card-actions v-else>
+      </v-card-actions> -->
+<!--       <v-card-actions v-else>
         <v-btn
           text
           color="secondary"
@@ -205,7 +230,7 @@
         >
           Cancel
         </v-btn>
-      </v-card-actions>
+      </v-card-actions> -->
     </v-card>
   </v-menu>
 </template>
@@ -226,6 +251,7 @@
       // Modals time Picker
       modalTimeStartEdit: false,
       modalTimeEndEdit: false,
+      disabled: false,
      // Date Picker
       date: null,
       menuColor: false,
@@ -274,6 +300,8 @@
     },
     methods: {
       updateEvent() {
+        this.disabled = true;
+
         axios.put("/onefields/" + this.id, {
           id: this.id,
           name:  this.name,
@@ -286,6 +314,8 @@
           })
           .then(response => {
             this.getEvents();
+            this.disabled = false;
+            this.errors = '';
             // this.selectedOpen = false;
             EventBus.$emit('close-modal-update', false)
             this.resetForm();
@@ -296,11 +326,16 @@
               icon:  response.data.icon,
             })
           })
-          .catch(function (error) {
-              console.log(error);
-              this.errors = error.response.data.errors
-            });
+          .catch(err => {
+            this.errors = err.response.data.errors;
+            this.disabled = false;
+          });
       },
     }
   }
 </script>
+<style>
+.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn-outlined) {
+  color: fuchsia !important;
+}
+</style>

@@ -14,13 +14,14 @@
           :color="color"
           dark
         >
-          <v-tooltip bottom>
+          <v-tooltip bottom >
             <template v-slot:activator="{ on, attrs }">
               <v-icon
                 class="mr-4"
                 dark
                 v-bind="attrs"
                 v-on="on"
+                :disabled="disabled"
                 @click="addNewEvent"
               >
                 mdi-check
@@ -245,6 +246,7 @@
       createEvent: {},
       createElement: null,
       createOpen: false,
+      disabled: false,
       // Date Picker
       date: null,
       menuColor: false,
@@ -297,6 +299,8 @@
         
       },
       addNewEvent() {
+        this.disabled = true;
+
         axios.post("/onefields", {
           name:  this.name,
           date:  this.date,
@@ -309,6 +313,8 @@
           })
           .then(response => {
             // console.log(response);
+            this.disabled = false;
+            this.errors = '';
             this.getEvents();
             EventBus.$emit('close-modal-update', false)
             this.createOpen = false;
@@ -321,8 +327,9 @@
           })
           .catch(err => {
             // console.log("Unable to add new event!", err.response.data)
-            this.resetForm();
-            this.errors = err.response.data.errors
+            // this.resetForm();
+            this.errors = err.response.data.errors;
+            this.disabled = false;
           });
       },
       getDateToday() {
@@ -353,3 +360,8 @@
     }
   }
 </script>
+<style>
+.theme--light.v-btn.v-btn--disabled:not(.v-btn--flat):not(.v-btn--text):not(.v-btn-outlined) {
+  color: fuchsia !important;
+}
+</style>

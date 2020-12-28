@@ -22,32 +22,53 @@
           >
             <v-spacer></v-spacer>
             <div v-if="user_id == indexToUpdate || isAdmin == 1">
-              <v-btn icon>
-                <v-icon
-                  @click="selectedOpen = true"
-                >
-                  mdi-pencil
-                </v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon
-                  @click="deleteEvent"
-                >
-                  mdi-delete
-                </v-icon>
-              </v-btn>
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    class="mr-4"
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="selectedOpen = true"
+                  >
+                    mdi-pencil
+                  </v-icon>
+                </template>
+                <span>Editar</span>
+              </v-tooltip>
+
+              <v-tooltip bottom>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-icon
+                    dark
+                    v-bind="attrs"
+                    v-on="on"
+                    @click="deleteEvent"
+                  >
+                    mdi-delete
+                  </v-icon>
+                </template>
+                <span>Eliminar</span>
+              </v-tooltip>
+
               <v-btn icon>
                 <v-icon>mdi-dots-vertical</v-icon>
               </v-btn>
             </div>
-
-            <v-btn icon>
-              <v-icon
-                @click="closeModalUpdate"
-              >
-                mdi-close
-              </v-icon>
-            </v-btn>
+      
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on, attrs }">
+                <v-icon
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                  @click="closeModalUpdate"
+                >
+                  mdi-close
+                </v-icon>
+              </template>
+              <span>Cerrar</span>
+            </v-tooltip>
           </v-toolbar>
         <v-card-text>
 
