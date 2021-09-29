@@ -19,18 +19,17 @@ class Field extends Model
   public function scopeEventNotAvailable($query, $startHour, $endHour)
   {
   	$notAvailable = $query->whereBetween('start', [$startHour, $endHour])
-  		->where('field_number', request('field_number'))
-      ->orWhere(function ($nav) use ($startHour, $endHour) {
+                    ->where('field_number', request('field_number'))
 
-        $nav->whereBetween('end', [$startHour, $endHour])
-            ->where('field_number', request('field_number'));
-      })
-      ->orWhere(function ($query) use ($startHour, $endHour) {
-
-        $query->where('start', '<', $startHour)
-		          ->where('end',   '>', $endHour)
-		          ->where('field_number', request('field_number'));
-      });
+                    ->orWhere(function ($nav) use ($startHour, $endHour) {
+                        $nav->whereBetween('end', [$startHour, $endHour])
+                            ->where('field_number', request('field_number'));
+                    })
+                    ->orWhere(function ($query) use ($startHour, $endHour) {
+                        $query->where('start', '<', $startHour)
+                            ->where('end',   '>', $endHour)
+                            ->where('field_number', request('field_number'));
+                    });
 
     return $notAvailable;
   }
@@ -38,17 +37,17 @@ class Field extends Model
   public function scopeEventNotAvailableUpdate($query, $startHour, $endHour)
   {
   	$notAvailableUpdate = $query->where('id', request('id'))
-        ->orWhere(function ($query) {
-          $query->where('id', request('id'));
-        })
-        ->where('start', '<=', $startHour)
-        ->where('end',   '>=', $endHour)
-        ->orWhere(function ($query) use ($startHour, $endHour) {
+                ->orWhere(function ($query) {
+                    $query->where('id', request('id'));
+                })
+                ->where('start', '<=', $startHour)
+                ->where('end',   '>=', $endHour)
+                ->orWhere(function ($query) use ($startHour, $endHour) {
 
-          $query->whereBetween('start',[$startHour, $endHour])
-                ->orWhereBetween('end',[$startHour, $endHour]);
-        })
-        ->where('field_number', request('field_number'));
+                    $query->whereBetween('start',[$startHour, $endHour])
+                        ->orWhereBetween('end',[$startHour, $endHour]);
+                })
+                ->where('field_number', request('field_number'));
 
     return $notAvailableUpdate;
   }
